@@ -1,6 +1,7 @@
 package net.henrycmoss.bb.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.Bb;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -8,6 +9,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jline.utils.Log;
 
 public class CrucibleScreen extends AbstractContainerScreen<CrucibleMenu> {
 
@@ -47,9 +49,14 @@ public class CrucibleScreen extends AbstractContainerScreen<CrucibleMenu> {
         }
     }
 
+    public void addit() {
+        LogUtils.getLogger().info("broooo");
+    }
+
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
         renderBackground(gui);
+        addit();
         super.render(gui, mouseX, mouseY, partialTick);
         renderTooltip(gui, mouseX, mouseY);
     }
