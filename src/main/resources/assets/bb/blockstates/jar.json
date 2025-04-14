@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "bb:block/jar"
+    },
+    "facing=south": {
+      "model": "bb:block/jar",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "bb:block/jar",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "bb:block/jar",
+      "y": 90
+    }
+  }
+}

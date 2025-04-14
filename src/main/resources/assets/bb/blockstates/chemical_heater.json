@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "bb:block/chemical_heater"
+    },
+    "facing=south": {
+      "model": "bb:block/chemical_heater",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "bb:block/chemical_heater",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "bb:block/chemical_heater",
+      "y": 90
+    }
+  }
+}
