@@ -92,7 +92,7 @@ public class BbForgeEvents {
         }
     } */
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void tntCollide(EntityEvent event) {
         if(event.getEntity() instanceof PrimedTnt tnt && tnt.getTags().contains("cannon")) {
             List<Entity> entities = tnt.level().getEntities(tnt, AABB.ofSize(tnt.position(), 5, 5, 5), entity -> !entity.getType().equals(EntityType.PLAYER));
@@ -101,7 +101,7 @@ public class BbForgeEvents {
                 LogUtils.getLogger().info("blow");
             }
         }
-    }
+    }*/
 
     /* @SubscribeEvent
     public static void skeletonShoot(EntityEvent event) {
@@ -228,7 +228,7 @@ public class BbForgeEvents {
                     rTnt.addTag("creeper");
                     pX += 30;
                     pY += 30;
-                    level.addFreshEntity(rTnt); n
+                    level.addFreshEntity(rTnt);
                 }
             }
         }

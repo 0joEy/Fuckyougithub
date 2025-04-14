@@ -238,6 +238,11 @@ publishing {
         }
     }
 }
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask('runClient')) {
+        //if()
+    }
+}
 
 tasks.register('prepareRunServerProperties') {
     doLast {

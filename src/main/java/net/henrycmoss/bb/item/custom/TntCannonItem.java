@@ -24,14 +24,11 @@ public class TntCannonItem extends Item {
         if (!pLevel.isClientSide()) {
             PrimedTnt tnt = new PrimedTnt(EntityType.TNT, pLevel);
             tnt.setPos(pPlayer.position().add(0, 0.75, 0));
-            tnt.setFuse(80);
+            tnt.setFuse(40);
             tnt.setDeltaMovement(ShootingTools.shootFromRotation(pPlayer.getXRot(), pPlayer.getYRot(), 0f,
                     1.5f));
             tnt.addTag("cannon");
             pLevel.addFreshEntity(tnt);
-            for (String tag : tnt.getTags()) {
-                pPlayer.sendSystemMessage(Component.literal(tag));
-            }
         }
         return super.use(pLevel, pPlayer, pUsedHand);
     }

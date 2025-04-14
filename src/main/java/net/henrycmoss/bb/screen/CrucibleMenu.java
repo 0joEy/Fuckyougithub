@@ -51,7 +51,7 @@ public class CrucibleMenu extends AbstractContainerMenu {
     public int getScaledProgress() {
         int prog = data.get(0);
         int max = data.get(1);
-        int height = 17;
+        int height = 23;
 
         return max != 0 && prog != 0 ? prog * height / max : 0;
     }
@@ -110,7 +110,7 @@ public class CrucibleMenu extends AbstractContainerMenu {
     private void addPlayerInv(Inventory inv) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(inv, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+                this.addSlot(new Slot(inv, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));;
             }
         }
     }
@@ -118,7 +118,7 @@ public class CrucibleMenu extends AbstractContainerMenu {
     private void addPlayerHotbar(Inventory inv) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(inv, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+                this.addSlot(new Slot(inv, i, 8 + i * 18, 142));
             }
         }
     }

@@ -146,9 +146,15 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if(hasRecipe()) {
-            setChanged(level, pos, state);
-            craft();
+            increaseProgress();
+            setChanged();
+
+            if(hasFinished()) {
+                craft();
+                resetProgress();
+            }
         }
+        else resetProgress();
     }
 
     private void craft() {
@@ -158,6 +164,13 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
         itemHandler.setStackInSlot(2, new ItemStack(RESULT, itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + 1));
     }
 
+    private void resetProgress() { this.progress = 0; }
+
+    private boolean hasFinished() { return this.progress >= this.maxProgress; }
+
+    private void increaseProgress() {
+        this.progress++;
+    }
     private boolean hasRecipe() {
         return canInsertIntoOutput(1) && canInsertIntoOutput(RESULT) && hasIngredients();
     }

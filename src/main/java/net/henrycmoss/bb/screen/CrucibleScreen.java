@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class CrucibleScreen extends AbstractContainerScreen<CrucibleMenu> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Bb.MODID,
-            "textures/gui/crucible.png");
+            "textures/gui/gem_empowering_station_gui.png");
 
     public CrucibleScreen(CrucibleMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -40,7 +40,10 @@ public class CrucibleScreen extends AbstractContainerScreen<CrucibleMenu> {
 
     public void renderArrow(GuiGraphics gui, int x, int y) {
         if(menu.isCrafting()) {
-            gui.blit(TEXTURE, x + 80, y + 43, 176, 14, menu.getScaledProgress(), 17);
+            gui.blit(TEXTURE, /* x offset progress arrow */ x + 105,
+                    /* y offset progress arrow */ y + 30, /* x pos ref arrow */177,
+                    /* ref y start*/ 120, /* ref x offset end? */8,
+                    /*ref y offset end */menu.getScaledProgress() + 120);
         }
     }
 
