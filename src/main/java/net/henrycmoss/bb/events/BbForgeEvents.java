@@ -31,6 +31,8 @@ import net.minecraftforge.server.command.ConfigCommand;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,6 +44,12 @@ public class BbForgeEvents {
     private static Projectile lastPro = null;
     private static PrimedTnt lastTnt = null;
     private static List<PrimedTnt> originals = new ArrayList<>();
+
+    private static int tnts = 30;
+
+    private static int yns = 0;
+
+    private static boolean killing = false;
 
     @SubscribeEvent
     public static void registerCommandsEvent(RegisterCommandsEvent event) {
@@ -197,39 +205,77 @@ public class BbForgeEvents {
 
     @SubscribeEvent
     public static void creeperExplode(ExplosionEvent.Start event) {
-        if(event.getExplosion().getExploder() instanceof Creeper) {
+        if (event.getExplosion().getExploder() instanceof Creeper) {
             Creeper creeper = (Creeper) event.getExplosion().getExploder();
             Level level = creeper.level();
             float pX = 0;
             float pY = 0;
-            for(int i = 0; i < 30; i++) {
+            for (int i = 0; i < 15; i++) {
                 PrimedTnt tnt = new PrimedTnt(EntityType.TNT, level);
                 tnt.setFuse(50);
                 tnt.setPos(creeper.position());
-                tnt.setDeltaMovement(ShootingTools.shootFromRotation((creeper.getXRot() + pX), (creeper.getYRot() + pY),
-                        0f, 3f));
+                tnt.setDeltaMovement(ShootingTools.shootFromRotation(pX, pY,
+                        0f, 2f));
                 tnt.addTag("creeper");
-                pX += 20;
-                pY += 20;
+                if(pX >= 360f) pX -= 360f;
+                if (pY >= 360f) pY -= 360f;
+
+                int m;
+
+                if (pY <= 180f) {
+                    m = (int) ((180 - pY) / 20);
+                } else {
+                    m = (int) ((pY - 180) / 20);
+                }
+
+                pY += 30 + m;
+                pX += 75;
+                LogUtils.getLogger().info(Integer.toString((int) pY));
+
                 level.addFreshEntity(tnt);
             }
-        }
-        else if(event.getExplosion().getExploder() instanceof PrimedTnt tnt) {
-            if (tnt.getTags().contains("creeper")) {
-                Level level = tnt.level();
-                float pX = 0;
-                float pY = 0;
-                for (int i = 0; i < 3; i++) {
-                    PrimedTnt rTnt = new PrimedTnt(EntityType.TNT, level);
-                    rTnt.setFuse(50);
-                    rTnt.setPos(tnt.position());
-                    rTnt.setDeltaMovement(ShootingTools.shootFromRotation((tnt.getXRot() + pX), (tnt.getYRot() + pY),
-                            0f, 3f));
-                    rTnt.addTag("creeper");
-                    pX += 30;
-                    pY += 30;
-                    level.addFreshEntity(rTnt);
+        } else if (event.getExplosion().getExploder() instanceof PrimedTnt tnt) {
+            AABB area = AABB.ofSize(tnt.position(), 10000, 150, 10000);
+            LogUtils.getLogger().info(tnts + ", " + killing);
+            if(tnts < 5000 && !killing) {
+                if (tnt.getTags().contains("creeper")) {
+                    Random rand = new Random();
+                    Level level = tnt.level();
+                    float pX = 0;
+                    float pY = 160;
+                    for (int i = 0; i < 3; i++) {
+                        PrimedTnt rTnt = new PrimedTnt(EntityType.TNT, level);
+
+                        rTnt.setFuse(rand.nextInt(20, 150));
+                        rTnt.setPos(tnt.position());
+                        rTnt.setDeltaMovement(ShootingTools.shootFromRotation((pX), (pY),
+                                0f, 2f));
+                        rTnt.addTag("creeper");
+                        if (pX >= 360f) pX -= 360f;
+                        if (pY >= 360f) pY -= 360f;
+                        pX += 125;
+                        pY += 5;
+
+                        level.addFreshEntity(rTnt);
+                        tnts++;
+                    }
+                    LogUtils.getLogger().info("news");
                 }
+            }
+            else {
+                LogUtils.getLogger().info("else");
+                tnt.level().getEntitiesOfClass(PrimedTnt.class, area, (primed -> primed.getTags().contains("creeper"))).forEach((primed) -> {
+                    primed.kill();
+                    tnts--;
+                });
+                killing = true;
+                LogUtils.getLogger().info("Slimed " + (5000 - tnts) + " yns");
+            }
+            LogUtils.getLogger().info(killing + ", " + tnt.level().getEntitiesOfClass(PrimedTnt.class, area, (p -> p.getTags().contains("creeper"))).size());
+            if (killing && (tnt.level().getEntitiesOfClass(PrimedTnt.class, area, (p) -> p.getTags().contains("creeper")).isEmpty())) {
+                killing = false;
+                tnts = 0;
+                LogUtils.getLogger().info("resetting");
             }
         }
     }

@@ -196,6 +196,18 @@ def replaceProperties = [
         mod_id: prop("modid"), mod_name: prop("mod_name"), mod_license: prop("mod_license"), mod_version: prop("mod_version"),
         mod_authors: prop("mod_authors"), mod_description: prop("mod_description")
 ]
+
+static def isConnected() {
+    try {
+        def url = new URL("https://www.google.com")
+        def connection = url.openConnection()
+        connection.connectTimeout(3000)
+        connection.connect()
+        return true
+    } catch(Exception e) {
+        return false
+    }
+}
 processResources {
     inputs.properties replaceProperties
     replaceProperties.put 'project', project
@@ -236,11 +248,6 @@ publishing {
         maven {
             url "file://${project.projectDir}/mcmodsrepo"
         }
-    }
-}
-gradle.taskGraph.whenReady { graph ->
-    if (graph.hasTask('runClient')) {
-        //if()
     }
 }
 
