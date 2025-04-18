@@ -4,27 +4,30 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.logging.LogUtils;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GearCommand {
 
-    public GearCommand(CommandDispatcher<CommandSourceStack> dispatch) {
-        dispatch.register(Commands.literal("gear").then(
+    public GearCommand(CommandDispatcher<CommandSourceStack> dispatch, CommandBuildContext context) {
+        dispatch.register(Commands.literal("gear").requires((player) -> player.hasPermission(0)).then(
                 Commands.argument("armor", IntegerArgumentType.integer())
-                        .executes((source) -> gearUp(
-                                IntegerArgumentType.getInteger(source, "armor"), source.getSource().getPlayer())))).createBuilder();
+                        .executes((source) -> gearUp(source.getSource(),
+                                IntegerArgumentType.getInteger(source, "armor"), source.getSource().getPlayer()))).then(Commands.argument("item", ItemArgument.item(context))).executes((source) -> getItem(source.getSource(), ItemArgument.getItem(source.getChild(), "item").getItem(),
+                source.getSource().getPlayer()))).createBuilder();
     }
 
     Map<Enchantment, Integer> eSword = new HashMap<>();
@@ -40,8 +43,9 @@ public class GearCommand {
     Map<Item, Map<Enchantment, Integer>> eItems = new HashMap<>();
     Map<Item, Map<Enchantment, Integer>> eAItems = new HashMap<>();
 
-    private int gearUp(int wArmor, Player player) {
+    private int gearUp(CommandSourceStack source, int wArmor, Player player) {
         if(player != null) {
+
             List<ItemStack> items = List.of(
                     new ItemStack(Items.NETHERITE_SWORD),
                     new ItemStack(Items.BOW),
@@ -65,6 +69,12 @@ public class GearCommand {
                     new ItemStack(Items.NETHERITE_BOOTS));
 
             List<ItemStack> enchanted = new ArrayList<>();
+
+            List<ItemStack> other = List.of(
+                    new ItemStack(Items.FIREWORK_ROCKET, 400),
+                    new ItemStack(Items.COOKED_BEEF, 100),
+                    new ItemStack(Items.GOLDEN_APPLE, 64)
+            );
 
             defineMaps();
 
@@ -90,8 +100,35 @@ public class GearCommand {
             }
             player.addItem(new ItemStack(Items.FIREWORK_ROCKET, 1000));
 
+            source.sendSuccess(() -> Component.literal("Full set"), true);
             return 1;
         }
+
+        source.sendFailure(Component.keybind("no"));
+        return 0;
+    }
+
+    private int getItem(CommandSourceStack source, Item pItem, Player player) {
+
+        if(player != null) {
+            ItemStack item = new ItemStack(pItem);
+
+            if(eAItems.containsKey(item.getItem())) {
+                Map<Enchantment, Integer> ev = eAItems.get(item.getItem());
+
+                for(Map.Entry<Enchantment, Integer> entry : ev.entrySet()) {
+                    item.enchant(entry.getKey(), entry.getValue());
+                }
+            }
+
+            player.addItem(item);
+
+            source.sendSuccess(() -> Component.literal("Given"), true);
+
+            return 1;
+        }
+
+        source.sendFailure(Component.keybind("can only be run by player"));
         return 0;
     }
 

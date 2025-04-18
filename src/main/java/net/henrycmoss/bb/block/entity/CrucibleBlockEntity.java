@@ -4,8 +4,10 @@ import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.Bb;
 import net.henrycmoss.bb.block.BbBlocks;
 import net.henrycmoss.bb.item.BbItems;
+import net.henrycmoss.bb.recipe.CrucibleRecipe;
 import net.henrycmoss.bb.screen.CrucibleMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -18,6 +20,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,13 +34,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
+import java.util.*;
 
 public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
-    private static final Item ING_1 = BbItems.EPHEDRINE.get();
-    private static final Item ING_2 = BbItems.PSEUDOEPHEDRINE.get();
-    private static final Item RESULT = BbItems.METHAMPHETAMINE.get();
+
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
         @Override
@@ -48,8 +49,8 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot) {
-                case 0 -> stack.getItem() == ING_1;
-                case 1 -> stack.getItem() == ING_2;
+                case 0 -> stack.getItem() == fromIngredient(getCurrentRecipe().get().getIngredients().get(0)).getItem();
+                case 1 -> stack.getItem() == fromIngredient(getCurrentRecipe().get().getIngredients().get(1)).getItem();
                 case 2 -> false;
                 default -> super.isItemValid(slot, stack);
             };
@@ -167,10 +168,16 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private void craft() {
+        Optional<CrucibleRecipe> rec = getCurrentRecipe();
+
+        if(rec.isEmpty()) return;
+
+        ItemStack res = getCurrentRecipe().get().getResultItem(getLevel().registryAccess());
+
         itemHandler.extractItem(INPUT_SLOT_1, 1, false);
         itemHandler.extractItem(INPUT_SLOT_2, 1, false);
 
-        itemHandler.setStackInSlot(2, new ItemStack(RESULT, itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + 1));
+        itemHandler.setStackInSlot(OUTPUT_SLOT, res);
     }
 
     private void resetProgress() { this.progress = 0; }
@@ -181,7 +188,23 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
         this.progress++;
     }
     private boolean hasRecipe() {
-        return canInsertIntoOutput(1) && canInsertIntoOutput(RESULT) && hasIngredients();
+        Optional<CrucibleRecipe> recipe = getCurrentRecipe();
+
+        if(recipe.isEmpty()) return false;
+
+        ItemStack res = recipe.get().getResultItem(getLevel().registryAccess());
+
+        return canInsertIntoOutput(res.getCount()) && canInsertIntoOutput(res.getItem());
+    }
+
+    private Optional<CrucibleRecipe> getCurrentRecipe() {
+        SimpleContainer inv = new SimpleContainer(this.itemHandler.getSlots());
+
+        for(int i = 0; i < itemHandler.getSlots(); i++) {
+            inv.setItem(i, itemHandler.getStackInSlot(i));
+        }
+
+        return this.level.getRecipeManager().getRecipeFor(CrucibleRecipe.Type.INSTANCE, inv, this.level);
     }
 
     private boolean canInsertIntoOutput(int count) {
@@ -192,7 +215,11 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
         return itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
     }
 
-    private boolean hasIngredients() {
-        return itemHandler.getStackInSlot(INPUT_SLOT_1).is(ING_1) && itemHandler.getStackInSlot(INPUT_SLOT_2).is(ING_2);
+    private ItemStack fromIngredient(Ingredient ing) {
+        if(Arrays.stream(ing.getItems()).toList().isEmpty()) return ItemStack.EMPTY;
+
+        ItemStack item = Arrays.stream(ing.getItems()).findFirst().get();
+
+        return item;
     }
 }

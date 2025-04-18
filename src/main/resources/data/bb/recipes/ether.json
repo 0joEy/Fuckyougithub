@@ -1,16 +1,4 @@
 {
-  "type": "bb:chemical_heater",
-  "cooktime": 100,
-  "ingredients": [
-    {
-      "item": "bb:alcohol_bottle"
-    },
-    {
-      "item": "bb:sulfuric_acid_bucket"
-    }
-  ],
-  "output": {
-    "item": "bb:ether",
-    "count": 2
-  }
+  "type": "bb:crucible",
+  ""
 }

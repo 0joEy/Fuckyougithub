@@ -51,7 +51,7 @@ public class CrucibleMenu extends AbstractContainerMenu {
     public int getScaledProgress() {
         int prog = data.get(0);
         int max = data.get(1);
-        int length = 16;
+        int length = 22;
 
         return max != 0 && prog != 0 ? prog * length / max : 0;
     }

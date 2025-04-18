@@ -9,6 +9,8 @@ import net.henrycmoss.bb.client.HallucinationRenderer;
 import net.henrycmoss.bb.client.ShroomsRenderer;
 import net.henrycmoss.bb.effect.BbEffects;
 import net.henrycmoss.bb.item.BbItems;
+import net.henrycmoss.bb.recipe.BbRecipeTypes;
+import net.henrycmoss.bb.recipe.BbRecipes;
 import net.henrycmoss.bb.screen.BbMenuTypes;
 import net.henrycmoss.bb.screen.CrucibleScreen;
 import net.henrycmoss.bb.screen.GemEmpoweringStationScreen;
@@ -66,6 +68,8 @@ public class Bb {
         BbBlockEntities.register(modEventBus);
         LogUtils.getLogger().info("menus registered");
         BbMenuTypes.register(modEventBus);
+        BbRecipes.register(modEventBus);
+        BbRecipeTypes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -96,6 +100,7 @@ public class Bb {
             event.accept(BbBlocks.COCAINE_TRAY);
             event.accept(BbBlocks.ETHER);
             event.accept(BbBlocks.CRUCIBLE);
+            event.accept(BbItems.PSEUDOEPHEDRINE);
         }
     }
 

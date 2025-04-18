@@ -7,6 +7,10 @@ import net.henrycmoss.bb.command.*;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.tools.ShootingTools;
 import net.henrycmoss.bb.villager.BbVillagers;
+import net.minecraft.client.multiplayer.ClientRegistryLayer;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -15,6 +19,8 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -22,11 +28,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.server.command.ConfigCommand;
 
 import java.util.ArrayList;
@@ -51,10 +59,13 @@ public class BbForgeEvents {
 
     @SubscribeEvent
     public static void registerCommandsEvent(RegisterCommandsEvent event) {
+
+        CommandBuildContext context = CommandBuildContext.simple(ClientRegistryLayer.createRegistryAccess().compositeAccess(), FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         new HomeCommand(event.getDispatcher());
         new FlyCommand(event.getDispatcher());
         new IgniteCommand(event.getDispatcher());
-        new GearCommand(event.getDispatcher());
+        new GearCommand(event.getDispatcher(), context);
         new TreasureCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
@@ -81,6 +92,15 @@ public class BbForgeEvents {
                     new ItemStack(Items.EMERALD, 1),
                     new ItemStack(BbItems.MARIJUANA.get(), 1), 100, 8, 0.1f
             ));
+        }
+    }
+
+    @SubscribeEvent
+    public static void playerJump(LivingEvent.LivingJumpEvent event) {
+        if(event.getEntity() instanceof Player player) {
+            ResourceLocation loc = ForgeRegistries.ITEMS.getKey(BbItems.JOINT.get());
+
+            player.sendSystemMessage(Component.literal(loc.toString()));
         }
     }
 
