@@ -9,11 +9,9 @@ import net.henrycmoss.bb.client.HallucinationRenderer;
 import net.henrycmoss.bb.client.ShroomsRenderer;
 import net.henrycmoss.bb.effect.BbEffects;
 import net.henrycmoss.bb.item.BbItems;
-import net.henrycmoss.bb.recipe.BbRecipes;
-import net.henrycmoss.bb.screen.CrucibleMenu;
+import net.henrycmoss.bb.screen.BbMenuTypes;
 import net.henrycmoss.bb.screen.CrucibleScreen;
 import net.henrycmoss.bb.screen.GemEmpoweringStationScreen;
-import net.henrycmoss.bb.screen.BbMenuTypes;
 import net.henrycmoss.bb.tab.BbCreativeModeTabs;
 import net.henrycmoss.bb.villager.BbVillagers;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -66,7 +64,6 @@ public class Bb {
         BbFluids.register(modEventBus);
         BbFluidTypes.register(modEventBus);
         BbBlockEntities.register(modEventBus);
-        BbRecipes.register(modEventBus);
         LogUtils.getLogger().info("menus registered");
         BbMenuTypes.register(modEventBus);
 

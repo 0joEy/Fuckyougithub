@@ -53,6 +53,14 @@ public class GemEmpoweringStationMenu extends AbstractContainerMenu {
         return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
 
+    public int getScaledProgresss() {
+        int prog = this.data.get(0);
+        int max = this.data.get(1);
+        int length = 16;
+
+        return max != 0 && prog != 0 ? prog * length / max : 0;
+    }
+
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
     // For this container, we can see both the tile inventory's slots as well as the player inventory slots and the hotbar.

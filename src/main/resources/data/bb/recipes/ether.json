@@ -1,6 +1,6 @@
 {
   "type": "bb:chemical_heater",
-  "cooktime": 30,
+  "cooktime": 100,
   "ingredients": [
     {
       "item": "bb:alcohol_bottle"

@@ -1,11 +1,13 @@
 package net.henrycmoss.bb.block.entity;
 
+import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.Bb;
 import net.henrycmoss.bb.block.BbBlocks;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.screen.CrucibleMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -58,7 +60,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
     protected final ContainerData data;
     private int progress = 0;
-    private int maxProgress = 78;
+    private int maxProgress = 150;
 
     private static final int INPUT_SLOT_1 = 0;
     private static final int INPUT_SLOT_2 = 1;
@@ -135,6 +137,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inventory", itemHandler.serializeNBT());
+        pTag.putInt("progress", this.progress);
         super.saveAdditional(pTag);
     }
 
@@ -142,12 +145,18 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     public void load(@Nonnull CompoundTag pTag) {
         super.load(pTag);
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
+        this.data.set(0, pTag.getInt("progress"));
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if(hasRecipe()) {
             increaseProgress();
             setChanged();
+
+            LogUtils.getLogger().info("prog: " + progress);
+            LogUtils.getLogger().info("scaled: " + Math.round(((float)(progress * 16 / maxProgress))));
+            LogUtils.getLogger().info("scaled data: " + Math.round(((float)(this.data.get(0) * 16 / this.data.get(1)))));
+            LogUtils.getLogger().info("data prog: " + this.data.get(0));
 
             if(hasFinished()) {
                 craft();

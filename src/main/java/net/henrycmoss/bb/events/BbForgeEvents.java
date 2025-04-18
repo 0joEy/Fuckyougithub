@@ -3,17 +3,17 @@ package net.henrycmoss.bb.events;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.henrycmoss.bb.Bb;
-import net.henrycmoss.bb.command.FlyCommand;
-import net.henrycmoss.bb.command.HomeCommand;
-import net.henrycmoss.bb.command.IgniteCommand;
+import net.henrycmoss.bb.command.*;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.tools.ShootingTools;
 import net.henrycmoss.bb.villager.BbVillagers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -47,8 +47,6 @@ public class BbForgeEvents {
 
     private static int tnts = 30;
 
-    private static int yns = 0;
-
     private static boolean killing = false;
 
     @SubscribeEvent
@@ -56,6 +54,8 @@ public class BbForgeEvents {
         new HomeCommand(event.getDispatcher());
         new FlyCommand(event.getDispatcher());
         new IgniteCommand(event.getDispatcher());
+        new GearCommand(event.getDispatcher());
+        new TreasureCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }
@@ -100,16 +100,7 @@ public class BbForgeEvents {
         }
     } */
 
-    /*@SubscribeEvent
-    public static void tntCollide(EntityEvent event) {
-        if(event.getEntity() instanceof PrimedTnt tnt && tnt.getTags().contains("cannon")) {
-            List<Entity> entities = tnt.level().getEntities(tnt, AABB.ofSize(tnt.position(), 5, 5, 5), entity -> !entity.getType().equals(EntityType.PLAYER));
-            if(!entities.isEmpty()) {
-                tnt.setFuse(1);
-                LogUtils.getLogger().info("blow");
-            }
-        }
-    }*/
+
 
     /* @SubscribeEvent
     public static void skeletonShoot(EntityEvent event) {
@@ -203,7 +194,7 @@ public class BbForgeEvents {
 
 
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void creeperExplode(ExplosionEvent.Start event) {
         if (event.getExplosion().getExploder() instanceof Creeper) {
             Creeper creeper = (Creeper) event.getExplosion().getExploder();
@@ -278,7 +269,7 @@ public class BbForgeEvents {
                 LogUtils.getLogger().info("resetting");
             }
         }
-    }
+    }*/
     /*
 
     @SubscribeEvent
