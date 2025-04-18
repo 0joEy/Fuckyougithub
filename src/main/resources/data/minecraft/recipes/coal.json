@@ -1,0 +1,19 @@
+{
+  "type": "bb:crucible",
+  "cookTime": 100.0,
+  "exp": 45,
+  "ingredients": [
+    {
+      "item": "minecraft:apple",
+      "count": 1
+    },
+    {
+      "item": "minecraft:diamond",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:coal",
+    "count": 1
+  }
+}
