@@ -249,19 +249,7 @@ tasks.register('prepareRunServerProperties') {
             serverProps.createNewFile()
         }
 
-        def props = new Properties()
-
-        serverProps.withInputStream { stream ->
-            props.load(stream)
-        }
-
-        props.setProperty('enable-command-block', 'true')
-
-        serverProps.withOutputStream { stream ->
-            props.store(stream, "Minecraft server properties updated by Gradle task")
-        }
-
-        println("✅ server.properties updated: enable-command-block=true")
+        println("server.propterties")
     }
 }
 

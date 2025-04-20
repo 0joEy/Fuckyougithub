@@ -58,7 +58,7 @@ public class CreeperListener {
 
                 level.addFreshEntity(tnt);
             }
-        } else if (event.getExplosion().getExploder() instanceof PrimedTnt tnt) {
+        } /*else if (event.getExplosion().getExploder() instanceof PrimedTnt tnt) {
             AABB area = AABB.ofSize(tnt.position(), 10000, 150, 10000);
             LogUtils.getLogger().info(tnts + ", " + killing);
             if(tnts < 5000 && !killing) {
@@ -101,6 +101,6 @@ public class CreeperListener {
                 tnts = 0;
                 LogUtils.getLogger().info("resetting");
             }
-        }
+        }*/
     }
 }

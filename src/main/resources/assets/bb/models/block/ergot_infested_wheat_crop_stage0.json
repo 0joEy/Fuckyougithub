@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/crop",
-  "textures": {
-    "crop": "bb:block/ergot_infested_wheat_crop_stage0"
-  }
-}

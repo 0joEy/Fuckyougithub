@@ -27,7 +27,7 @@ public class TntCannonListener {
         if(event.getEntity() instanceof PrimedTnt tnt && tnt.getTags().contains("cannon")) {
             AABB area = AABB.ofSize(tnt.position(), 6, 6, 6);
 
-            List<Entity> es = tnt.level().getEntities((Entity) null, area, entity -> true);
+            List<Entity> es = tnt.level().getEntities(tnt, area, entity -> true);
 
             for(Entity e : es) {
                 if(e instanceof Player || e instanceof PrimedTnt || e instanceof ItemEntity) {

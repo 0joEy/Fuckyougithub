@@ -1,0 +1,19 @@
+{
+  "type": "bb:crucible",
+  "cookTime": 100,
+  "exp": 0.7,
+  "ingredients": [
+    {
+      "item": "bb:hydrogen_gas",
+      "count": 1
+    },
+    {
+      "item": "bb:hcl",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:apple",
+    "count": 1
+  }
+}

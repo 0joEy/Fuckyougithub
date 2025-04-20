@@ -1,0 +1,19 @@
+{
+  "type": "bb:crucible",
+  "cookTime": 100,
+  "exp": 0.7,
+  "ingredients": [
+    {
+      "item": "bb:ephedrine",
+      "count": 1
+    },
+    {
+      "item": "bb:pseudoephedrine",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "bb:methamphetamine",
+    "count": 1
+  }
+}

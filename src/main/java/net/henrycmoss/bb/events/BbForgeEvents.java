@@ -95,15 +95,6 @@ public class BbForgeEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void playerJump(LivingEvent.LivingJumpEvent event) {
-        if(event.getEntity() instanceof Player player) {
-            ResourceLocation loc = ForgeRegistries.ITEMS.getKey(BbItems.JOINT.get());
-
-            player.sendSystemMessage(Component.literal(loc.toString()));
-        }
-    }
-
 
     /* @SubscribeEvent
     public static void meteorTouchGround(TickEvent.PlayerTickEvent event) {

@@ -151,6 +151,7 @@ public class GearCommand {
         bow.put(Enchantments.POWER_ARROWS, standVal);
         bow.put(Enchantments.PUNCH_ARROWS, standVal);
         bow.put(Enchantments.FLAMING_ARROWS, standVal);
+        bow.put(Enchantments.INFINITY_ARROWS, 1);
         bow.put(Enchantments.UNBREAKING, standVal * 3);
         bow.put(Enchantments.MENDING, 50);
 

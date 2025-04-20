@@ -42,21 +42,17 @@ public class CrucibleScreen extends AbstractContainerScreen<CrucibleMenu> {
 
     public void renderArrow(GuiGraphics gui, int x, int y) {
         if(menu.isCrafting()) {
-            gui.blit(TEXTURE, /* x offset progress arrow */ x + 79,
-                    /* y offset progress arrow */ y + 35, /* x pos ref arrow */177,
-                    /* ref y start*/ 14, /* ref x offset end? */menu.getScaledProgress(),
-                    /*ref y offset end */17);
+            gui.blit(TEXTURE, /* progress arrow x */ x + 79,
+                    /*progress arrow y*/ y + 35, /* x pos ref arrow */ 176,
+                    /* ref y start*/ 14, /* ref x offset end */ menu.getScaledProgress(),
+                    /*ref y offset end */ 17);
         }
-    }
-
-    public void addit() {
-        LogUtils.getLogger().info("broooo");
     }
 
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
         renderBackground(gui);
-        addit();
+
         super.render(gui, mouseX, mouseY, partialTick);
         renderTooltip(gui, mouseX, mouseY);
     }

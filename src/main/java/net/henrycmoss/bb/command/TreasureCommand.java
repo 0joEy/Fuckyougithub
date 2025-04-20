@@ -1,6 +1,7 @@
 package net.henrycmoss.bb.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.henrycmoss.bb.Bb;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -27,27 +28,31 @@ import java.util.Random;
 public class TreasureCommand {
 
     public TreasureCommand(CommandDispatcher<CommandSourceStack> dispatch) {
-        dispatch.register(Commands.literal("treasure").executes((source) -> drop(source.getSource(), source.getSource().getPlayer())));
+        dispatch.register(Commands.literal("treasure").then(Commands.argument("times", IntegerArgumentType.integer())
+                .executes((source) -> drop(source.getSource(), source.getSource().getPlayer(),
+                        IntegerArgumentType.getInteger(source, "times"))))).createBuilder();
     }
 
-    private int drop(CommandSourceStack source, Player player) {
+    private int drop(CommandSourceStack source, Player player, int x) {
         Vec3 pos = player.position();
         ServerLevel server = source.getServer().getLevel(source.getLevel().dimension());
 
         if(server != null) {
-            LootTable loot = source.getServer().getLootData().getLootTable(
-                    new ResourceLocation(Bb.MODID, "gameplay/treasure"));
+            for(int i = 0; i < x; i++) {
+                LootTable loot = source.getServer().getLootData().getLootTable(
+                        new ResourceLocation(Bb.MODID, "gameplay/treasure"));
 
-            List<ItemStack> items = loot.getRandomItems(new LootParams.Builder(server).withParameter(LootContextParams.ORIGIN, pos)
-                    .create(LootContextParamSet.builder().build())).stream().toList();
+                List<ItemStack> items = loot.getRandomItems(new LootParams.Builder(server).withParameter(LootContextParams.ORIGIN, pos)
+                        .create(LootContextParamSet.builder().build())).stream().toList();
 
-            Random rand = new Random();
+                Random rand = new Random();
 
-            items.forEach((stack) -> {
-                ItemEntity eItem = new ItemEntity(server, rangedOffset(pos.x(), 5, rand), pos.y() + 10,
-                        rangedOffset(pos.z(), 5, rand), stack);
-                server.addFreshEntity(eItem);
-            });
+                items.forEach((stack) -> {
+                    ItemEntity eItem = new ItemEntity(server, rangedOffset(pos.x(), 5, rand), pos.y() + 10,
+                            rangedOffset(pos.z(), 5, rand), stack);
+                    server.addFreshEntity(eItem);
+                });
+            }
 
             source.sendSuccess(() -> Component.literal("coming in hot"), false);
             return 1;

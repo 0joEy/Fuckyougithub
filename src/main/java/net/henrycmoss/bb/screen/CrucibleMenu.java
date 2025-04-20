@@ -38,8 +38,8 @@ public class CrucibleMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 55, 16));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 56, 52));
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 56, 22));
+            this.addSlot(new SlotItemHandler(iItemHandler, 1, 56, 47));
             this.addSlot(new SlotItemHandler(iItemHandler, 2, 116, 35));
         });
 
@@ -51,7 +51,7 @@ public class CrucibleMenu extends AbstractContainerMenu {
     public int getScaledProgress() {
         int prog = data.get(0);
         int max = data.get(1);
-        int length = 22;
+        int length = 24;
 
         return max != 0 && prog != 0 ? prog * length / max : 0;
     }

@@ -24,6 +24,10 @@ public class BbTags {
 
         public static final TagKey<Item> FRUITS = tag("fruits");
 
+        public static final TagKey<Item> SOLIDS = forgeTag("solids");
+        public static final TagKey<Item> LIQUIDS = forgeTag("liquids");
+        public static final TagKey<Item> GASSES = forgeTag("gasses");
+
         public static TagKey<Item> tag(String location) {
             return ItemTags.create(new ResourceLocation(Bb.MODID,  location));
         }

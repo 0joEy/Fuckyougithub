@@ -7,6 +7,7 @@ import net.henrycmoss.bb.block.custom.fluid.BbFluids;
 import net.henrycmoss.bb.block.entity.BbBlockEntities;
 import net.henrycmoss.bb.client.HallucinationRenderer;
 import net.henrycmoss.bb.client.ShroomsRenderer;
+import net.henrycmoss.bb.datagen.DataGenerators;
 import net.henrycmoss.bb.effect.BbEffects;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.recipe.BbRecipeTypes;
@@ -49,7 +50,6 @@ public class Bb {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -103,15 +103,6 @@ public class Bb {
             event.accept(BbItems.PSEUDOEPHEDRINE);
         }
     }
-
-    /*public static void gatherData(GatherDataEvent event) {
-        DataGenerator gen = event.getGenerator();
-        PackOutput output = gen.getPackOutput();
-
-        if (event.includeServer()) {
-            gen.addProvider(true, WorldGenDataProvider.makeFactory(event.getLookupProvider()));
-        }
-    }*/
 
     @Mod.EventBusSubscriber(modid = Bb.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientEvents {

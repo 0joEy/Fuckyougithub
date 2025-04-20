@@ -1,0 +1,19 @@
+{
+  "type": "bb:crucible",
+  "cookTime": 100,
+  "exp": 0.7,
+  "ingredients": [
+    {
+      "item": "minecraft:diamond",
+      "count": 1
+    },
+    {
+      "item": "bb:chlorine_gas",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "bb:hydrogen_gas",
+    "count": 1
+  }
+}

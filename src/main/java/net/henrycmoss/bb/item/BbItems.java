@@ -59,6 +59,9 @@ public class BbItems {
             () -> new AlcoholBottleItem(new Item.Properties().stacksTo(1)
                     .craftRemainder(Items.GLASS_BOTTLE).food(BbFoods.ALCOHOL)));
 
+    public static final RegistryObject<Item> SALT = ITEMS.register("salt",
+            () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<Item> SULFUR = ITEMS.register("sulfur",
             () -> new SulfurItem(new Item.Properties()));
 
@@ -87,6 +90,15 @@ public class BbItems {
         () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> ERGOT = ITEMS.register("ergot",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> HYDROGEN_GAS = ITEMS.register("hydrogen_gas",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> CHLORINE_GAS = ITEMS.register("chlorine_gas",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> HCL = ITEMS.register("hcl",
             () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> MAGIC_MUSHROOMS = ITEMS.register("magic_mushrooms",

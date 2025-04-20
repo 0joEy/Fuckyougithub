@@ -6,6 +6,7 @@ import net.henrycmoss.bb.block.BbBlocks;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.recipe.CrucibleRecipe;
 import net.henrycmoss.bb.screen.CrucibleMenu;
+import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +21,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -41,6 +43,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
+
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -49,8 +52,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot) {
-                case 0 -> stack.getItem() == fromIngredient(getCurrentRecipe().get().getIngredients().get(0)).getItem();
-                case 1 -> stack.getItem() == fromIngredient(getCurrentRecipe().get().getIngredients().get(1)).getItem();
+                case 0, 1 -> true;
                 case 2 -> false;
                 default -> super.isItemValid(slot, stack);
             };
@@ -150,7 +152,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        if(hasRecipe()) {
+        if(hasRecipe() && !level.isClientSide()) {
             increaseProgress();
             setChanged();
 
@@ -168,16 +170,17 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private void craft() {
-        Optional<CrucibleRecipe> rec = getCurrentRecipe();
-
-        if(rec.isEmpty()) return;
-
         ItemStack res = getCurrentRecipe().get().getResultItem(getLevel().registryAccess());
 
         itemHandler.extractItem(INPUT_SLOT_1, 1, false);
         itemHandler.extractItem(INPUT_SLOT_2, 1, false);
 
-        itemHandler.setStackInSlot(OUTPUT_SLOT, res);
+        if(res.is(BbTags.Items.forgeTag("gasses"))) {
+            itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(Items.AMETHYST_BLOCK, 3));
+        }
+        else {
+            itemHandler.setStackInSlot(OUTPUT_SLOT, res);
+        }
     }
 
     private void resetProgress() { this.progress = 0; }
@@ -192,7 +195,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
         if(recipe.isEmpty()) return false;
 
-        ItemStack res = recipe.get().getResultItem(getLevel().registryAccess());
+        ItemStack res = recipe.get().getResultItem(null);
 
         return canInsertIntoOutput(res.getCount()) && canInsertIntoOutput(res.getItem());
     }

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "bb:ephedra_stem"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "bb:ephedra_seeds"
+        }
+      ],
+      "rolls": 2.0
+    }
+  ],
+  "random_sequence": "bb:blocks/ephedra_crop"
+}
