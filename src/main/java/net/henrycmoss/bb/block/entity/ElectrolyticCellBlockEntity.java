@@ -1,5 +1,6 @@
 package net.henrycmoss.bb.block.entity;
 
+import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.recipe.CrucibleRecipe;
 import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
@@ -52,8 +53,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     private final ContainerData data;
-    private int progress;
-    private int max;
+    private int progress = 0;
+    private int max = 150;
 
     private static final int INPUT_SLOT_1 = 0;
     private static final int INPUT_SLOT_2 = 1;
@@ -64,6 +65,7 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private static int EXCESS_SLOT_2;
 
     ItemStack[] results = { new ItemStack(BbItems.HYDROGEN_GAS.get(), 1), new ItemStack(BbItems.CHLORINE_GAS.get(), 1) };
+    ItemStack[] ingredients = { new ItemStack(BbItems.SALT.get(), 1), new ItemStack(Items.WATER_BUCKET, 1) };
 
     public ElectrolyticCellBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BbBlockEntities.ELECTROLYTIC_CELL.get(), pPos, pBlockState);
@@ -146,7 +148,9 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     }
 
     public void tick(Level level, BlockState state, BlockPos pos) {
+        LogUtils.getLogger().info("ticked cell");
         if(hasRecipe() && !level.isClientSide()) {
+            LogUtils.getLogger().info("progress +1");
             increaseProgress();
             setChanged();
 
@@ -174,23 +178,36 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         this.progress++;
     }
     private boolean hasRecipe() {
-        /*Optional<CrucibleRecipe> recipe = getCurrentRecipe();
 
-        if(recipe.isEmpty()) return false;
+        if(hasIngredients()) {
+            LogUtils.getLogger().info("happening");
 
-        ItemStack res = recipe.get().getResultItem(null);*/
-        int[] outputs = {3, 4};
+            int[] outputs = {OUTPUT_SLOT_1, OUTPUT_SLOT_2};
 
-        boolean[] conditions = {false, false};
+            boolean[] conditions = {false, false};
 
-        for(int i = 0; i < conditions.length; i++) {
-            int slot = outputs[i];
-            conditions[i] = canInsertIntoOutput(results[i].getCount(), slot) && canInsertIntoOutput(results[i].getItem(), slot);
+            for (int i = 0; i < conditions.length; i++) {
+                int slot = outputs[i];
+                conditions[i] = canInsertIntoOutput(results[i].getCount(), slot) && canInsertIntoOutput(results[i].getItem(), slot);
+                /*LogUtils.getLogger().info("Condition: {}", i + ": " + conditions[i]);
+                LogUtils.getLogger().info("Result 1: {}", results[0].getItem().getDescriptionId());
+                LogUtils.getLogger().info("Result 2: {}", results[1].getItem().getDescriptionId());
+                LogUtils.getLogger().info("Result i: {}", results[i].getItem().getDescriptionId());*/
+            }
+
+            return conditions[0] && conditions[1];
         }
+        return false;
+    }
 
-        return conditions[0] && conditions[1];
+    private boolean hasIngredients() {
+        LogUtils.getLogger().info("inging");
+        boolean f1 = itemHandler.getStackInSlot(INPUT_SLOT_1).is(ingredients[INPUT_SLOT_1].getItem());
+        boolean f2 = itemHandler.getStackInSlot(INPUT_SLOT_2).is(ingredients[INPUT_SLOT_2].getItem());
 
-
+        LogUtils.getLogger().info("1: {}", f1);
+        LogUtils.getLogger().info("2: {}", f2);
+        return f1 && f2;
     }
 
     /*private Optional<CrucibleRecipe> getCurrentRecipe() {

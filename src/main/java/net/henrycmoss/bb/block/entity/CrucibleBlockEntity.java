@@ -71,6 +71,8 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
 
 
+
+
     public CrucibleBlockEntity(BlockPos pos, BlockState state) {
         super(BbBlockEntities.CRUCIBLE_BE.get(), pos, state);
         this.data = new ContainerData() {
@@ -152,7 +154,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        if(!hasRecipe() && !level.isClientSide()) {
+        if(hasRecipe() && !level.isClientSide()) {
             increaseProgress();
             setChanged();
 
@@ -196,6 +198,8 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
         if(recipe.isEmpty()) return false;
 
         ItemStack res = recipe.get().getResultItem(null);
+
+        ItemStack[] results;
 
         return canInsertIntoOutput(res.getCount()) && canInsertIntoOutput(res.getItem());
     }
