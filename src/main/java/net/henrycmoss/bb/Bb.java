@@ -14,6 +14,7 @@ import net.henrycmoss.bb.recipe.BbRecipeTypes;
 import net.henrycmoss.bb.recipe.BbRecipes;
 import net.henrycmoss.bb.screen.BbMenuTypes;
 import net.henrycmoss.bb.screen.CrucibleScreen;
+import net.henrycmoss.bb.screen.ElectrolyticCellScreen;
 import net.henrycmoss.bb.screen.GemEmpoweringStationScreen;
 import net.henrycmoss.bb.tab.BbCreativeModeTabs;
 import net.henrycmoss.bb.villager.BbVillagers;
@@ -119,6 +120,7 @@ public class Bb {
 
             MenuScreens.register(BbMenuTypes.GEM_EMPOWERING_MENU.get(), GemEmpoweringStationScreen::new);
             MenuScreens.register(BbMenuTypes.CRUCIBLE_MENU.get(), CrucibleScreen::new);
+            MenuScreens.register(BbMenuTypes.ELECTROLYTIC_CELL.get(), ElectrolyticCellScreen::new);
         }
     }
 

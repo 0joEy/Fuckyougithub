@@ -20,6 +20,9 @@ public class BbMenuTypes {
     public static final RegistryObject<MenuType<CrucibleMenu>> CRUCIBLE_MENU = registerMenuType(CrucibleMenu::new,
             "crucible_menu");
 
+    public static final RegistryObject<MenuType<ElectrolyticCellMenu>> ELECTROLYTIC_CELL = registerMenuType(ElectrolyticCellMenu::new,
+            "electrolytic_cell");
+
 
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

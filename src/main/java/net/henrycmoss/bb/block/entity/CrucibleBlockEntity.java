@@ -152,7 +152,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        if(hasRecipe() && !level.isClientSide()) {
+        if(!hasRecipe() && !level.isClientSide()) {
             increaseProgress();
             setChanged();
 

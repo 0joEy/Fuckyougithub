@@ -2,6 +2,7 @@ package net.henrycmoss.bb.block.entity;
 
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.recipe.CrucibleRecipe;
+import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -15,6 +16,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,11 +28,11 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+import java.util.*;
 
 public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProvider {
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler() {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(7) {
 
         @Override
         protected void onContentsChanged(int slot) {
@@ -40,10 +42,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot) {
-                case 0 -> itemHandler.getStackInSlot(INPUT_SLOT_1).is(BbItems.SALT.get());
-                case 1 -> itemHandler.getStackInSlot(INPUT_SLOT_2).is(Items.WATER_BUCKET);
-                case 2 -> itemHandler.getStackInSlot(ENERGY_SLOT).is(BbItems.BATTERY.get());
-                case 3, 4, 5, 6 -> false;
+                case 0, 1 -> true;
+                case 2, 3, 4, 5, 6 -> false;
                 default -> super.isItemValid(slot, stack);
             };
         }
@@ -58,13 +58,15 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private static final int INPUT_SLOT_1 = 0;
     private static final int INPUT_SLOT_2 = 1;
     private static final int ENERGY_SLOT = 2;
-    private static int OUTPUT_SLOT_1;
-    private static int OUTPUT_SLOT_2;
+    private static int OUTPUT_SLOT_1 = 3;
+    private static int OUTPUT_SLOT_2 = 4;
     private static int EXCESS_SLOT_1;
     private static int EXCESS_SLOT_2;
 
-    public ElectrolyticCellBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
-        super(pType, pPos, pBlockState);
+    ItemStack[] results = { new ItemStack(BbItems.HYDROGEN_GAS.get(), 1), new ItemStack(BbItems.CHLORINE_GAS.get(), 1) };
+
+    public ElectrolyticCellBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(BbBlockEntities.ELECTROLYTIC_CELL.get(), pPos, pBlockState);
         this.data = new ContainerData() {
             @Override
             public int get(int index) {
@@ -107,11 +109,12 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return null;
+        return new ElectrolyticCellMenu(pContainerId, pPlayerInventory, this, this.data);
     }
 
     @Override
     public void onLoad() {
+        super.onLoad();
         lazyItemHandler = LazyOptional.of(() -> itemHandler);
     }
 
@@ -132,6 +135,7 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         super.saveAdditional(pTag);
         pTag.put("inventory", itemHandler.serializeNBT());
         pTag.putInt("progress", this.progress);
+        super.saveAdditional(pTag);
     }
 
     @Override
@@ -139,6 +143,27 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         super.load(pTag);
         itemHandler.deserializeNBT(pTag);
         this.data.set(0, pTag.getInt("progress"));
+    }
+
+    public void tick(Level level, BlockState state, BlockPos pos) {
+        if(hasRecipe() && !level.isClientSide()) {
+            increaseProgress();
+            setChanged();
+
+            if(hasFinished()) {
+                craft();
+                resetProgress();
+            }
+        }
+        else resetProgress();
+    }
+
+    private void craft() {
+        this.itemHandler.extractItem(INPUT_SLOT_1, 1, false);
+        this.itemHandler.extractItem(INPUT_SLOT_2, 1, false);
+
+        this.itemHandler.setStackInSlot(OUTPUT_SLOT_1, results[0]);
+        this.itemHandler.setStackInSlot(OUTPUT_SLOT_2, results[1]);
     }
 
     private void resetProgress() { this.progress = 0; }
@@ -149,17 +174,26 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         this.progress++;
     }
     private boolean hasRecipe() {
-        Optional<CrucibleRecipe> recipe = getCurrentRecipe();
+        /*Optional<CrucibleRecipe> recipe = getCurrentRecipe();
 
         if(recipe.isEmpty()) return false;
 
-        ItemStack res = recipe.get().getResultItem(null);
-        int slot = 3;
+        ItemStack res = recipe.get().getResultItem(null);*/
+        int[] outputs = {3, 4};
 
-        return canInsertIntoOutput(res.getCount(), slot) && canInsertIntoOutput(res.getItem(), slot);
+        boolean[] conditions = {false, false};
+
+        for(int i = 0; i < conditions.length; i++) {
+            int slot = outputs[i];
+            conditions[i] = canInsertIntoOutput(results[i].getCount(), slot) && canInsertIntoOutput(results[i].getItem(), slot);
+        }
+
+        return conditions[0] && conditions[1];
+
+
     }
 
-    private Optional<CrucibleRecipe> getCurrentRecipe() {
+    /*private Optional<CrucibleRecipe> getCurrentRecipe() {
         SimpleContainer inv = new SimpleContainer(this.itemHandler.getSlots());
 
         for(int i = 0; i < itemHandler.getSlots(); i++) {
@@ -167,10 +201,10 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         }
 
         return this.level.getRecipeManager().getRecipeFor(CrucibleRecipe.Type.INSTANCE, inv, this.level);
-    }
+    }*/
 
     private boolean canInsertIntoOutput(int count, int slot) {
-        return itemHandler.getStackInSlot(slot).getMaxStackSize() >= itemHandler.getStackInSlot(slot).getCount() + count;
+        return itemHandler.getStackInSlot(slot).isEmpty() || itemHandler.getStackInSlot(slot).getCount() + count < itemHandler.getSlotLimit(slot);
     }
 
     private boolean canInsertIntoOutput(Item item, int slot) {

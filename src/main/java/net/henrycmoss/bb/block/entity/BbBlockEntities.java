@@ -20,6 +20,9 @@ public class BbBlockEntities {
     public static final RegistryObject<BlockEntityType<CrucibleBlockEntity>> CRUCIBLE_BE = BLOCK_ENTITIES.register("crucible_block_entity",
             () -> BlockEntityType.Builder.of(CrucibleBlockEntity::new, BbBlocks.CRUCIBLE.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<ElectrolyticCellBlockEntity>> ELECTROLYTIC_CELL = BLOCK_ENTITIES.register("electrolytic_cell",
+            () -> BlockEntityType.Builder.of(ElectrolyticCellBlockEntity::new, BbBlocks.ELECTROLYTIC_CELL.get()).build(null));
+
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
