@@ -42,7 +42,7 @@ public class ElectrolyticCellScreen extends AbstractContainerScreen<Electrolytic
     private void renderAnode(GuiGraphics gui, int x, int y) {
         if(menu.isCrafting()) {
             gui.blit(TEXTURE, /* progress arrow x */ x + 58,
-                    /*progress arrow y*/ y + 57, /* x pos ref arrow */ 180,
+                    /*progress arrow y*/ y + 22, /* x pos ref arrow */ 180,
                     /* ref y start*/ menu.getLength() - menu.getScaledProgress(), /* ref x offset end */ 16,
                     /*ref y offset end */ 36);
         }
@@ -51,7 +51,7 @@ public class ElectrolyticCellScreen extends AbstractContainerScreen<Electrolytic
     private void renderCathode(GuiGraphics gui, int x, int y) {
         if(menu.isCrafting()) {
             gui.blit(TEXTURE, /* progress arrow x */ x + 104,
-                    /*progress arrow y*/ y + 57, /* x pos ref arrow */ 198,
+                    /*progress arrow y*/ y + 22, /* x pos ref arrow */ 198,
                     /* ref y start*/ menu.getScaledProgress(), /* ref x offset end */ 16,
                     /*ref y offset end */ 36);
         }
