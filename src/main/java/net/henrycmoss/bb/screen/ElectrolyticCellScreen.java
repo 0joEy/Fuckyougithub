@@ -43,7 +43,7 @@ public class ElectrolyticCellScreen extends AbstractContainerScreen<Electrolytic
         if(menu.isCrafting()) {
             gui.blit(TEXTURE, /* progress arrow x */ x + 58,
                     /*progress arrow y*/ y + 22, /* x pos ref arrow */ 180,
-                    /* ref y start*/ menu.getLength() - menu.getScaledProgress(), /* ref x offset end */ 16,
+                    /* ref y start*/ 1, /* ref x offset end */ 16,
                     /*ref y offset end */ 36);
         }
     }

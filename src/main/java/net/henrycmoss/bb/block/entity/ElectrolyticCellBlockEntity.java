@@ -134,7 +134,6 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
         pTag.put("inventory", itemHandler.serializeNBT());
         pTag.putInt("progress", this.progress);
         super.saveAdditional(pTag);
@@ -142,9 +141,9 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     public void load(CompoundTag pTag) {
-        super.load(pTag);
         itemHandler.deserializeNBT(pTag);
         this.data.set(0, pTag.getInt("progress"));
+        super.load(pTag);
     }
 
     public void tick(Level level, BlockState state, BlockPos pos) {
