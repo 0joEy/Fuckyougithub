@@ -102,6 +102,6 @@ public class ElectrolyticCellBlock extends BaseEntityBlock {
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         if(pLevel.isClientSide()) return null;
 
-        return createTickerHelper(pBlockEntityType, BbBlockEntities.ELECTROLYTIC_CELL.get(), ((pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pState1, pPos)));
+        return createTickerHelper(pBlockEntityType, BbBlockEntities.ELECTROLYTIC_CELL.get(), ((pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pPos, pState1)));
     }
 }

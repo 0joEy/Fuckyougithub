@@ -43,7 +43,7 @@ public class CrucibleScreen extends AbstractContainerScreen<CrucibleMenu> {
     public void renderArrow(GuiGraphics gui, int x, int y) {
         if(menu.isCrafting()) {
             gui.blit(TEXTURE, /* progress arrow x */ x + 79,
-                    /*progress arrow y*/ y + 35, /* x pos ref arrow */ 176,
+                    /*progress arrow y*/ y + 34, /* x pos ref arrow */ 176,
                     /* ref y start*/ 14, /* ref x offset end */ menu.getScaledProgress(),
                     /*ref y offset end */ 17);
         }

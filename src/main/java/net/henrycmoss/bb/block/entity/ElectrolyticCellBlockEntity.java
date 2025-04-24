@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.recipe.CrucibleRecipe;
 import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
+import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -106,7 +107,7 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("bb.block.electrolytic_cell");
+        return Component.literal("Electrolytic Cell");
     }
 
     @Override
@@ -146,10 +147,68 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         super.load(pTag);
     }
 
-    public void tick(Level level, BlockState state, BlockPos pos) {
-        LogUtils.getLogger().info("ticked cell");
+    public void tick(Level level, BlockPos pos, BlockState state) {
         if(hasRecipe() && !level.isClientSide()) {
-            LogUtils.getLogger().info("progress +1");
+            increaseProgress();
+            setChanged();
+
+            /*LogUtils.getLogger().info("prog: " + progress);
+            LogUtils.getLogger().info("scaled: " + Math.round(((float)(progress * 16 / maxProgress))));
+            LogUtils.getLogger().info("scaled data: " + Math.round(((float)(this.data.get(0) * 16 / this.data.get(1)))));
+            LogUtils.getLogger().info("data prog: " + this.data.get(0));*/
+
+            if(hasFinished()) {
+                craft();
+                resetProgress();
+            }
+        }
+        else resetProgress();
+    }
+
+    private void craft() {
+        //ItemStack res = getCurrentRecipe().get().getResultItem(getLevel().registryAccess());
+
+        itemHandler.extractItem(INPUT_SLOT_1, 1, false);
+        itemHandler.extractItem(INPUT_SLOT_2, 1, false);
+
+        itemHandler.insertItem(OUTPUT_SLOT_1, results[0], false);
+    }
+
+    private void resetProgress() { this.progress = 0; }
+
+    private boolean hasFinished() { return this.progress >= this.max; }
+
+    private void increaseProgress() {
+        this.progress++;
+    }
+    private boolean hasRecipe() {
+        /*if(hasIngredients()) {
+
+            int[] outputs = {OUTPUT_SLOT_1, OUTPUT_SLOT_2};
+
+            boolean[] conditions = {false, false};
+
+            for (int i = 0; i < conditions.length; i++) {
+                int slot = outputs[i];
+                conditions[i] = canInsertIntoOutput(results[i].getCount(), slot) && canInsertIntoOutput(results[i].getItem(), slot);
+            }
+
+            return conditions[0] && conditions[1];
+        }*/
+        return canInsertIntoOutput(results[0].getItem(), OUTPUT_SLOT_1) && hasIngredients();
+    }
+
+    private boolean canInsertIntoOutput(int count) {
+        return itemHandler.getStackInSlot(OUTPUT_SLOT_1).getMaxStackSize() >= itemHandler.getStackInSlot(OUTPUT_SLOT_1).getCount() + count;
+    }
+
+    private boolean canInsertIntoOutput(Item item) {
+        return itemHandler.getStackInSlot(OUTPUT_SLOT_1).isEmpty() || itemHandler.getStackInSlot(OUTPUT_SLOT_1).is(item);
+    }
+    /*
+    public void tick(Level level, BlockState state, BlockPos pos) {
+        boolean outputsEmptyOrReceivable = isOutputSlotEmptyOrReceivable(OUTPUT_SLOT_1) && isOutputSlotEmptyOrReceivable(OUTPUT_SLOT_2);
+        if(hasRecipe() && !level.isClientSide() && outputsEmptyOrReceivable) {
             increaseProgress();
             setChanged();
 
@@ -165,8 +224,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         this.itemHandler.extractItem(INPUT_SLOT_1, 1, false);
         this.itemHandler.extractItem(INPUT_SLOT_2, 1, false);
 
-        this.itemHandler.setStackInSlot(OUTPUT_SLOT_1, results[0]);
-        this.itemHandler.setStackInSlot(OUTPUT_SLOT_2, results[1]);
+        this.itemHandler.setStackInSlot(OUTPUT_SLOT_1_1, results[0]);
+        this.itemHandler.setStackInSlot(OUTPUT_SLOT_1_2, results[1]);
     }
 
     private void resetProgress() { this.progress = 0; }
@@ -176,10 +235,9 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private void increaseProgress() {
         this.progress++;
     }
-    private boolean hasRecipe() {
+    /*private boolean hasRecipe() {
 
         if(hasIngredients()) {
-            LogUtils.getLogger().info("happening");
 
             int[] outputs = {OUTPUT_SLOT_1, OUTPUT_SLOT_2};
 
@@ -188,24 +246,17 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
             for (int i = 0; i < conditions.length; i++) {
                 int slot = outputs[i];
                 conditions[i] = canInsertIntoOutput(results[i].getCount(), slot) && canInsertIntoOutput(results[i].getItem(), slot);
-                /*LogUtils.getLogger().info("Condition: {}", i + ": " + conditions[i]);
-                LogUtils.getLogger().info("Result 1: {}", results[0].getItem().getDescriptionId());
-                LogUtils.getLogger().info("Result 2: {}", results[1].getItem().getDescriptionId());
-                LogUtils.getLogger().info("Result i: {}", results[i].getItem().getDescriptionId());*/
             }
 
             return conditions[0] && conditions[1];
         }
         return false;
-    }
+    }*/
 
     private boolean hasIngredients() {
-        LogUtils.getLogger().info("inging");
         boolean f1 = itemHandler.getStackInSlot(INPUT_SLOT_1).is(ingredients[INPUT_SLOT_1].getItem());
         boolean f2 = itemHandler.getStackInSlot(INPUT_SLOT_2).is(ingredients[INPUT_SLOT_2].getItem());
 
-        LogUtils.getLogger().info("1: {}", f1);
-        LogUtils.getLogger().info("2: {}", f2);
         return f1 && f2;
     }
 
@@ -225,5 +276,10 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
     private boolean canInsertIntoOutput(Item item, int slot) {
         return itemHandler.getStackInSlot(slot).isEmpty() || itemHandler.getStackInSlot(slot).is(item);
+    }
+
+    private boolean isOutputSlotEmptyOrReceivable(int slot) {
+        return this.itemHandler.getStackInSlot(slot).isEmpty() ||
+                this.itemHandler.getStackInSlot(slot).getCount() < this.itemHandler.getStackInSlot(slot).getMaxStackSize();
     }
 }

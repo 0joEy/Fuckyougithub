@@ -158,10 +158,10 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
             increaseProgress();
             setChanged();
 
-            LogUtils.getLogger().info("prog: " + progress);
+            /*LogUtils.getLogger().info("prog: " + progress);
             LogUtils.getLogger().info("scaled: " + Math.round(((float)(progress * 16 / maxProgress))));
             LogUtils.getLogger().info("scaled data: " + Math.round(((float)(this.data.get(0) * 16 / this.data.get(1)))));
-            LogUtils.getLogger().info("data prog: " + this.data.get(0));
+            LogUtils.getLogger().info("data prog: " + this.data.get(0));*/
 
             if(hasFinished()) {
                 craft();
