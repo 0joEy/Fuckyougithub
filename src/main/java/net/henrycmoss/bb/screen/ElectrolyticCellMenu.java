@@ -22,7 +22,7 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
     private final Level level;
     private final ContainerData data;
 
-    private final int length = 35;
+    private final int length = 24;
 
     private ElectrolysisResultType resultType = ElectrolysisResultType.LIQUID;
 
@@ -78,7 +78,7 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
         int prog = data.get(0);
         int max = data.get(1);
 
-        return max > 0 && prog > 0 ? prog * length / max : 0;
+        return max != 0  && prog != 0 ? prog * length / max : 0;
     }
 
     /*private static final int HOTBAR_SLOT_COUNT = 9;
