@@ -35,33 +35,48 @@ public class ElectrolyticCellScreen extends AbstractContainerScreen<Electrolytic
         int y = (height - imageHeight) / 2;
 
         gui.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
-        renderArrow(gui, x, y);
+
+        int anX = x + 58;
+        int catX = x + 104;
+
+        int pY = y + 22;
+
+        renderAnode(gui, anX, pY);
+        replace(gui, anX, pY, menu.getScaledProgress1());
+        renderCathode(gui, catX, pY);
+        replace(gui, catX, pY, menu.indicatorSize() - menu.getScaledProgress1());
     }
 
-    private void renderAnode(GuiGraphics gui, int x, int y) {
+    private void renderAnode(GuiGraphics gui, int aX, int aY) {
         if(menu.isCrafting()) {
-            gui.blit(TEXTURE, /* progress arrow x */ x + 58,
-                    /*progress arrow y*/ y + 22, /* x pos ref arrow */ 180,
+            gui.blit(TEXTURE, /* progress arrow x */ aX,
+                    /*progress arrow y*/ aY, /* x pos ref arrow */ 180,
                     /* ref y start*/ 1, /* ref x offset end */ 16,
-                    /*ref y offset end */ 36);
+                    /*ref y offset end */ 35);
         }
     }
 
-    private void renderCathode(GuiGraphics gui, int x, int y) {
+    private void renderCathode(GuiGraphics gui, int cX, int cY) {
         if(menu.isCrafting()) {
-            gui.blit(TEXTURE, /* progress arrow x */ x + 104,
-                    /*progress arrow y*/ y + 22, /* x pos ref arrow */ 198,
-                    /* ref y start*/ menu.getScaledProgress(), /* ref x offset end */ 16,
-                    /*ref y offset end */ 36);
+            gui.blit(TEXTURE, /* progress arrow x */  cX,
+                    /*progress arrow y*/ cY, /* x pos ref arrow */ 198,
+                    /* ref y start*/ 1, /* ref x offset end */ 16,
+                    /*ref y offset end */ 35);
         }
     }
 
     private void renderArrow(GuiGraphics gui, int x, int y) {
         if(menu.isCrafting()) {
             gui.blit(TEXTURE, /* progress arrow x */ x + 77,
-                    /*progress arrow y*/ y + 44, /* x pos ref arrow */ 180,
-                    /* ref y start*/ 39, /* ref x offset end */ menu.getScaledProgress(),
-                    /*ref y offset end */ 17);
+                    /*progress arrow y*/ y + 44, /* x pos ref arrow */ 179,
+                    /* ref y start*/ 40, /* ref x offset end */ 24,
+                    /*ref y offset end */ menu.getScaledProgress());
+        }
+    }
+
+    private void replace(GuiGraphics gui, int pX, int pY, int progress) {
+        if(menu.isCrafting()) {
+            gui.blit(TEXTURE, pX, pY, 216, 1, 16, progress);
         }
     }
 

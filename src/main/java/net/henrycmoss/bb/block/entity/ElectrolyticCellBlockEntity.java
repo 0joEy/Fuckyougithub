@@ -29,6 +29,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jline.utils.Log;
 
 import java.util.*;
 
@@ -152,10 +153,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
             increaseProgress();
             setChanged();
 
-            /*LogUtils.getLogger().info("prog: " + progress);
-            LogUtils.getLogger().info("scaled: " + Math.round(((float)(progress * 16 / maxProgress))));
-            LogUtils.getLogger().info("scaled data: " + Math.round(((float)(this.data.get(0) * 16 / this.data.get(1)))));
-            LogUtils.getLogger().info("data prog: " + this.data.get(0));*/
+            LogUtils.getLogger().info("prog: " + progress);
+            LogUtils.getLogger().info("scaled: {}", Math.round((float) (this.progress * 17) / this.max));
 
             if(hasFinished()) {
                 craft();
@@ -171,7 +170,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         itemHandler.extractItem(INPUT_SLOT_1, 1, false);
         itemHandler.extractItem(INPUT_SLOT_2, 1, false);
 
-        itemHandler.insertItem(OUTPUT_SLOT_1, results[0], false);
+        itemHandler.setStackInSlot(OUTPUT_SLOT_1, results[0]);
+        itemHandler.setStackInSlot(OUTPUT_SLOT_2, results[1]);
     }
 
     private void resetProgress() { this.progress = 0; }
@@ -182,7 +182,7 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         this.progress++;
     }
     private boolean hasRecipe() {
-        /*if(hasIngredients()) {
+        if(hasIngredients()) {
 
             int[] outputs = {OUTPUT_SLOT_1, OUTPUT_SLOT_2};
 
@@ -194,8 +194,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
             }
 
             return conditions[0] && conditions[1];
-        }*/
-        return canInsertIntoOutput(results[0].getItem(), OUTPUT_SLOT_1) && hasIngredients();
+        }
+        return false;
     }
 
     private boolean canInsertIntoOutput(int count) {

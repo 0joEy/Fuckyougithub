@@ -22,7 +22,8 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
     private final Level level;
     private final ContainerData data;
 
-    private final int length = 24;
+    private final int length = 17;
+    private final int size = 35;
 
     private ElectrolysisResultType resultType = ElectrolysisResultType.LIQUID;
 
@@ -31,7 +32,7 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
     }
 
     public ElectrolyticCellMenu(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        /*super(BbMenuTypes.ELECTROLYTIC_CELL.get(), containerId);
+        super(BbMenuTypes.ELECTROLYTIC_CELL.get(), containerId);
 
         this.blockEntity = (ElectrolyticCellBlockEntity) entity;
         this.level = blockEntity.getLevel();
@@ -48,26 +49,9 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(iItemHandler, 4, 132, 52));
             this.addSlot(new SlotItemHandler(iItemHandler, 5, 30, 25));
             this.addSlot(new SlotItemHandler(iItemHandler, 6, 132, 25));
-        });*/
-
-        super(BbMenuTypes.ELECTROLYTIC_CELL.get(), containerId);
-        checkContainerSize(inv, 3);
-
-        blockEntity = ((ElectrolyticCellBlockEntity) entity);
-        this.level = inv.player.level();
-        this.data = data;
-
-        addPlayerInv(inv);
-        addPlayerHotbar(inv);
-
-        blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 56, 22));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 56, 47));
-            this.addSlot(new SlotItemHandler(iItemHandler, 2, 116, 35));
         });
 
         addDataSlots(data);
-
     }
 
     public boolean isCrafting() {
@@ -78,51 +62,17 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
         int prog = data.get(0);
         int max = data.get(1);
 
-        return max != 0  && prog != 0 ? prog * length / max : 0;
+        return max != 0  && prog != 0 ? prog * getLength() / max : 0;
     }
 
-    /*private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
+    public int getScaledProgress1() {
+        int prog = this.data.get(0);
+        int max = this.data.get(1);
+        int length = 35;
 
+        return prog != 0 && max != 0 ? prog * length / max : 0;
+    }
 
-    private static final int TE_INVENTORY_SLOT_COUNT = 7;
-    @Override
-    public ItemStack quickMoveStack(Player playerIn, int pIndex) {
-        Slot sourceSlot = slots.get(pIndex);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
-        ItemStack sourceStack = sourceSlot.getItem();
-        ItemStack copyOfSourceStack = sourceStack.copy();
-
-        // Check if the slot clicked is one of the vanilla container slots
-        if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            // This is a vanilla container slot so merge the stack into the tile inventory
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;  // EMPTY_ITEM
-            }
-        } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            // This is a TE slot so merge the stack into the players inventory
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;
-            }
-        } else {
-            System.out.println("Invalid slotIndex:" + pIndex);
-            return ItemStack.EMPTY;
-        }
-        // If stack size == 0 (the entire stack was moved) set slot contents to null
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.set(ItemStack.EMPTY);
-        } else {
-            sourceSlot.setChanged();
-        }
-        sourceSlot.onTake(playerIn, sourceStack);
-        return copyOfSourceStack;
-    }*/
     private static final int HOTBAR_SLOT_COUNT = 9;
     private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
     private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
@@ -132,7 +82,7 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
 
-    private static final int TE_INVENTORY_SLOT_COUNT = 3;
+    private static final int TE_INVENTORY_SLOT_COUNT = 7;
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
@@ -180,6 +130,10 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
 
     public int getLength() {
         return length;
+    }
+
+    public int indicatorSize() {
+        return size;
     }
 
     @Override
