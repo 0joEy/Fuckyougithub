@@ -73,6 +73,12 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
         return prog != 0 && max != 0 ? prog * length / max : 0;
     }
 
+    public int getScaled(int n, int length) {
+        int max = this.data.get(1);
+
+        return n != 0 && max != 0 ? n * length / max : 0;
+    }
+
     private static final int HOTBAR_SLOT_COUNT = 9;
     private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
     private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;

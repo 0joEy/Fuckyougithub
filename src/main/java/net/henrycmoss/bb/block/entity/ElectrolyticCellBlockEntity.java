@@ -69,6 +69,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     ItemStack[] results = { new ItemStack(BbItems.HYDROGEN_GAS.get(), 1), new ItemStack(BbItems.CHLORINE_GAS.get(), 1) };
     ItemStack[] ingredients = { new ItemStack(BbItems.SALT.get(), 1), new ItemStack(Items.WATER_BUCKET, 1) };
 
+    private int initProduct = 20;
+
     public ElectrolyticCellBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BbBlockEntities.ELECTROLYTIC_CELL.get(), pPos, pBlockState);
         this.data = new ContainerData() {
@@ -149,6 +151,10 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
+        if(progress < initProduct) {
+            progress = initProduct;
+            return;
+        }
         if(hasRecipe() && !level.isClientSide()) {
             increaseProgress();
             setChanged();
@@ -277,6 +283,10 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private boolean canInsertIntoOutput(Item item, int slot) {
         return itemHandler.getStackInSlot(slot).isEmpty() || itemHandler.getStackInSlot(slot).is(item);
     }
+
+    public int getInitProduct() { return initProduct; }
+
+    public void setInitProduct(int prod) { initProduct = prod; }
 
     private boolean isOutputSlotEmptyOrReceivable(int slot) {
         return this.itemHandler.getStackInSlot(slot).isEmpty() ||
