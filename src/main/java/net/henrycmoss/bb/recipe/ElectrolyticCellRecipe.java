@@ -1,78 +1,78 @@
 package net.henrycmoss.bb.recipe;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.crafting.*;
 
-public class ElectrolyticCellRecipe implements Recipe<SimpleContainer> {
+import java.util.List;
 
-    private final NonNullList<Ingredient> ingredients;
-
-    private final NonNullList<ItemStack> results;
-
-    private final ResourceLocation id;
+public class ElectrolyticCellRecipe extends AbstractComplexRecipe {
 
     private final int duration;
-    private final int initProduct;
+    private final int initial;
 
     private final float exp;
 
-    ElectrolyticCellRecipe(final ResourceLocation id, final NonNullList<ItemStack> results, NonNullList<Ingredient> ingredients, final int duration, final int initProduct,
-                           final float exp) {
-        this.id = id;
-        this.results = results;
-        this.ingredients = ingredients;
+    public ElectrolyticCellRecipe(final RecipeType<?> type, final ResourceLocation id, final NonNullList<Ingredient> ingredients, final List<ItemStack> results,
+                                  int duration, int initial, float exp) {
+        super(BbRecipes., id, ingredients, results);
         this.duration = duration;
-        this.initProduct = initProduct;
+        this.initial = initial;
         this.exp = exp;
     }
 
-    @Override
-    public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        if(pLevel.isClientSide()) return false;
-        return this.ingredients.get(0).test(pContainer.getItem(0)) && this.ingredients.get(1).test(pContainer.getItem(1));
+    public static class Type implements RecipeType<ElectrolyticCellRecipe> {
+        private Type() {};
+
+        public static final Type INSTANCE = new Type();
+        public static final ResourceLocation ID = new ResourceLocation("electrolytic_cell");
     }
 
-    @Override
-    public ItemStack assemble(SimpleContainer p_44001_, RegistryAccess p_267165_) {
-        return this.results.get(0).copy();
+    public static class Serializer implements RecipeSerializer<ElectrolyticCellRecipe> {
+
+        public static Serializer INSTANCE = new Serializer();
+        private static final ResourceLocation ID = new ResourceLocation("electrolytic_cell");
+
+        @Override
+        public ElectrolyticCellRecipe fromJson(ResourceLocation id, JsonObject json) {
+
+            RecipeType<ElectrolyticCellRecipe> type = BbRecipeTypes.CRUCIBLE.get();
+
+            JsonArray arr = GsonHelper.getAsJsonArray(json, "ingredients");
+
+            NonNullList<Ingredient> ingredients = NonNullList.withSize(2, Ingredient.EMPTY);
+
+            for(int i = 0; i < arr.size(); i++) {
+                ingredients.set(i, Ingredient.fromJson(arr.get(i)));
+            }
+
+            JsonArray outputs = GsonHelper.getAsJsonArray(json, "results");
+
+            List<ItemStack> results = List.of(Ingredient.fromJson(outputs.get(0)).getItems()[0], Ingredient.fromJson(outputs.get(1)).getItems()[0]);
+
+            int duration = GsonHelper.getAsInt(json, "duration");
+            int initial = GsonHelper.getAsInt(json, "initial");
+
+            float exp = GsonHelper.getAsFloat(json, "exp");
+
+            return new ElectrolyticCellRecipe()
+        }
     }
 
-    public ItemStack assemble(SimpleContainer container, RegistryAccess registryAccess, int i) {
-        return i > 0 && i < container.getContainerSize() ? this.results.get(i).copy() : ItemStack.EMPTY;
+    public int getDuration() {
+        return duration;
     }
 
-    @Override
-    public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return true;
+    public int getInitial() {
+        return initial;
     }
 
-    @Override
-    public ItemStack getResultItem(RegistryAccess p_267052_) {
-        return results.get(0);
-    }
-
-    public ItemStack getResultItem()
-
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return null;
-    }
-
-    @Override
-    public RecipeType<?> getType() {
-        return null;
+    public float getExp() {
+        return exp;
     }
 }
