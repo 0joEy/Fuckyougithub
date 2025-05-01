@@ -2,7 +2,10 @@ package net.henrycmoss.bb.block.entity;
 
 import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.item.BbItems;
+import net.henrycmoss.bb.recipe.BbRecipeTypes;
+import net.henrycmoss.bb.recipe.BbRecipes;
 import net.henrycmoss.bb.recipe.CrucibleRecipe;
+import net.henrycmoss.bb.recipe.ElectrolyticCellRecipe;
 import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
 import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.core.BlockPos;
@@ -188,20 +191,21 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         this.progress++;
     }
     private boolean hasRecipe() {
-        if(hasIngredients()) {
+        Optional<ElectrolyticCellRecipe> recipe = getCurrentRecipe();
 
-            int[] outputs = {OUTPUT_SLOT_1, OUTPUT_SLOT_2};
+        if(recipe.isEmpty()) return false;
 
-            boolean[] conditions = {false, false};
+        int[] slots = {OUTPUT_SLOT_1, OUTPUT_SLOT_2};
 
-            for (int i = 0; i < conditions.length; i++) {
-                int slot = outputs[i];
-                conditions[i] = canInsertIntoOutput(results[i].getCount(), slot) && canInsertIntoOutput(results[i].getItem(), slot);
-            }
+        ItemStack[] results = getCurrentRecipe().get().getResults().toArray(new ItemStack[0]);
 
-            return conditions[0] && conditions[1];
+        boolean[] conditions = new boolean[2];
+
+        for(int i = 0; i < results.length; i++) {
+            conditions[i] = canInsertIntoOutput(results[i].getCount(), slots[i]) && canInsertIntoOutput(results[i].getItem(), slots[i]);
         }
-        return false;
+
+        return conditions[0] && conditions[1];
     }
 
     private boolean canInsertIntoOutput(int count) {
@@ -266,15 +270,15 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         return f1 && f2;
     }
 
-    /*private Optional<CrucibleRecipe> getCurrentRecipe() {
-        SimpleContainer inv = new SimpleContainer(this.itemHandler.getSlots());
+    private Optional<ElectrolyticCellRecipe> getCurrentRecipe() {
+        SimpleContainer inv = new SimpleContainer(itemHandler.getSlots());
 
         for(int i = 0; i < itemHandler.getSlots(); i++) {
             inv.setItem(i, itemHandler.getStackInSlot(i));
         }
 
-        return this.level.getRecipeManager().getRecipeFor(CrucibleRecipe.Type.INSTANCE, inv, this.level);
-    }*/
+        return this.level.getRecipeManager().getRecipeFor(ElectrolyticCellRecipe.Type.INSTANCE, inv, level);
+    }
 
     private boolean canInsertIntoOutput(int count, int slot) {
         return itemHandler.getStackInSlot(slot).isEmpty() || itemHandler.getStackInSlot(slot).getCount() + count < itemHandler.getSlotLimit(slot);

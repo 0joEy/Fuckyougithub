@@ -1,6 +1,7 @@
 package net.henrycmoss.bb.recipe;
 
 import net.henrycmoss.bb.Bb;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,12 +20,16 @@ public class BbRecipeTypes {
 
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Bb.MODID);
 
-    public static final RegistryObject<RecipeType<CrucibleRecipe>> CRUCIBLE = registerType(CrucibleRecipe.Type.ID.getNamespace(), () -> CrucibleRecipe.Type.INSTANCE);
+    public static final RegistryObject<RecipeType<CrucibleRecipe>> CRUCIBLE = registerType(CrucibleRecipe.Type.ID.getPath(), () -> CrucibleRecipe.Type.INSTANCE);
 
-    private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(String name, Supplier<RecipeType<T>> type) {
-        TYPES.createTagKey("crucible");
+    public static final RegistryObject<RecipeType<ElectrolyticCellRecipe>> ELECTROLYTIC_CELL = registerType(ElectrolyticCellRecipe.Type.ID.getPath(),
+            () -> ElectrolyticCellRecipe.Type.INSTANCE);
+
+    private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(String path, Supplier<RecipeType<T>> type) {
+        TYPES.createTagKey(path);
+        TYPES.createTagKey(path);
         types.add(type.get());
-        return TYPES.register(name, type);
+        return TYPES.register(path, type);
     }
 
 

@@ -24,7 +24,7 @@ public abstract class AbstractComplexRecipe implements Recipe<SimpleContainer> {
 
     private final ResourceLocation id;
 
-    protected AbstractComplexRecipe(final RecipeType<?> type, final ResourceLocation id, , NonNullList<Ingredient> ingredients, final List<ItemStack> results) {
+    protected AbstractComplexRecipe(final RecipeType<?> type, final ResourceLocation id, NonNullList<Ingredient> ingredients, final List<ItemStack> results) {
         this.type = type;
         this.id = id;
         this.results = results;
@@ -73,8 +73,6 @@ public abstract class AbstractComplexRecipe implements Recipe<SimpleContainer> {
     public RecipeType<?> getType() {
         return this.type;
     }
-
-    public static class Type implements RecipeType<AbstractComplexRecipe>
 
     @Override
     public NonNullList<Ingredient> getIngredients() {

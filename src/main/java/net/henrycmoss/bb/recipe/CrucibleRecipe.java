@@ -1,5 +1,6 @@
 package net.henrycmoss.bb.recipe;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CrucibleRecipe implements Recipe<SimpleContainer> {
@@ -99,7 +101,7 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
         private Type() {}
 
         public static final Type INSTANCE = new Type();
-        public static final ResourceLocation ID = new ResourceLocation("crucible");
+        public static final ResourceLocation ID = new ResourceLocation(Bb.MODID, "crucible");
 
     }
 
@@ -139,9 +141,9 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
                 ing.set(i, Ingredient.fromNetwork(pBuffer));
             }
 
-            ItemStack res = pBuffer.readItem();
+            Collection<ItemStack> res = pBuffer.readList(FriendlyByteBuf::readItem);
 
-            return new CrucibleRecipe(pRecipeId, res, ing, exp, cookTime);
+            return new CrucibleRecipe(pRecipeId, res.stream().iterator().next(), ing, exp, cookTime);
         }
 
         @Override
@@ -156,7 +158,9 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
                 ing.toNetwork(pBuffer);
             }
 
-            pBuffer.writeItemStack(recipe.getResultItem(null), false);
+            Collection<ItemStack> results = List.of(recipe.getResultItem(null), Items.APPLE.getDefaultInstance());
+
+            pBuffer.writeCollection(results, FriendlyByteBuf::writeItem);
         }
     }
 }
