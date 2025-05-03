@@ -101,7 +101,7 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
         private Type() {}
 
         public static final Type INSTANCE = new Type();
-        public static final ResourceLocation ID = new ResourceLocation(Bb.MODID, "crucible");
+        public static final ResourceLocation ID = new ResourceLocation("crucible");
 
     }
 

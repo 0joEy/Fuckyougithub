@@ -1,0 +1,22 @@
+{
+  "type": "bb:electrolysis",
+  "duration": 150,
+  "initial": 0,
+  "exp": 0.7,
+  "ingredients": [
+    {
+      "item": "bb:salt"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "results": [
+    {
+      "item": "bb:chlorine_gas"
+    },
+    {
+      "item": "bb:hydrogen_gas"
+    }
+  ]
+}

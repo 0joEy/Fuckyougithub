@@ -9,7 +9,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -20,16 +19,16 @@ public class BbRecipeTypes {
 
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Bb.MODID);
 
-    public static final RegistryObject<RecipeType<CrucibleRecipe>> CRUCIBLE = registerType(CrucibleRecipe.Type.ID.getPath(), () -> CrucibleRecipe.Type.INSTANCE);
+    public static final RegistryObject<RecipeType<CrucibleRecipe>> CRUCIBLE = registerType(CrucibleRecipe.Type.ID, () -> CrucibleRecipe.Type.INSTANCE);
 
-    public static final RegistryObject<RecipeType<ElectrolyticCellRecipe>> ELECTROLYTIC_CELL = registerType(ElectrolyticCellRecipe.Type.ID.getPath(),
-            () -> ElectrolyticCellRecipe.Type.INSTANCE);
+    public static final RegistryObject<RecipeType<ElectrolysisRecipe>> ELECTROLYSIS = registerType(ElectrolysisRecipe.Type.ID,
+            () -> ElectrolysisRecipe.Type.INSTANCE);
 
-    private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(String path, Supplier<RecipeType<T>> type) {
-        TYPES.createTagKey(path);
-        TYPES.createTagKey(path);
+    private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(ResourceLocation id, Supplier<RecipeType<T>> type) {
+        TYPES.createTagKey(id.getPath());
+        TYPES.createTagKey(id);
         types.add(type.get());
-        return TYPES.register(path, type);
+        return TYPES.register(id.getPath(), type);
     }
 
 

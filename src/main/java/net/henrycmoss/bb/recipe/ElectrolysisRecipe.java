@@ -7,44 +7,41 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntFunction;
 
-public class ElectrolyticCellRecipe extends AbstractComplexRecipe {
+public class ElectrolysisRecipe extends AbstractComplexRecipe {
 
     private final int duration;
     private final int initial;
 
     private final float exp;
 
-    public ElectrolyticCellRecipe(final RecipeType<?> type, final ResourceLocation id, final NonNullList<Ingredient> ingredients, final List<ItemStack> results,
-                                  int duration, int initial, float exp) {
-        super(BbRecipeTypes.ELECTROLYTIC_CELL.get(), id, ingredients, results);
+    public ElectrolysisRecipe(final RecipeType<?> type, final ResourceLocation id, final NonNullList<Ingredient> ingredients, final List<ItemStack> results,
+                              int duration, int initial, float exp) {
+        super(BbRecipeTypes.ELECTROLYSIS.get(), id, ingredients, results);
         this.duration = duration;
         this.initial = initial;
         this.exp = exp;
     }
 
-    public static class Type implements RecipeType<ElectrolyticCellRecipe> {
+    public static class Type implements RecipeType<ElectrolysisRecipe> {
         private Type() {};
 
         public static final Type INSTANCE = new Type();
-        public static final ResourceLocation ID = new ResourceLocation(Bb.MODID, "electrolytic_cell");
+        public static final ResourceLocation ID = new ResourceLocation(Bb.MODID,"electrolysis");
     }
 
-    public static class Serializer implements RecipeSerializer<ElectrolyticCellRecipe> {
+    public static class Serializer implements RecipeSerializer<ElectrolysisRecipe> {
 
         public static Serializer INSTANCE = new Serializer();
-        private static final ResourceLocation ID = new ResourceLocation(Bb.MODID, "electrolytic_cell");
+        private static final ResourceLocation ID = new ResourceLocation(Bb.MODID, "electrolysis");
 
         @Override
-        public ElectrolyticCellRecipe fromJson(ResourceLocation id, JsonObject json) {
+        public ElectrolysisRecipe fromJson(ResourceLocation id, JsonObject json) {
 
             JsonArray arr = GsonHelper.getAsJsonArray(json, "ingredients");
 
@@ -63,11 +60,11 @@ public class ElectrolyticCellRecipe extends AbstractComplexRecipe {
 
             float exp = GsonHelper.getAsFloat(json, "exp");
 
-            return new ElectrolyticCellRecipe(BbRecipeTypes.ELECTROLYTIC_CELL.get(), id, ingredients, results, duration, initial, exp);
+            return new ElectrolysisRecipe(BbRecipeTypes.ELECTROLYSIS.get(), id, ingredients, results, duration, initial, exp);
         }
 
         @Override
-        public @Nullable ElectrolyticCellRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+        public @Nullable ElectrolysisRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
 
             NonNullList<Ingredient> ingredients = NonNullList.withSize(pBuffer.readVarInt(), Ingredient.EMPTY);
 
@@ -85,11 +82,11 @@ public class ElectrolyticCellRecipe extends AbstractComplexRecipe {
 
             float exp = pBuffer.readFloat();
 
-            return new ElectrolyticCellRecipe(BbRecipeTypes.ELECTROLYTIC_CELL.get(), pRecipeId, ingredients, results, duration, initial, exp);
+            return new ElectrolysisRecipe(BbRecipeTypes.ELECTROLYSIS.get(), pRecipeId, ingredients, results, duration, initial, exp);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf pBuffer, ElectrolyticCellRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf pBuffer, ElectrolysisRecipe recipe) {
             pBuffer.writeVarInt(recipe.getIngredients().size());
 
             recipe.getIngredients().forEach(ing -> ing.toNetwork(pBuffer));
@@ -110,7 +107,7 @@ public class ElectrolyticCellRecipe extends AbstractComplexRecipe {
 
     @Override
     public RecipeType<?> getType() {
-        return BbRecipeTypes.ELECTROLYTIC_CELL.get();
+        return BbRecipeTypes.ELECTROLYSIS.get();
     }
 
     public int getDuration() {

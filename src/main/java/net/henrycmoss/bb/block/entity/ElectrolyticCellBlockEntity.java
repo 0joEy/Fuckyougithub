@@ -1,13 +1,7 @@
 package net.henrycmoss.bb.block.entity;
 
-import com.mojang.logging.LogUtils;
-import net.henrycmoss.bb.item.BbItems;
-import net.henrycmoss.bb.recipe.BbRecipeTypes;
-import net.henrycmoss.bb.recipe.BbRecipes;
-import net.henrycmoss.bb.recipe.CrucibleRecipe;
-import net.henrycmoss.bb.recipe.ElectrolyticCellRecipe;
+import net.henrycmoss.bb.recipe.ElectrolysisRecipe;
 import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
-import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -20,10 +14,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -32,7 +24,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jline.utils.Log;
 
 import java.util.*;
 
@@ -69,8 +60,10 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private static int EXCESS_SLOT_1;
     private static int EXCESS_SLOT_2;
 
-    ItemStack[] results = { new ItemStack(BbItems.HYDROGEN_GAS.get(), 1), new ItemStack(BbItems.CHLORINE_GAS.get(), 1) };
-    ItemStack[] ingredients = { new ItemStack(BbItems.SALT.get(), 1), new ItemStack(Items.WATER_BUCKET, 1) };
+    boolean temp = true;
+
+    ItemStack[] results;
+    ItemStack[] ingredients;
 
     private int initProduct = 20;
 
@@ -154,23 +147,17 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        if(progress < initProduct) {
-            progress = initProduct;
-            return;
-        }
-        if(hasRecipe() && !level.isClientSide()) {
-            increaseProgress();
-            setChanged();
+        if(!level.isClientSide()) {
+            if (hasRecipe()) {
+                increaseProgress();
+                setChanged();
 
-            LogUtils.getLogger().info("prog: " + progress);
-            LogUtils.getLogger().info("scaled: {}", Math.round((float) (this.progress * 17) / this.max));
-
-            if(hasFinished()) {
-                craft();
-                resetProgress();
-            }
+                if (hasFinished()) {
+                    craft();
+                    resetProgress();
+                }
+            } else resetProgress();
         }
-        else resetProgress();
     }
 
     private void craft() {
@@ -191,11 +178,15 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         this.progress++;
     }
     private boolean hasRecipe() {
-        Optional<ElectrolyticCellRecipe> recipe = getCurrentRecipe();
+        Optional<ElectrolysisRecipe> recipe = getCurrentRecipe();
 
         if(recipe.isEmpty()) return false;
 
-        int[] slots = {OUTPUT_SLOT_1, OUTPUT_SLOT_2};
+        int[] slots = new int[2];
+
+        for(int i = 0; i < slots.length; i++) {
+
+        }
 
         ItemStack[] results = getCurrentRecipe().get().getResults().toArray(new ItemStack[0]);
 
@@ -205,7 +196,12 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
             conditions[i] = canInsertIntoOutput(results[i].getCount(), slots[i]) && canInsertIntoOutput(results[i].getItem(), slots[i]);
         }
 
-        return conditions[0] && conditions[1];
+        if (conditions[0] && conditions[1]) {
+            this.results = results;
+            this.ingredients = getCurrentRecipe().get().getResults().toArray(new ItemStack[0]);
+            return true;
+        }
+        return false;
     }
 
     private boolean canInsertIntoOutput(int count) {
@@ -270,14 +266,14 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         return f1 && f2;
     }
 
-    private Optional<ElectrolyticCellRecipe> getCurrentRecipe() {
+    private Optional<ElectrolysisRecipe> getCurrentRecipe() {
         SimpleContainer inv = new SimpleContainer(itemHandler.getSlots());
 
         for(int i = 0; i < itemHandler.getSlots(); i++) {
             inv.setItem(i, itemHandler.getStackInSlot(i));
         }
 
-        return this.level.getRecipeManager().getRecipeFor(ElectrolyticCellRecipe.Type.INSTANCE, inv, level);
+        return this.level.getRecipeManager().getRecipeFor(ElectrolysisRecipe.Type.INSTANCE, inv, level);
     }
 
     private boolean canInsertIntoOutput(int count, int slot) {

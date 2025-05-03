@@ -14,8 +14,8 @@ public class BbRecipes {
 
     public static final RegistryObject<RecipeSerializer<CrucibleRecipe>> CRUCIBLE = SERIALIZERS.register("crucible", () -> CrucibleRecipe.Serializer.INSTANCE);
 
-    public static final RegistryObject<RecipeSerializer<ElectrolyticCellRecipe>> ELECTROLYTIC_CELL = SERIALIZERS.register("electrolytic_cell",
-            () -> ElectrolyticCellRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<ElectrolysisRecipe>> ELECTROLYSIS = SERIALIZERS.register("electrolysis",
+            () -> ElectrolysisRecipe.Serializer.INSTANCE);
 
 
     public static void register(IEventBus eventBus) {
