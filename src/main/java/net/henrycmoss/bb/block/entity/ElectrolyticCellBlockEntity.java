@@ -1,10 +1,15 @@
 package net.henrycmoss.bb.block.entity;
 
 import net.henrycmoss.bb.recipe.ElectrolysisRecipe;
+import net.henrycmoss.bb.recipe.ElectrolysisResultType;
 import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
+import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -12,16 +17,21 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,10 +70,12 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private static int EXCESS_SLOT_1;
     private static int EXCESS_SLOT_2;
 
-    boolean temp = true;
-
     ItemStack[] results;
-    ItemStack[] ingredients;
+    NonNullList<Ingredient> ingredients;
+
+    int[] slots = new int[2];
+
+    private final Map<ElectrolysisResultType, List<Integer>> slotsMap = new HashMap<>();
 
     private int initProduct = 20;
 
@@ -92,6 +104,10 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
                 return itemHandler.getSlots();
             }
         };
+
+        slotsMap.put(ElectrolysisResultType.SOLID, List.of(5, 6));
+        slotsMap.put(ElectrolysisResultType.LIQUID, List.of(3, 4));
+        slotsMap.put(ElectrolysisResultType.GAS, slotsMap.get(ElectrolysisResultType.LIQUID));
     }
 
     public void drops() {
@@ -166,8 +182,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         itemHandler.extractItem(INPUT_SLOT_1, 1, false);
         itemHandler.extractItem(INPUT_SLOT_2, 1, false);
 
-        itemHandler.setStackInSlot(OUTPUT_SLOT_1, results[0]);
-        itemHandler.setStackInSlot(OUTPUT_SLOT_2, results[1]);
+        itemHandler.setStackInSlot(getSlotsFromResult(results[0])[0], results[0]);
+        itemHandler.setStackInSlot(getSlotsFromResult(results[1])[1], results[1]);
     }
 
     private void resetProgress() { this.progress = 0; }
@@ -182,12 +198,6 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
         if(recipe.isEmpty()) return false;
 
-        int[] slots = new int[2];
-
-        for(int i = 0; i < slots.length; i++) {
-
-        }
-
         ItemStack[] results = getCurrentRecipe().get().getResults().toArray(new ItemStack[0]);
 
         boolean[] conditions = new boolean[2];
@@ -198,7 +208,7 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
         if (conditions[0] && conditions[1]) {
             this.results = results;
-            this.ingredients = getCurrentRecipe().get().getResults().toArray(new ItemStack[0]);
+            this.ingredients = getCurrentRecipe().get().getIngredients();
             return true;
         }
         return false;
@@ -210,6 +220,33 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
     private boolean canInsertIntoOutput(Item item) {
         return itemHandler.getStackInSlot(OUTPUT_SLOT_1).isEmpty() || itemHandler.getStackInSlot(OUTPUT_SLOT_1).is(item);
+    }
+
+    private int[] getSlotsFromResult(ItemStack item) {
+        for(ElectrolysisResultType type : ElectrolysisResultType.values()) {
+            boolean isBlock = item.getItem() instanceof BlockItem;
+            TagKey<?> tag = isBlock ? type.getBlockTag() : type.getItemTag();
+
+            if(getTag(item, isBlock) == tag) {
+                return slotsMap.get(type).stream().mapToInt(i->i).toArray();
+            }
+        }
+        return slotsMap.get(ElectrolysisResultType.LIQUID).stream().mapToInt(i->i).toArray();
+    }
+
+    private TagKey<?> getTag(ItemStack item, boolean isBlock) {
+        if(isBlock) {
+            BlockState block = ((BlockItem) item.getItem()).getBlock().defaultBlockState();
+            for(ElectrolysisResultType type : ElectrolysisResultType.values()) {
+                if(block.is(type.getBlockTag())) {
+                    return type.getBlockTag();
+                }
+            }
+        }
+        for(ElectrolysisResultType type: ElectrolysisResultType.values()) {
+            if(item.is(type.getItemTag())) return type.getItemTag();
+        }
+        return null;
     }
     /*
     public void tick(Level level, BlockState state, BlockPos pos) {
@@ -258,13 +295,6 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         }
         return false;
     }*/
-
-    private boolean hasIngredients() {
-        boolean f1 = itemHandler.getStackInSlot(INPUT_SLOT_1).is(ingredients[INPUT_SLOT_1].getItem());
-        boolean f2 = itemHandler.getStackInSlot(INPUT_SLOT_2).is(ingredients[INPUT_SLOT_2].getItem());
-
-        return f1 && f2;
-    }
 
     private Optional<ElectrolysisRecipe> getCurrentRecipe() {
         SimpleContainer inv = new SimpleContainer(itemHandler.getSlots());

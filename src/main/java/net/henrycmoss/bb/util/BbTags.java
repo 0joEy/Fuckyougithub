@@ -18,6 +18,10 @@ public class BbTags {
         public static TagKey<Block> forgeTag(String location) {
             return BlockTags.create(new ResourceLocation("forge", location));
         }
+
+        public static final TagKey<Block> SOLIDS = forgeTag("solids");
+        public static final TagKey<Block> LIQUIDS = forgeTag("liquids");
+        public static final TagKey<Block> GASSES = forgeTag("gasses");
     }
 
     public static class Items{

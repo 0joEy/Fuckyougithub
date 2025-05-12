@@ -43,17 +43,11 @@ public class ElectrolysisRecipe extends AbstractComplexRecipe {
         @Override
         public ElectrolysisRecipe fromJson(ResourceLocation id, JsonObject json) {
 
-            JsonArray arr = GsonHelper.getAsJsonArray(json, "ingredients");
-
-            NonNullList<Ingredient> ingredients = NonNullList.withSize(2, Ingredient.EMPTY);
-
-            for(int i = 0; i < arr.size(); i++) {
-                ingredients.set(i, Ingredient.fromJson(arr.get(i)));
-            }
+            NonNullList<Ingredient> ingredients = AbstractComplexRecipe.getIngredientsFromJsonObj(json);
 
             JsonArray outputs = GsonHelper.getAsJsonArray(json, "results");
 
-            List<ItemStack> results = List.of(Ingredient.fromJson(outputs.get(0)).getItems()[0], Ingredient.fromJson(outputs.get(1)).getItems()[0]);
+            List<ItemStack> results = AbstractComplexRecipe.getItemStacksFromJson(outputs);
 
             int duration = GsonHelper.getAsInt(json, "duration");
             int initial = GsonHelper.getAsInt(json, "initial");

@@ -112,13 +112,7 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
 
         public @NotNull CrucibleRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
 
-            JsonArray ings = GsonHelper.getAsJsonArray(json, "ingredients");
-
-            NonNullList<Ingredient> ing = NonNullList.withSize(2, Ingredient.EMPTY);
-
-            for(int i = 0; i < ings.size(); i++) {
-                ing.set(i, Ingredient.fromJson(ings.get(i)));
-            }
+            NonNullList<Ingredient> ingredients = AbstractComplexRecipe.getIngredientsFromJsonObj(json);
 
             ItemStack res = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 
@@ -127,7 +121,7 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
 
             LogUtils.getLogger().info(GsonHelper.getAsJsonObject(json, "result").get("item").toString());
 
-            return new CrucibleRecipe(recipeId, res, ing, exp, cookTime);
+            return new CrucibleRecipe(recipeId, res, ingredients, exp, cookTime);
         }
 
         @Override

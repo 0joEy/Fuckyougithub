@@ -1,14 +1,15 @@
 package net.henrycmoss.bb.recipe;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public abstract class AbstractComplexRecipe implements Recipe<SimpleContainer> {
 
         items.forEach((stack) -> copies.add(copies.size(), stack));
 
-        return items;
+        return copies;
     }
 
     @Override
@@ -81,5 +82,27 @@ public abstract class AbstractComplexRecipe implements Recipe<SimpleContainer> {
 
     public List<ItemStack> getResults() {
         return results;
+    }
+
+    public static NonNullList<Ingredient> getIngredientsFromJsonObj(JsonObject json) {
+        JsonArray entries = GsonHelper.getAsJsonArray(json, "ingredients");
+
+        NonNullList<Ingredient> ing = NonNullList.withSize(2, Ingredient.EMPTY);
+
+        for(int i = 0; i < entries.size(); i++) {
+            ing.set(i, Ingredient.fromJson(entries.get(i)));
+        }
+
+        return ing;
+    }
+
+    public static List<ItemStack> getItemStacksFromJson(JsonArray json) {
+        List<ItemStack> items = new ArrayList<>();
+        for(JsonElement e : json) {
+            if(e instanceof JsonObject j) {
+                items.add(ShapedRecipe.itemStackFromJson(j));
+            }
+        }
+        return items;
     }
 }

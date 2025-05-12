@@ -1,33 +1,26 @@
 package net.henrycmoss.bb.recipe;
 
-import net.henrycmoss.bb.block.entity.ElectrolyticCellBlockEntity;
+import net.henrycmoss.bb.Bb;
 import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.tags.TagLoader;
 import net.minecraft.world.item.Item;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import net.minecraft.world.level.block.Block;
 
 public enum ElectrolysisResultType {
 
-    SOLID(0, "solids"),
-    LIQUID(1, "liquids"),
-    GAS(2, "gasses");
+    SOLID(0, BbTags.Items.SOLIDS, BbTags.Blocks.SOLIDS),
+    LIQUID(1, BbTags.Items.LIQUIDS, BbTags.Blocks.LIQUIDS),
+    GAS(2, BbTags.Items.GASSES, BbTags.Blocks.GASSES);
 
     private final int id;
-    private final String name;
+    private final TagKey<Item> iTag;
+    private final TagKey<Block> bTag;
 
-    private final Map<ElectrolysisResultType, Integer[]> slots = new HashMap<>();
-
-    ElectrolysisResultType(int id, String name) {
+     ElectrolysisResultType(int id, TagKey<Item> iTag, TagKey<Block> bTag) {
         this.id = id;
-        this.name = name;
-        int[] i1 = {3, 4};
-        int[] i2 = {5, 6};
-        if(name.equals("gasses") || name.equals("liquids")) slots.put(fromId(id), (Integer[]) Arrays.stream(i1).boxed().toArray());
-        else slots.put(fromId(id), (Integer[]) Arrays.stream(i1).boxed().toArray());
+        this.iTag = iTag;
+        this.bTag = bTag;
     }
 
     public int getId() {
@@ -40,4 +33,18 @@ public enum ElectrolysisResultType {
         }
         return null;
     }
+
+    public static ElectrolysisResultType fromName(String name) {
+        return ElectrolysisResultType.valueOf(name.toUpperCase());
+    }
+
+    public TagKey<Item> getItemTag() {
+        return iTag;
+    }
+
+    public TagKey<Block> getBlockTag() {
+        return bTag;
+    }
+
+
 }

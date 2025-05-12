@@ -2,6 +2,7 @@
   "values": [
     "bb:hydrogen_gas",
     "bb:chlorine_gas",
+    "bb:ether",
     "minecraft:apple"
   ]
 }
