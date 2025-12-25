@@ -1,5 +1,8 @@
 package net.henrycmoss.bb.block.entity;
 
+import com.mojang.logging.LogUtils;
+import net.henrycmoss.bb.item.BbItems;
+import net.henrycmoss.bb.recipe.BbRecipeTypes;
 import net.henrycmoss.bb.recipe.ElectrolysisRecipe;
 import net.henrycmoss.bb.recipe.ElectrolysisResultType;
 import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
@@ -18,8 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -65,8 +67,8 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     private static final int INPUT_SLOT_1 = 0;
     private static final int INPUT_SLOT_2 = 1;
     private static final int ENERGY_SLOT = 2;
-    private static int OUTPUT_SLOT_1 = 3;
-    private static int OUTPUT_SLOT_2 = 4;
+    private static final int OUTPUT_SLOT_1 = 3;
+    private static final int OUTPUT_SLOT_2 = 4;
     private static int EXCESS_SLOT_1;
     private static int EXCESS_SLOT_2;
 
@@ -203,39 +205,32 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
         boolean[] conditions = new boolean[2];
 
         for(int i = 0; i < results.length; i++) {
-            conditions[i] = canInsertIntoOutput(results[i].getCount(), slots[i]) && canInsertIntoOutput(results[i].getItem(), slots[i]);
+            conditions[i] = canInsertIntoOutput(results[i].getCount(), slots[i]) &&
+                    canInsertIntoOutput(results[i].getItem(), slots[i]);
         }
 
         if (conditions[0] && conditions[1]) {
             this.results = results;
             this.ingredients = getCurrentRecipe().get().getIngredients();
+            LogUtils.getLogger().info("has recipe");
             return true;
         }
         return false;
     }
 
-    private boolean canInsertIntoOutput(int count) {
-        return itemHandler.getStackInSlot(OUTPUT_SLOT_1).getMaxStackSize() >= itemHandler.getStackInSlot(OUTPUT_SLOT_1).getCount() + count;
-    }
-
-    private boolean canInsertIntoOutput(Item item) {
-        return itemHandler.getStackInSlot(OUTPUT_SLOT_1).isEmpty() || itemHandler.getStackInSlot(OUTPUT_SLOT_1).is(item);
-    }
-
     private int[] getSlotsFromResult(ItemStack item) {
         for(ElectrolysisResultType type : ElectrolysisResultType.values()) {
-            boolean isBlock = item.getItem() instanceof BlockItem;
-            TagKey<?> tag = isBlock ? type.getBlockTag() : type.getItemTag();
-
-            if(getTag(item, isBlock) == tag) {
+            if(getTag(item) != null) {
                 return slotsMap.get(type).stream().mapToInt(i->i).toArray();
             }
         }
-        return slotsMap.get(ElectrolysisResultType.LIQUID).stream().mapToInt(i->i).toArray();
+        LogUtils.getLogger().info("tag is null");
+        return slotsMap.get(ElectrolysisResultType.LIQUID).stream().mapToInt(i->i)
+                .toArray();
     }
 
-    private TagKey<?> getTag(ItemStack item, boolean isBlock) {
-        if(isBlock) {
+    private TagKey<?> getTag(ItemStack item) {
+        if(item.getItem() instanceof BlockItem) {
             BlockState block = ((BlockItem) item.getItem()).getBlock().defaultBlockState();
             for(ElectrolysisResultType type : ElectrolysisResultType.values()) {
                 if(block.is(type.getBlockTag())) {
@@ -297,14 +292,30 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     }*/
 
     private Optional<ElectrolysisRecipe> getCurrentRecipe() {
-        SimpleContainer inv = new SimpleContainer(itemHandler.getSlots());
 
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
-            inv.setItem(i, itemHandler.getStackInSlot(i));
+        if(!this.level.isClientSide) {
+            assert this.level.getServer() != null;
+            SimpleContainer inv = new SimpleContainer(itemHandler.getSlots());
+
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                inv.setItem(i, itemHandler.getStackInSlot(i));
+            }
+
+            ItemStack i1 = new ItemStack(Items.WATER_BUCKET, 1);
+            ItemStack i2 = new ItemStack(BbItems.SALT.get(), 1);
+
+            Optional<ElectrolysisRecipe> r = this.level.getServer().getRecipeManager().getRecipeFor(
+                    ElectrolysisRecipe.Type.INSTANCE,
+                    new SimpleContainer(i1, i2), level);
+
+            LogUtils.getLogger().info("{}", r.isPresent());
+
+            return this.level.getRecipeManager().getRecipeFor(ElectrolysisRecipe.Type.INSTANCE, inv, level);
         }
-
-        return this.level.getRecipeManager().getRecipeFor(ElectrolysisRecipe.Type.INSTANCE, inv, level);
+        return Optional.empty();
     }
+
+
 
     private boolean canInsertIntoOutput(int count, int slot) {
         return itemHandler.getStackInSlot(slot).isEmpty() || itemHandler.getStackInSlot(slot).getCount() + count < itemHandler.getSlotLimit(slot);

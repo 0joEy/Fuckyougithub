@@ -99,8 +99,8 @@ public abstract class AbstractComplexRecipe implements Recipe<SimpleContainer> {
     public static List<ItemStack> getItemStacksFromJson(JsonArray json) {
         List<ItemStack> items = new ArrayList<>();
         for(JsonElement e : json) {
-            if(e instanceof JsonObject j) {
-                items.add(ShapedRecipe.itemStackFromJson(j));
+            if(e instanceof JsonObject o) {
+                items.add(ShapedRecipe.itemStackFromJson(o));
             }
         }
         return items;

@@ -43,10 +43,17 @@ public class BbBlocks {
             () -> new GemEmpoweringStationBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     public static final RegistryObject<Block> CRUCIBLE = registerBlock("crucible",
-            () -> new CrucibleBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE).noCollission()));
+            () -> new CrucibleBlock(BlockBehaviour.Properties.copy(
+                    Blocks.COBBLESTONE).noCollission()));
 
     public static final RegistryObject<Block> ELECTROLYTIC_CELL = registerBlock("electrolytic_cell",
-            () -> new ElectrolyticCellBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+            () -> new ElectrolyticCellBlock(
+                    BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                            .noOcclusion()));
+
+    public static final RegistryObject<Block> TEST = registerBlock("test",
+            () -> new TestBlock(BlockBehaviour.Properties.copy(
+                    Blocks.COBBLESTONE).noCollission()));
 
 
     public static final RegistryObject<Block> SULFUR_ORE = registerBlock("sulfur_ore",

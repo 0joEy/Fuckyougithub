@@ -22,7 +22,7 @@ public class ElectrolysisRecipe extends AbstractComplexRecipe {
 
     public ElectrolysisRecipe(final RecipeType<?> type, final ResourceLocation id, final NonNullList<Ingredient> ingredients, final List<ItemStack> results,
                               int duration, int initial, float exp) {
-        super(BbRecipeTypes.ELECTROLYSIS.get(), id, ingredients, results);
+        super(Type.INSTANCE, id, ingredients, results);
         this.duration = duration;
         this.initial = initial;
         this.exp = exp;
@@ -32,7 +32,7 @@ public class ElectrolysisRecipe extends AbstractComplexRecipe {
         private Type() {};
 
         public static final Type INSTANCE = new Type();
-        public static final ResourceLocation ID = new ResourceLocation(Bb.MODID,"electrolysis");
+        public static final ResourceLocation ID = new ResourceLocation("electrolysis");
     }
 
     public static class Serializer implements RecipeSerializer<ElectrolysisRecipe> {

@@ -17,11 +17,20 @@ public class BbBlockEntities {
                     BlockEntityType.Builder.of(GemEmpoweringStationBlockEntity::new,
                             BbBlocks.GEM_EMPOWERING_STATION.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<CrucibleBlockEntity>> CRUCIBLE_BE = BLOCK_ENTITIES.register("crucible_block_entity",
-            () -> BlockEntityType.Builder.of(CrucibleBlockEntity::new, BbBlocks.CRUCIBLE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CrucibleBlockEntity>> CRUCIBLE_BE =
+            BLOCK_ENTITIES.register("crucible_block_entity", () ->
+                    BlockEntityType.Builder.of(CrucibleBlockEntity::new,
+                            BbBlocks.CRUCIBLE.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<ElectrolyticCellBlockEntity>> ELECTROLYTIC_CELL = BLOCK_ENTITIES.register("electrolytic_cell",
-            () -> BlockEntityType.Builder.of(ElectrolyticCellBlockEntity::new, BbBlocks.ELECTROLYTIC_CELL.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ElectrolyticCellBlockEntity>> ELECTROLYTIC_CELL =
+            BLOCK_ENTITIES.register("electrolytic_cell",
+            () -> BlockEntityType.Builder.of(ElectrolyticCellBlockEntity::new,
+                    BbBlocks.ELECTROLYTIC_CELL.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<ElectrolyticCellBlockEntity>> TEST_BLOCK =
+            BLOCK_ENTITIES.register("test_block",
+                    () -> BlockEntityType.Builder.of(TestBlockEntity::new,
+                            BbBlocks.TEST_BLOCK.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {
