@@ -1,5 +1,6 @@
 package net.henrycmoss.bb.block.custom;
 
+import com.google.common.collect.ImmutableMap;
 import net.henrycmoss.bb.item.BbItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -19,9 +20,11 @@ import net.minecraftforge.common.extensions.IForgeBlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Function;
+
 public class MarijuanaBushBlock extends BushBlock implements IForgeBlockState {
 
-    private final IntegerProperty AGE = IntegerProperty.create("age", 0, 2);
+    private static final IntegerProperty AGE = IntegerProperty.create("age", 0, 2);
 
     public MarijuanaBushBlock(Properties pProperties) {
         super(pProperties);

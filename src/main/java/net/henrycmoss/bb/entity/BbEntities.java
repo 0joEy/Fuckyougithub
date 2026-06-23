@@ -36,8 +36,8 @@ public class BbEntities {
     public static final RegistryObject<EntityType<Missile>> MISSILE =
             ENTITY_TYPES.register("missile", () ->
                     EntityType.Builder.of(Missile::new, MobCategory.MISC)
-                            .sized(0.25f, 0.25f).clientTrackingRange(64)
-                            .updateInterval(1).build("missile"));
+                            .sized(0.25f, 0.25f).clientTrackingRange(4)
+                            .updateInterval(10).build("missile"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

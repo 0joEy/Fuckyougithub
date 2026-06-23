@@ -121,7 +121,6 @@ public class Bb {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             ItemBlockRenderTypes.setRenderLayer(BbBlocks.EPHEDRA_CROP.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(BbBlocks.ERGOT_INFESTED_WHEAT_CROP.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BbBlocks.MARIJUANA_BUSH.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(BbFluids.SOURCE_ACID.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(BbFluids.FLOWING_ACID.get(), RenderType.translucent());

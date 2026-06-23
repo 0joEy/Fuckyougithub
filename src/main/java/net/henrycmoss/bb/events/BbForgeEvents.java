@@ -3,6 +3,7 @@ package net.henrycmoss.bb.events;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.henrycmoss.bb.Bb;
+import net.henrycmoss.bb.capabilities.provider.ExplosionProvider;
 import net.henrycmoss.bb.item.BbItems;
 import net.henrycmoss.bb.villager.BbVillagers;
 import net.minecraft.ChatFormatting;
@@ -10,9 +11,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -30,6 +33,7 @@ import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -53,6 +57,14 @@ public class BbForgeEvents {
 
     private static Player attacker;
 
+
+    @SubscribeEvent
+    public static void attachCapabilities(AttachCapabilitiesEvent<LivingEntity> event) {
+        if(event.getObject() instanceof LivingEntity) {
+            event.addCapability(new ResourceLocation(Bb.MODID, "explosion"),
+                    new ExplosionProvider(event.getObject()));
+        }
+    }
 
     @SubscribeEvent
     public static void onPlayerCloneEvent(PlayerEvent.Clone event) {

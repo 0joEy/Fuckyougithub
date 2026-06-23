@@ -86,9 +86,6 @@ public class BbItems {
     public static final RegistryObject<Item> LSD_TABLET = ITEMS.register("lsd_tablet",
             () -> new Item(new Item.Properties().food(BbFoods.LSD_TABLET)));
 
-    public static final RegistryObject<Item> ERGOT_INFESTED_WHEAT_SEEDS = ITEMS.register("ergot_infested_wheat_seeds",
-            () -> new ItemNameBlockItem(BbBlocks.ERGOT_INFESTED_WHEAT_CROP.get(), new Item.Properties()));
-
     public static final RegistryObject<Item> ERGOT_INFESTED_WHEAT = ITEMS.register("ergot_infested_wheat",
         () -> new Item(new Item.Properties()));
 

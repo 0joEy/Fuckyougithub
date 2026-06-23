@@ -30,7 +30,7 @@ public class ErgotInfestedWheatCropBlock extends CropBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return BbItems.ERGOT_INFESTED_WHEAT_SEEDS.get();
+        return BbItems.BATTERY.get();
     }
 
     @Override

@@ -67,10 +67,6 @@ public class BbBlocks {
             () -> new MarijuanaBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)
                             .offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
 
-    public static final RegistryObject<Block> ERGOT_INFESTED_WHEAT_CROP = registerBlock("ergot_infested_wheat_crop",
-            () -> new ErgotInfestedWheatCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
-                    .randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
-
     public static final RegistryObject<Block> SHROOM_PATCH = registerBlock("shroom_patch",
             () -> new ShroomPatchBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
                     .randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));

@@ -20,8 +20,6 @@ public class BbPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> SHROOMS_PLACED_KEY = registerKey("shrooms_placed");
 
-    public static final ResourceKey<PlacedFeature> POLICE_STATION_KEY = registerKey("police_station_placed");
-
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
@@ -29,7 +27,7 @@ public class BbPlacedFeatures {
                 List.of(RarityFilter.onAverageOnceEvery(16), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
 
         register(context, SHROOMS_PLACED_KEY, configuredFeatures.getOrThrow(BbConfiguredFeatures.SHROOMS),
-                List.of(RarityFilter.onAverageOnceEvery(18), InSquarePlacement.spread(),
+                List.of(RarityFilter.onAverageOnceEvery(2), InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
     }
 
