@@ -3,76 +3,55 @@ package net.henrycmoss.bb.events;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.henrycmoss.bb.Bb;
-import net.henrycmoss.bb.command.*;
 import net.henrycmoss.bb.item.BbItems;
-import net.henrycmoss.bb.tools.ShootingTools;
 import net.henrycmoss.bb.villager.BbVillagers;
-import net.minecraft.client.multiplayer.ClientRegistryLayer;
-import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.command.ConfigCommand;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(modid = Bb.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BbForgeEvents {
 
     private static boolean jumped = false;
 
-    private static Projectile lastPro = null;
-    private static PrimedTnt lastTnt = null;
-    private static List<PrimedTnt> originals = new ArrayList<>();
+    private static final MutableComponent golemName = Component.literal("VEGAN").withStyle(ChatFormatting.BOLD,
+            ChatFormatting.GREEN);
 
-    private static int tnts = 30;
-
-    private static boolean killing = false;
-
-    @SubscribeEvent
-    public static void registerCommandsEvent(RegisterCommandsEvent event) {
-
-        CommandBuildContext context = CommandBuildContext.simple(ClientRegistryLayer.createRegistryAccess().compositeAccess(), FeatureFlagSet.of(FeatureFlags.VANILLA));
-
-        new HomeCommand(event.getDispatcher());
-        new FlyCommand(event.getDispatcher());
-        new IgniteCommand(event.getDispatcher());
-        new GearCommand(event.getDispatcher(), context);
-        new TreasureCommand(event.getDispatcher());
-
-        ConfigCommand.register(event.getDispatcher());
-    }
-
-
-
+    private static Player attacker;
 
 
     @SubscribeEvent
@@ -82,6 +61,59 @@ public class BbForgeEvents {
                     .getPersistentData().getIntArray(Bb.MODID + ":homepos"));
         }
     }
+
+    @SubscribeEvent
+    public static void playerRightClick(PlayerInteractEvent event) {
+        if(!event.getLevel().isClientSide()) {
+        }
+    }
+
+    @SubscribeEvent
+    public static void explosion(ExplosionEvent.Start event) {
+        if (event.getExplosion().getExploder() instanceof Fireball fireball
+                && fireball.getTags().contains("bigboss")) {
+            Level level = fireball.level();
+            Vec3 pos = event.getExplosion().getPosition();
+            WitherBoss wither = EntityType.WITHER.create(level);
+            wither.moveTo(pos);
+            level.addFreshEntity(wither);
+            level.explode(wither, pos.x, pos.y, pos.z, 5f,
+                    Level.ExplosionInteraction.TNT);
+        }
+    }
+
+    /*@SubscribeEvent
+    public static void playerHurtEntity(AttackEntityEvent event) {
+        if(event.getTarget() instanceof Animal && !event.getTarget().level().isClientSide()) {
+            Player player = event.getEntity();
+            attacker = player;
+            Level level = player.level();
+            IronGolem golem = EntityType.IRON_GOLEM.create(level);
+            golem.setCustomName(golemName);
+            golem.setPos(event.getEntity().position().add(0, 50, 0));
+            golem.getAttribute(Attributes.MAX_HEALTH).setBaseValue(500);
+            golem.setHealth(500f);
+            golem.setTarget(player);
+            golem.addTag("toBlow");
+            level.addFreshEntity(golem);
+
+        }
+    }*/
+
+    @SubscribeEvent
+    public static void veganExplosion(LivingEvent event) {
+        if (event.getEntity() instanceof IronGolem golem) {
+            if (golem.getTags().contains("toBlow")
+                    && golem.onGround()) {
+                golem.level().explode(golem, golem.getX(), golem.getY(), golem.getZ(), 10f,
+                        Level.ExplosionInteraction.TNT);
+                golem.removeTag("toBlow");
+            } else if (golem.hasCustomName() && golem.getCustomName().equals(golemName)) {
+                if (golem.closerThan(attacker, 100f)) golem.setTarget(attacker);
+            }
+        }
+    }
+
 
     @SubscribeEvent
     public static void addBbTrades(VillagerTradesEvent event) {
@@ -94,6 +126,16 @@ public class BbForgeEvents {
             ));
         }
     }
+}
+
+    /*@SubscribeEvent
+    public static void playerJump(LivingEvent.LivingJumpEvent event) {
+        if(event.getEntity() instanceof Player player) {
+            Level level = player.level();
+            level.explode(player, level.damageSources().magic(), null, player.getX(),
+                    player.getY(), player.getZ(), 10, true, Level.ExplosionInteraction.BLOCK);
+        }
+    }*/
 
 
     /* @SubscribeEvent
@@ -281,13 +323,3 @@ public class BbForgeEvents {
             }
         }
     }*/
-    /*
-
-    @SubscribeEvent
-    public static void entityJumpEvent(LivingEvent.LivingJumpEvent event) {
-        if (event.getEntity() instanceof Player) {
-            jumped = true;
-        }
-    } */
-
-}

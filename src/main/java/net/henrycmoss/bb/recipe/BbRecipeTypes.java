@@ -15,19 +15,22 @@ import java.util.function.Supplier;
 
 public class BbRecipeTypes {
 
-    private static final List<RecipeType<?>> types = new ArrayList<>();
-
     public static final DeferredRegister<RecipeType<?>> TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Bb.MODID);
 
     public static final RegistryObject<RecipeType<CrucibleRecipe>> CRUCIBLE = registerType(CrucibleRecipe.Type.ID, () -> CrucibleRecipe.Type.INSTANCE);
 
-    public static final RegistryObject<RecipeType<ElectrolysisRecipe>> ELECTROLYSIS = registerType(ElectrolysisRecipe.Type.ID,
-            () -> ElectrolysisRecipe.Type.INSTANCE);
+    public static final RegistryObject<RecipeType<ElectrolysisRecipe>> ELECTROLYSIS =
+            registerType(ElectrolysisRecipe.Type.ID, () -> ElectrolysisRecipe.Type.INSTANCE);
+
+    public static final RegistryObject<RecipeType<TestRecipe>> TEST =
+            registerType(TestRecipe.Type.ID, () -> TestRecipe.Type.INSTANCE);
+
+    public static final RegistryObject<RecipeType<JarRecipe>> JAR =
+            registerType(JarRecipe.Type.ID, () -> JarRecipe.Type.INSTANCE);
 
     private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(ResourceLocation id, Supplier<RecipeType<T>> type) {
         TYPES.createTagKey(id.getPath());
         TYPES.createTagKey(id);
-        types.add(type.get());
         return TYPES.register(id.getPath(), type);
     }
 

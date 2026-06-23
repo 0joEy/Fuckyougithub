@@ -172,17 +172,20 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private void craft() {
-        ItemStack res = getCurrentRecipe().get().getResultItem(getLevel().registryAccess());
+        Optional<CrucibleRecipe> recipe = getCurrentRecipe();
+        ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
 
         itemHandler.extractItem(INPUT_SLOT_1, 1, false);
         itemHandler.extractItem(INPUT_SLOT_2, 1, false);
 
-        if(res.is(BbTags.Items.forgeTag("gasses"))) {
+        /*if(res.is(BbTags.Items.forgeTag("gasses"))) {
             itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(Items.AMETHYST_BLOCK, 3));
         }
         else {
             itemHandler.setStackInSlot(OUTPUT_SLOT, res);
-        }
+        }*/
+
+        itemHandler.setStackInSlot(OUTPUT_SLOT, result);
     }
 
     private void resetProgress() { this.progress = 0; }
@@ -197,9 +200,7 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
         if(recipe.isEmpty()) return false;
 
-        ItemStack res = recipe.get().getResultItem(null);
-
-        ItemStack[] results;
+        ItemStack res = recipe.get().getResultItem(getLevel().registryAccess());
 
         return canInsertIntoOutput(res.getCount()) && canInsertIntoOutput(res.getItem());
     }
@@ -213,7 +214,6 @@ public class CrucibleBlockEntity extends BlockEntity implements MenuProvider {
 
         Optional<CrucibleRecipe> r = this.level.getRecipeManager()
                 .getRecipeFor(CrucibleRecipe.Type.INSTANCE, inv, this.level);
-        LogUtils.getLogger().info("{}", r.isPresent());
 
         return r;
     }

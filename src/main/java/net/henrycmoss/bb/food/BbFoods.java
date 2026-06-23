@@ -42,4 +42,7 @@ public class BbFoods {
             .effect(() -> new MobEffectInstance(BbEffects.HALLUCINATION.get(), 8000), 1f)
             .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 8000), 0.95f)
             .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 8000), 1f).build();
+
+    public static final FoodProperties DAVES_HOT_CHICKEN = (new FoodProperties.Builder()).alwaysEat()
+            .effect(() -> new MobEffectInstance(MobEffects.HARM, 10, 0), 1f).build();
 }

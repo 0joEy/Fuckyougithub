@@ -71,7 +71,7 @@ public class TestBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, 
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState,
                          boolean pIsMoving) {
         if(pState.getBlock() != pNewState.getBlock()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
@@ -84,17 +84,13 @@ public class TestBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer,
-                                 InteractionHand pHand, BlockHitResult pHit) {
-        if(!pLevel.isClientSide()) {
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof TestBlockEntity) {
-                NetworkHooks.openScreen((ServerPlayer) pPlayer, 
-                        (TestBlockEntity) entity, pPos);
-            }
-            else {
-                throw new IllegalStateException("Container provider for " + 
-                        ((TestBlockEntity) entity).getDisplayName() + " is missing blud");
+                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (TestBlockEntity)entity, pPos);
+            } else {
+                throw new IllegalStateException("Our Container provider is missing!");
             }
         }
 
@@ -109,13 +105,13 @@ public class TestBlock extends BaseEntityBlock {
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
-                                                                  BlockEntityType<T> pBlockEntityType) {
-        if(pLevel.isClientSide()) return null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        if(pLevel.isClientSide()) {
+            return null;
+        }
 
-        return createTickerHelper(pBlockEntityType,
-                BbBlockEntities.TEST_BLOCK.get(),
-                (pLevel1, pPos, pState1, pBlockEntity)
-                        -> pBlockEntity.tick(pLevel1, pPos, pState1));
+        return createTickerHelper(pBlockEntityType, BbBlockEntities.TEST_BLOCK.get(),
+                (pLevel1, pPos, pState1, pBlockEntity) ->
+                        pBlockEntity.tick(pLevel1, pPos, pState1));
     }
 }

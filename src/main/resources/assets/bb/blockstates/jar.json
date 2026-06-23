@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "type=0": {
+      "model": "bb:block/jar_empty"
+    },
+    "type=1": {
+      "model": "bb:block/jar_full_solid"
+    },
+    "type=2": {
+      "model": "bb:block/jar_full_liquid"
+    },
+    "type=3": {
+      "model": "bb:block/jar_full_solid"
+    }
+  }
+}

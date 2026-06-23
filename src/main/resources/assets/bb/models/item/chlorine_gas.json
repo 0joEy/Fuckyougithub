@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "bb:item/hydrogen_gas"
+    "layer0": "bb:item/chlorine_gas"
   }
 }

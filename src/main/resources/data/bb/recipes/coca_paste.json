@@ -1,0 +1,18 @@
+{
+  "type": "bb:jar",
+  "time": 150,
+  "ingredients": [
+    {
+      "item": "bb:coca_leaf",
+      "count": 8
+    },
+    {
+      "item": "bb:water",
+      "count": 2
+    }
+  ],
+  "result": {
+    "item": "bb:coca_paste",
+    "count": 1
+  }
+}

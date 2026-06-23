@@ -22,11 +22,15 @@ public class BbTags {
         public static final TagKey<Block> SOLIDS = forgeTag("solids");
         public static final TagKey<Block> LIQUIDS = forgeTag("liquids");
         public static final TagKey<Block> GASSES = forgeTag("gasses");
+
+        public static final TagKey<Block> LOGS = forgeTag("logs");
+        public static final TagKey<Block> LEAVES = forgeTag("leaves");
     }
 
     public static class Items{
 
         public static final TagKey<Item> FRUITS = tag("fruits");
+        public static final TagKey<Item> LITTER = forgeTag("litter");
 
         public static final TagKey<Item> SOLIDS = forgeTag("solids");
         public static final TagKey<Item> LIQUIDS = forgeTag("liquids");

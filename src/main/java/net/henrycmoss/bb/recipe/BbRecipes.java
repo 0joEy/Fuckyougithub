@@ -12,10 +12,17 @@ public class BbRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS,
             Bb.MODID);
 
-    public static final RegistryObject<RecipeSerializer<CrucibleRecipe>> CRUCIBLE = SERIALIZERS.register("crucible", () -> CrucibleRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<CrucibleRecipe>> CRUCIBLE =
+            SERIALIZERS.register("crucible", () -> CrucibleRecipe.Serializer.INSTANCE);
 
-    public static final RegistryObject<RecipeSerializer<ElectrolysisRecipe>> ELECTROLYSIS = SERIALIZERS.register("electrolysis",
-            () -> ElectrolysisRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<ElectrolysisRecipe>> ELECTROLYSIS =
+            SERIALIZERS.register("electrolysis", () -> ElectrolysisRecipe.Serializer.INSTANCE);
+
+    public static final RegistryObject<RecipeSerializer<TestRecipe>> TEST =
+            SERIALIZERS.register("test", () -> TestRecipe.Serializer.INSTANCE);
+
+    public static final RegistryObject<RecipeSerializer<JarRecipe>> JAR =
+            SERIALIZERS.register("jar", () -> JarRecipe.Serializer.INSTANCE);
 
 
     public static void register(IEventBus eventBus) {

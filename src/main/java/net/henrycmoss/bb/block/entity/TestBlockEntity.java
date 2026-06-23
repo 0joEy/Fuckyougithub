@@ -1,10 +1,8 @@
 package net.henrycmoss.bb.block.entity;
 
 import com.mojang.logging.LogUtils;
-import net.henrycmoss.bb.recipe.CrucibleRecipe;
-import net.henrycmoss.bb.screen.CrucibleMenu;
+import net.henrycmoss.bb.recipe.TestRecipe;
 import net.henrycmoss.bb.screen.TestMenu;
-import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -17,8 +15,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,10 +25,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.panama.Test;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.Optional;
 
 public class TestBlockEntity extends BlockEntity implements MenuProvider {
@@ -158,6 +152,7 @@ public class TestBlockEntity extends BlockEntity implements MenuProvider {
             LogUtils.getLogger().info("data prog: " + this.data.get(0));*/
 
             if(hasFinished()) {
+                LogUtils.getLogger().info("donesies");
                 craft();
                 resetProgress();
             }
@@ -167,8 +162,9 @@ public class TestBlockEntity extends BlockEntity implements MenuProvider {
 
     private void craft() {
         Optional<TestRecipe> recipe = getCurrentRecipe();
-
         ItemStack output = recipe.get().getResultItem(getLevel().registryAccess());
+
+        LogUtils.getLogger().info("recipe: {}", output.getItem());
 
         itemHandler.extractItem(INPUT_SLOT, 1, false);
 
@@ -183,6 +179,7 @@ public class TestBlockEntity extends BlockEntity implements MenuProvider {
     private void increaseProgress() {
         this.progress++;
     }
+
     private boolean hasRecipe() {
         Optional<TestRecipe> recipe = getCurrentRecipe();
 
@@ -202,7 +199,6 @@ public class TestBlockEntity extends BlockEntity implements MenuProvider {
 
         Optional<TestRecipe> r = this.level.getRecipeManager()
                 .getRecipeFor(TestRecipe.Type.INSTANCE, inv, this.level);
-        LogUtils.getLogger().info("{}", r.isPresent());
 
         return r;
     }

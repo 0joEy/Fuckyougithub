@@ -27,10 +27,14 @@ public class BbBlockEntities {
             () -> BlockEntityType.Builder.of(ElectrolyticCellBlockEntity::new,
                     BbBlocks.ELECTROLYTIC_CELL.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<ElectrolyticCellBlockEntity>> TEST_BLOCK =
+    public static final RegistryObject<BlockEntityType<JarBlockEntity>> JAR_BLOCK =
+            BLOCK_ENTITIES.register("jar_block_entity", () ->
+                    BlockEntityType.Builder.of(JarBlockEntity::new, BbBlocks.JAR.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<TestBlockEntity>> TEST_BLOCK =
             BLOCK_ENTITIES.register("test_block",
                     () -> BlockEntityType.Builder.of(TestBlockEntity::new,
-                            BbBlocks.TEST_BLOCK.get()).build(null));
+                            BbBlocks.TEST.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

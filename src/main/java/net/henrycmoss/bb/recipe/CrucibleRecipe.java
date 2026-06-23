@@ -21,12 +21,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class CrucibleRecipe implements Recipe<SimpleContainer> {
 
@@ -50,8 +49,31 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean matches(SimpleContainer container, Level level) {
-        if(level.isClientSide()) return false;
-        return this.ingredients.get(0).test(container.getItem(0)) && this.ingredients.get(1).test(container.getItem(1));
+        List<ItemStack> items = new ArrayList<>();
+
+        for(int i = 0; i < 2; i++) {
+            items.add(container.getItem(i));
+        }
+
+        if(items.size() != ingredients.size()) return false;
+
+        List<Ingredient> remaining = new ArrayList<>(ingredients);
+
+        for(ItemStack i : items) {
+            boolean matches = false;
+
+            for(Iterator<Ingredient> it = remaining.iterator(); it.hasNext(); ) {
+                Ingredient ing = it.next();
+                if(ing.test(i)) {
+                    matches = true;
+                    it.remove();
+                    break;
+                }
+            }
+
+            if(!matches) return false;
+        }
+        return true;
     }
 
     @Override
@@ -89,7 +111,7 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return Serializer.INSTANCE;
     }
 
     @Override
@@ -101,18 +123,26 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
         private Type() {}
 
         public static final Type INSTANCE = new Type();
-        public static final ResourceLocation ID = new ResourceLocation("crucible");
+        public static final ResourceLocation ID = new ResourceLocation(Bb.MODID, "crucible");
 
     }
 
     public static class Serializer implements RecipeSerializer<CrucibleRecipe> {
 
         public static final Serializer INSTANCE = new Serializer();
-        private static final ResourceLocation NAME = new ResourceLocation(Bb.MODID, "crucible");
+        private static final ResourceLocation ID = new ResourceLocation(Bb.MODID, "crucible");
 
         public @NotNull CrucibleRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
 
-            NonNullList<Ingredient> ingredients = AbstractComplexRecipe.getIngredientsFromJsonObj(json);
+            JsonArray jsonIngredients = GsonHelper.getAsJsonArray(json, "ingredients");
+
+            NonNullList<Ingredient> ingredients = NonNullList.withSize(2, Ingredient.EMPTY);
+
+            for(int i = 0; i < ingredients.size(); i++) {
+                Ingredient ing = Ingredient.fromJson(jsonIngredients.get(i));
+                LogUtils.getLogger().info("{}", Arrays.stream(ing.getItems()).findFirst().get());
+                ingredients.set(i, ing);
+            }
 
             ItemStack res = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
 
@@ -128,16 +158,16 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
         public @Nullable CrucibleRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             NonNullList<Ingredient> ing = NonNullList.withSize(pBuffer.readVarInt(), Ingredient.EMPTY);
 
-            int cookTime = pBuffer.readInt();
-            float exp = pBuffer.readFloat();
-
             for(int i = 0; i < ing.size(); ++i) {
                 ing.set(i, Ingredient.fromNetwork(pBuffer));
             }
 
-            Collection<ItemStack> res = pBuffer.readList(FriendlyByteBuf::readItem);
+            ItemStack result = pBuffer.readItem();
 
-            return new CrucibleRecipe(pRecipeId, res.stream().iterator().next(), ing, exp, cookTime);
+            int cookTime = pBuffer.readInt();
+            float exp = pBuffer.readFloat();
+
+            return new CrucibleRecipe(pRecipeId, result, ing, exp, cookTime);
         }
 
         @Override
@@ -145,16 +175,14 @@ public class CrucibleRecipe implements Recipe<SimpleContainer> {
 
             pBuffer.writeVarInt(recipe.ingredients.size());
 
-            pBuffer.writeInt(recipe.getCookTime());
-            pBuffer.writeFloat(recipe.getExp());
-
             for(Ingredient ing : recipe.ingredients) {
                 ing.toNetwork(pBuffer);
             }
 
-            Collection<ItemStack> results = List.of(recipe.getResultItem(null), Items.APPLE.getDefaultInstance());
+            pBuffer.writeItem(recipe.getResultItem(null));
 
-            pBuffer.writeCollection(results, FriendlyByteBuf::writeItem);
+            pBuffer.writeInt(recipe.getCookTime());
+            pBuffer.writeFloat(recipe.getExp());
         }
     }
 }

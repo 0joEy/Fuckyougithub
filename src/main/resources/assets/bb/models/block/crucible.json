@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:cross",
   "textures": {
-    "cross": "bb:block/crucible"
+    "all": "bb:block/jar_empty"
   }
 }

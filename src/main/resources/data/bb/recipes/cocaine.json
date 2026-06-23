@@ -1,0 +1,17 @@
+{
+  "type": "bb:crucible",
+  "cookTime": 100,
+  "exp": 0.7,
+  "ingredients": [
+    {
+      "item": "bb:coca_paste_bucket"
+    },
+    {
+      "item": "bb:chlorine_gas"
+    }
+  ],
+  "result": {
+    "item": "bb:cocaine",
+    "count": 1
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "structure=0": {
+      "model": "bb:block/zone_anchor_0"
+    }
+  }
+}

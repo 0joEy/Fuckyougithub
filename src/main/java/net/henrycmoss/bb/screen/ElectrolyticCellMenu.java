@@ -1,11 +1,9 @@
 package net.henrycmoss.bb.screen;
 
 import net.henrycmoss.bb.block.BbBlocks;
-import net.henrycmoss.bb.block.entity.CrucibleBlockEntity;
 import net.henrycmoss.bb.block.entity.ElectrolyticCellBlockEntity;
-import net.henrycmoss.bb.recipe.ElectrolysisResultType;
+import net.henrycmoss.bb.recipe.ItemState;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -14,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.Nullable;
 
 public class ElectrolyticCellMenu extends AbstractContainerMenu {
 
@@ -25,7 +22,7 @@ public class ElectrolyticCellMenu extends AbstractContainerMenu {
     private final int length = 17;
     private final int size = 35;
 
-    private ElectrolysisResultType resultType = ElectrolysisResultType.LIQUID;
+    private ItemState resultType = ItemState.LIQUID;
 
     public ElectrolyticCellMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
         this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(7));

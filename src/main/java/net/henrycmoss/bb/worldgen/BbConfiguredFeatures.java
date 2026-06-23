@@ -32,17 +32,9 @@ public class BbConfiguredFeatures {
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
-        register(context, BATTERY_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(BbBlocks.ETHER.get()),
-                new StraightTrunkPlacer(3, 4, 3),
-                BlockStateProvider.simple(BbBlocks.SULFUR_ORE.get()),
-                new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
-                new TwoLayersFeatureSize(1, 0, 2)).build());
-
         register(context, MARIJUANA_KEY, Feature.FLOWER,
-                new RandomPatchConfiguration(32, 6, 2, PlacementUtils.onlyWhenEmpty(
-                        Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
-                                BlockStateProvider.simple(BbBlocks.MARIJUANA_BUSH.get())))));
+                new RandomPatchConfiguration(32, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(BlockStateProvider.simple(BbBlocks.MARIJUANA_BUSH.get())))));
 
         register(context, SHROOMS, Feature.FLOWER,
                 new RandomPatchConfiguration(32, 6, 2,

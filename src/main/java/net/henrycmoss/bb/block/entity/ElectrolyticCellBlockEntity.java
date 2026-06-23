@@ -2,14 +2,11 @@ package net.henrycmoss.bb.block.entity;
 
 import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.item.BbItems;
-import net.henrycmoss.bb.recipe.BbRecipeTypes;
 import net.henrycmoss.bb.recipe.ElectrolysisRecipe;
-import net.henrycmoss.bb.recipe.ElectrolysisResultType;
+import net.henrycmoss.bb.recipe.ItemState;
 import net.henrycmoss.bb.screen.ElectrolyticCellMenu;
-import net.henrycmoss.bb.util.BbTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
@@ -22,18 +19,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,7 +70,7 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
 
     int[] slots = new int[2];
 
-    private final Map<ElectrolysisResultType, List<Integer>> slotsMap = new HashMap<>();
+    private final Map<ItemState, List<Integer>> slotsMap = new HashMap<>();
 
     private int initProduct = 20;
 
@@ -107,9 +100,9 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
             }
         };
 
-        slotsMap.put(ElectrolysisResultType.SOLID, List.of(5, 6));
-        slotsMap.put(ElectrolysisResultType.LIQUID, List.of(3, 4));
-        slotsMap.put(ElectrolysisResultType.GAS, slotsMap.get(ElectrolysisResultType.LIQUID));
+        slotsMap.put(ItemState.SOLID, List.of(5, 6));
+        slotsMap.put(ItemState.LIQUID, List.of(3, 4));
+        slotsMap.put(ItemState.GAS, slotsMap.get(ItemState.LIQUID));
     }
 
     public void drops() {
@@ -219,27 +212,24 @@ public class ElectrolyticCellBlockEntity extends BlockEntity implements MenuProv
     }
 
     private int[] getSlotsFromResult(ItemStack item) {
-        for(ElectrolysisResultType type : ElectrolysisResultType.values()) {
+        for(ItemState type : ItemState.values()) {
             if(getTag(item) != null) {
                 return slotsMap.get(type).stream().mapToInt(i->i).toArray();
             }
         }
         LogUtils.getLogger().info("tag is null");
-        return slotsMap.get(ElectrolysisResultType.LIQUID).stream().mapToInt(i->i)
+        return slotsMap.get(ItemState.LIQUID).stream().mapToInt(i->i)
                 .toArray();
     }
 
     private TagKey<?> getTag(ItemStack item) {
         if(item.getItem() instanceof BlockItem) {
             BlockState block = ((BlockItem) item.getItem()).getBlock().defaultBlockState();
-            for(ElectrolysisResultType type : ElectrolysisResultType.values()) {
+            for(ItemState type : ItemState.values()) {
                 if(block.is(type.getBlockTag())) {
                     return type.getBlockTag();
                 }
             }
-        }
-        for(ElectrolysisResultType type: ElectrolysisResultType.values()) {
-            if(item.is(type.getItemTag())) return type.getItemTag();
         }
         return null;
     }

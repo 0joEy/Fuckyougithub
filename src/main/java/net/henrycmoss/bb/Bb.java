@@ -7,24 +7,31 @@ import net.henrycmoss.bb.block.custom.fluid.BbFluids;
 import net.henrycmoss.bb.block.entity.BbBlockEntities;
 import net.henrycmoss.bb.client.HallucinationRenderer;
 import net.henrycmoss.bb.client.ShroomsRenderer;
-import net.henrycmoss.bb.datagen.DataGenerators;
 import net.henrycmoss.bb.effect.BbEffects;
+import net.henrycmoss.bb.entity.BbEntities;
+import net.henrycmoss.bb.entity.client.EvilPigRenderer;
+import net.henrycmoss.bb.entity.client.IRSAgentRenderer;
+import net.henrycmoss.bb.entity.client.MissileRenderer;
+import net.henrycmoss.bb.entity.client.PoliceOfficerRenderer;
+import net.henrycmoss.bb.entity.custom.EvilPigEntity;
+import net.henrycmoss.bb.entity.custom.IRSAgentEntity;
+import net.henrycmoss.bb.entity.custom.PoliceOfficerEntity;
 import net.henrycmoss.bb.item.BbItems;
+import net.henrycmoss.bb.network.BbNetwork;
 import net.henrycmoss.bb.recipe.BbRecipeTypes;
 import net.henrycmoss.bb.recipe.BbRecipes;
-import net.henrycmoss.bb.screen.BbMenuTypes;
-import net.henrycmoss.bb.screen.CrucibleScreen;
-import net.henrycmoss.bb.screen.ElectrolyticCellScreen;
-import net.henrycmoss.bb.screen.GemEmpoweringStationScreen;
+import net.henrycmoss.bb.screen.*;
 import net.henrycmoss.bb.tab.BbCreativeModeTabs;
 import net.henrycmoss.bb.villager.BbVillagers;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -57,7 +64,10 @@ public class Bb {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(this::registerAttributes);
         //modEventBus.addListener(EventPriority.LOW, Bb::gatherData);
+
+        BbNetwork.register();
 
         BbItems.register(modEventBus);
         BbBlocks.register(modEventBus);
@@ -71,6 +81,7 @@ public class Bb {
         BbMenuTypes.register(modEventBus);
         BbRecipes.register(modEventBus);
         BbRecipeTypes.register(modEventBus);
+        BbEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -115,12 +126,18 @@ public class Bb {
             ItemBlockRenderTypes.setRenderLayer(BbFluids.SOURCE_ACID.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(BbFluids.FLOWING_ACID.get(), RenderType.translucent());
 
+            EntityRenderers.register(BbEntities.EVIL_PIG.get(), EvilPigRenderer::new);
+            EntityRenderers.register(BbEntities.IRS_AGENT.get(), IRSAgentRenderer::new);
+            EntityRenderers.register(BbEntities.POLICE_OFFICER.get(), PoliceOfficerRenderer::new);
+            EntityRenderers.register(BbEntities.MISSILE.get(), MissileRenderer::new);
+
             MinecraftForge.EVENT_BUS.register(Bb.TEST_RENDERER);
             MinecraftForge.EVENT_BUS.register(Bb.SHROOMS_RENDERER);
 
             MenuScreens.register(BbMenuTypes.GEM_EMPOWERING_MENU.get(), GemEmpoweringStationScreen::new);
             MenuScreens.register(BbMenuTypes.CRUCIBLE_MENU.get(), CrucibleScreen::new);
             MenuScreens.register(BbMenuTypes.ELECTROLYTIC_CELL.get(), ElectrolyticCellScreen::new);
+            MenuScreens.register(BbMenuTypes.TEST_MENU.get(), TestScreen::new);
         }
     }
 
@@ -129,5 +146,11 @@ public class Bb {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+
+    public void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(BbEntities.EVIL_PIG.get(), EvilPigEntity.createAttributes().build());
+        event.put(BbEntities.IRS_AGENT.get(), IRSAgentEntity.createAttributes().build());
+        event.put(BbEntities.POLICE_OFFICER.get(), PoliceOfficerEntity.createAttributes().build());
     }
 }

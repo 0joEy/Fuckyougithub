@@ -55,6 +55,10 @@ public class BbBlocks {
             () -> new TestBlock(BlockBehaviour.Properties.copy(
                     Blocks.COBBLESTONE).noCollission()));
 
+    public static final RegistryObject<Block> JAR = registerBlock("jar",
+            () -> new JarBlock(BlockBehaviour.Properties.copy(
+                    Blocks.GLASS)));
+
 
     public static final RegistryObject<Block> SULFUR_ORE = registerBlock("sulfur_ore",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
@@ -71,6 +75,8 @@ public class BbBlocks {
             () -> new ShroomPatchBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
                     .randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
+    public static final RegistryObject<Block> ZONE_ANCHOR = registerBlock("zone_anchor",
+            () -> new ZoneAnchorBlock(BlockBehaviour.Properties.of()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

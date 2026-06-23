@@ -3,6 +3,7 @@ package net.henrycmoss.bb.screen;
 import net.henrycmoss.bb.block.BbBlocks;
 import net.henrycmoss.bb.block.entity.TestBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -116,7 +117,7 @@ public class TestMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), pPlayer,
-                BbBlocks.Test.get());
+                BbBlocks.TEST.get());
     }
 
     private void addPlayerInv(Inventory inv) {

@@ -1,0 +1,11 @@
+{
+  "type": "bb:test",
+  "craftTime": 200,
+  "ingredients": [
+    { "item": "bb:unlit_blunt" }
+  ],
+  "result": {
+    "item": "bb:blunt",
+    "count": 1
+  }
+}
