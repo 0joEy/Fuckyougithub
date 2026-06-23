@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "bb:block/marijuana_bush0"
+    },
+    "age=1": {
+      "model": "bb:block/marijuana_bush1"
+    },
+    "age=2": {
+      "model": "bb:block/marijuana_bush2"
+    }
+  }
+}
