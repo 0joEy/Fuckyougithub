@@ -1,6 +1,9 @@
 package net.henrycmoss.bb.entity.custom;
 
 import net.henrycmoss.bb.util.BbTags;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,10 +17,13 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import org.checkerframework.checker.units.qual.A;
 
 import javax.annotation.Nullable;
@@ -30,23 +36,44 @@ public class FruityEntity extends TamableAnimal implements NeutralMob {
     private static final EntityDataAccessor<Integer> REMAINING_ANGER_TIME = SynchedEntityData.defineId(FruityEntity.class, EntityDataSerializers.INT);
     public static final Predicate<LivingEntity> PREY_PREDICATE = prey -> prey instanceof Animal || prey instanceof Skeleton;
 
-    private final List<ItemEntity>
-
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 59);
     @Nullable
     private UUID persistentAngerTarget;
+
+    private int untilNextConsumption;
+
+    private final List<ItemStack> items;
 
 
 
     public FruityEntity(EntityType<? extends FruityEntity> type, Level level) {
         super(type, level);
         this.setTame(false);
-        fruitTargets = new ArrayList<>();
+        items = new ArrayList<>();
     }
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new GatherFruitGoal(this, 20f));
+        this.goalSelector.addGoal(2, new ConsumeFruitGoal(this));
+    }
+
+    @Override
+    public void tick() {
+        untilNextConsumption = Math.max(--untilNextConsumption, 0);
+        super.tick();
+    }
+
+    public List<ItemStack> getItems() {
+        return items;
+    }
+
+    public boolean addItem(ItemStack item) {
+        return items.add(item);
+    }
+
+    public boolean removeItem(ItemStack toRemove) {
+        return items.remove(toRemove);
     }
 
     static class GatherFruitGoal extends Goal {
@@ -115,7 +142,7 @@ public class FruityEntity extends TamableAnimal implements NeutralMob {
                 if (++elapsed >= untilNext) {
                     AABB bound = new AABB(mob.blockPosition()).inflate(20f);
                     level.getEntities(mob, bound, entity -> entity instanceof ItemEntity item
-                            && item.getItem().is(BbTags.Items.FRUITS)).forEach((item) -> fruitTargets.add(item.getUUID()));
+                            && item.getItem().is(BbTags.Items.FRUITS)).forEach((item) -> fruitTargets.add((ItemEntity) item));
 
                     if(!fruitTargets.isEmpty()) {
                         this.currentTarget = fruitTargets.get(0);
@@ -132,7 +159,33 @@ public class FruityEntity extends TamableAnimal implements NeutralMob {
             if(distance <= 2d && fruit.distanceTo(this.mob) <= 1d && untilNextAttack <= 0) {
                 fruitTargets.remove(fruit);
                 this.mob.pickUpItem(fruit);
+                this.mob.addItem(fruit.getItem());
                 untilNextAttack = 20;
+            }
+        }
+    }
+
+    static class ConsumeFruitGoal extends Goal {
+        private final FruityEntity mob;
+
+        private int elapsed;
+        private final int interval = 10;
+
+        private int eatingTicks;
+        private final int maxEatingTicks = 50;
+
+        public ConsumeFruitGoal(FruityEntity mob) {
+            this.mob = mob;
+        }
+
+        @Override
+        public boolean canUse() {
+            Level level = mob.level();
+            if(!level.isClientSide() && !mob.getItems().isEmpty()) {
+                if(++elapsed % 5 == 0) level.addParticle(ParticleTypes.ITEM, );
+            }
+            else {
+                eatingTicks = 0;
             }
         }
     }
