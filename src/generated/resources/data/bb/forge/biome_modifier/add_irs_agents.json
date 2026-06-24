@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:desert"
+  ],
+  "spawners": {
+    "type": "bb:irs_agent",
+    "maxCount": 3,
+    "minCount": 1,
+    "weight": 20
+  }
+}

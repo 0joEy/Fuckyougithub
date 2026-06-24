@@ -1,0 +1,10 @@
+// 1.20.1	2026-06-23T06:46:29.4195357	Registries
+62e839d7ccb9d735e2bb47ba3597e71a15fb86d4 data/bb/forge/biome_modifier/add_evil_pigs.json
+47e9f50904e4dd5726469f52432bec22a347f145 data/bb/forge/biome_modifier/add_irs_agents.json
+96be46ac11e73cc98eb566fdfd97b411275eea94 data/bb/forge/biome_modifier/add_marijuana.json
+59bc5db37e6a3ed987d3cdea523c243057636f07 data/bb/forge/biome_modifier/add_police_officers.json
+1706b32921fc499ec8ee54dc126dd364aaa792af data/bb/forge/biome_modifier/add_shrooms.json
+beecb0014cbea13112bb0fe5a3fdfa172980e57a data/bb/worldgen/configured_feature/marijuana.json
+1c146dc8b1d7659dbb5c3a5672ee351447f1a32b data/bb/worldgen/configured_feature/shrooms.json
+082ede367554c5138a8a7c203cab5573d816b912 data/bb/worldgen/placed_feature/marijuana_placed.json
+90f6b99160a60e6ae4755caaa24382bac3792ad1 data/bb/worldgen/placed_feature/shrooms_placed.json
