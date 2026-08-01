@@ -76,6 +76,36 @@ public class FruityEntity extends TamableAnimal implements NeutralMob {
         return items.remove(toRemove);
     }
 
+    @Override
+    public @org.jetbrains.annotations.Nullable AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
+        return null;
+    }
+
+    @Override
+    public int getRemainingPersistentAngerTime() {
+        return 0;
+    }
+
+    @Override
+    public void setRemainingPersistentAngerTime(int pRemainingPersistentAngerTime) {
+
+    }
+
+    @Override
+    public @org.jetbrains.annotations.Nullable UUID getPersistentAngerTarget() {
+        return null;
+    }
+
+    @Override
+    public void setPersistentAngerTarget(@org.jetbrains.annotations.Nullable UUID pPersistentAngerTarget) {
+
+    }
+
+    @Override
+    public void startPersistentAngerTimer() {
+
+    }
+
     static class GatherFruitGoal extends Goal {
 
         private final FruityEntity mob;
@@ -182,11 +212,12 @@ public class FruityEntity extends TamableAnimal implements NeutralMob {
         public boolean canUse() {
             Level level = mob.level();
             if(!level.isClientSide() && !mob.getItems().isEmpty()) {
-                if(++elapsed % 5 == 0) level.addParticle(ParticleTypes.ITEM, );
+                if(++elapsed % 5 == 0);
             }
             else {
                 eatingTicks = 0;
             }
+            return false;
         }
     }
 }

@@ -2,6 +2,7 @@ package net.henrycmoss.bb.item;
 
 import net.henrycmoss.bb.Bb;
 import net.henrycmoss.bb.block.BbBlocks;
+import net.henrycmoss.bb.block.custom.AdminRemoteItem;
 import net.henrycmoss.bb.block.custom.fluid.BbFluids;
 import net.henrycmoss.bb.food.BbFoods;
 import net.henrycmoss.bb.item.custom.*;
@@ -21,6 +22,36 @@ public class BbItems {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,
             Bb.MODID);
+
+    public static final RegistryObject<Item> ADMIN_REMOTE = ITEMS.register("admin_remote",
+            () -> new AdminRemoteItem(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> KEY_CARD_LEVEL_0 = ITEMS.register("blank_key_card",
+            () -> new KeyCardItem(new Item.Properties().stacksTo(1),
+                    Authorizations.LEVEL_0));
+
+    public static final RegistryObject<Item> KEY_CARD_LEVEL_1 = ITEMS.register("sc1_key_card",
+            () -> new KeyCardItem(new Item.Properties().stacksTo(1),
+                    Authorizations.LEVEL_1));
+
+    public static final RegistryObject<Item> KEY_CARD_LEVEL_2 = ITEMS.register("sc2_key_card",
+            () -> new KeyCardItem(new Item.Properties().stacksTo(1),
+                    Authorizations.LEVEL_2));
+
+    public static final RegistryObject<Item> KEY_CARD_LEVEL_3 = ITEMS.register("sc3_key_card",
+            () -> new KeyCardItem(new Item.Properties().stacksTo(1),
+                    Authorizations.LEVEL_3));
+
+    public static final RegistryObject<Item> KEY_CARD_LEVEL_4 = ITEMS.register("sc4_key_card",
+            () -> new KeyCardItem(new Item.Properties().stacksTo(1),
+                    Authorizations.LEVEL_4));
+
+    public static final RegistryObject<Item> KEY_CARD_LEVEL_5 = ITEMS.register("sc5_key_card",
+            () -> new KeyCardItem(new Item.Properties().stacksTo(1),
+                    Authorizations.LEVEL_5));
+
+    public static final RegistryObject<Item> ENTITY_MAGNET_ITEM = ITEMS.register("entity_magnet",
+            () -> new EntityMagnetItem(new Item.Properties().stacksTo(1)));
 
 
     public static final RegistryObject<Item> JOINT = ITEMS.register("blunt",

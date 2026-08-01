@@ -1,0 +1,326 @@
+{
+  "variants": {
+    "facing=north,flash=false,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader_off"
+    },
+    "facing=north,flash=false,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader_off"
+    },
+    "facing=north,flash=false,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader_off"
+    },
+    "facing=north,flash=false,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader_off"
+    },
+    "facing=north,flash=false,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader_off"
+    },
+
+    "facing=north,flash=true,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader_0"
+    },
+    "facing=north,flash=true,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader1"
+    },
+    "facing=north,flash=true,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader2"
+    },
+    "facing=north,flash=true,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader3"
+
+    },
+    "facing=north,flash=true,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader4"
+
+    },
+
+    "facing=north,flash=false,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=false,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=false,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=false,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=false,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+
+    "facing=north,flash=true,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=true,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=true,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=true,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,flash=true,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on"
+    },
+
+
+    "facing=south,flash=false,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,flash=false,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,flash=false,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=false,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=false,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y":  180
+    },
+
+    "facing=south,flash=true,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader0",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader1",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader2",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader3",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader4",
+      "x": 90,"y":  180
+    },
+
+    "facing=south,flash=false,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=false,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=false,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=false,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=false,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+
+    "facing=south,flash=true,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+    "facing=south,flash=true,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y":  180
+    },
+
+
+    "facing=east,flash=false,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x":90, "y": 90
+    },
+
+    "facing=east,flash=true,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader0",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader1",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader2",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader3",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader4",
+      "x":90, "y": 90
+    },
+
+    "facing=east,flash=false,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=false,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+
+    "facing=east,flash=true,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+    "facing=east,flash=true,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x":90, "y": 90
+    },
+
+
+    "facing=west,flash=false,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=false,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=false,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=false,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=false,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader_off",
+      "x": 90,"y": 270
+    },
+
+    "facing=west,flash=true,authorization=0,powered=false": {
+      "model": "bb:block/key_card_reader0",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=true,authorization=1,powered=false": {
+      "model": "bb:block/key_card_reader1",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=true,authorization=2,powered=false": {
+      "model": "bb:block/key_card_reader2",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=true,authorization=3,powered=false": {
+      "model": "bb:block/key_card_reader3",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=true,authorization=4,powered=false": {
+      "model": "bb:block/key_card_reader4",
+      "x": 90,"y": 270
+    },
+
+    "facing=west,flash=false,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y":270
+    },
+    "facing=west,flash=false,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y":270
+    },
+    "facing=west,flash=false,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y":270
+    },
+    "facing=west,flash=false,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y":270
+    },
+    "facing=west,flash=false,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y": 270
+    },
+
+    "facing=west,flash=true,authorization=0,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y": 270
+    },
+    "facing=west,flash=true,authorization=1,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y":270
+    },
+    "facing=west,flash=true,authorization=2,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90, "y":270
+    },
+    "facing=west,flash=true,authorization=3,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y": 270
+    },
+    "facing=west,flash=true,authorization=4,powered=true": {
+      "model": "bb:block/key_card_reader_on",
+      "x": 90,"y": 270
+    }
+  }
+}

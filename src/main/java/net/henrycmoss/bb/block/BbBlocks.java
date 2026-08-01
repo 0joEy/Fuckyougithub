@@ -11,6 +11,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +20,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class BbBlocks {
 
@@ -59,6 +61,16 @@ public class BbBlocks {
             () -> new JarBlock(BlockBehaviour.Properties.copy(
                     Blocks.GLASS)));
 
+    public static final RegistryObject<Block> KEY_CARD_READER = registerBlock("key_card_reader",
+            () -> new KeyCardReaderBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()
+                    .lightLevel(lightBlockEmission(7))));
+
+    public static final RegistryObject<Block> SLIDING_DOOR = registerBlock("sliding_door",
+            () -> new SlidingDoorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
+    public static final RegistryObject<Block> SLIDING_DOOR_BASE = registerBlock("sliding_door_base",
+            () -> new SlidingDoorBaseBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
 
     public static final RegistryObject<Block> SULFUR_ORE = registerBlock("sulfur_ore",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
@@ -82,6 +94,13 @@ public class BbBlocks {
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
         return BbItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    }
+
+    private static ToIntFunction<BlockState> lightBlockEmission(int level) {
+        return (state) -> {
+            return state.getValue(KeyCardReaderBlock.FLASH)
+                    || state.getValue(KeyCardReaderBlock.POWERED) ? level : 0;
+        };
     }
 
     public static void register(IEventBus eventBus) {

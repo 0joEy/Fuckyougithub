@@ -7,6 +7,7 @@ import net.henrycmoss.bb.block.custom.fluid.BbFluids;
 import net.henrycmoss.bb.block.entity.BbBlockEntities;
 import net.henrycmoss.bb.client.HallucinationRenderer;
 import net.henrycmoss.bb.client.ShroomsRenderer;
+import net.henrycmoss.bb.client.SlidingDoorRenderer;
 import net.henrycmoss.bb.effect.BbEffects;
 import net.henrycmoss.bb.entity.BbEntities;
 import net.henrycmoss.bb.entity.client.EvilPigRenderer;
@@ -26,6 +27,7 @@ import net.henrycmoss.bb.villager.BbVillagers;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
@@ -137,6 +139,8 @@ public class Bb {
             MenuScreens.register(BbMenuTypes.CRUCIBLE_MENU.get(), CrucibleScreen::new);
             MenuScreens.register(BbMenuTypes.ELECTROLYTIC_CELL.get(), ElectrolyticCellScreen::new);
             MenuScreens.register(BbMenuTypes.TEST_MENU.get(), TestScreen::new);
+            BlockEntityRenderers.register(BbBlockEntities.SLIDING_DOOR.get(),
+                    SlidingDoorRenderer::new);
         }
     }
 

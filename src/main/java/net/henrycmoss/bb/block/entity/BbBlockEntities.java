@@ -36,6 +36,16 @@ public class BbBlockEntities {
                     () -> BlockEntityType.Builder.of(TestBlockEntity::new,
                             BbBlocks.TEST.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<KeyCardReaderBlockEntity>> KEY_CARD_READER_BE =
+            BLOCK_ENTITIES.register("key_card_reader_block_entity",
+                    () -> BlockEntityType.Builder.of(KeyCardReaderBlockEntity::new,
+                    BbBlocks.KEY_CARD_READER.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<SlidingDoorBlockEntity>> SLIDING_DOOR =
+            BLOCK_ENTITIES.register("sliding_door",
+                    () -> BlockEntityType.Builder.of(SlidingDoorBlockEntity::new,
+                    BbBlocks.SLIDING_DOOR.get()).build(null));
+
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
