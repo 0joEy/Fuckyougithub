@@ -53,6 +53,8 @@ public class BbItems {
     public static final RegistryObject<Item> ENTITY_MAGNET_ITEM = ITEMS.register("entity_magnet",
             () -> new EntityMagnetItem(new Item.Properties().stacksTo(1)));
 
+    public static final RegistryObject<Item> MAGIC_WAND = ITEMS.register("magic_wand",
+            () -> new MagicWand(new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<Item> JOINT = ITEMS.register("blunt",
             () -> new JointItem(new Item.Properties().food(BbFoods.JOINT)));
@@ -85,6 +87,13 @@ public class BbItems {
 
     public static final RegistryObject<Item> SULFURIC_ACID_BUCKET = ITEMS.register("sulfuric_acid_bucket",
             () -> new BucketItem(BbFluids.SOURCE_ACID, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
+
+    public static final RegistryObject<Item> GASOLINE_BUCKET = ITEMS.register("gasoline_bucket",
+            () -> new BucketItem(BbFluids.SOURCE_GASOLINE, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
+
+    public static final RegistryObject<Item> COCA_PASTE_BUCKET = ITEMS.register("coca_paste_bucket",
+            () -> new BucketItem(BbFluids.SOURCE_COCA_PASTE, new Item.Properties().stacksTo(1)
+                    .craftRemainder(Items.BUCKET)));
 
     public static final RegistryObject<TntCannonItem> TNT_CANNON = ITEMS.register("tnt_cannon",
             () -> new TntCannonItem(new Item.Properties().stacksTo(1)));
@@ -138,11 +147,11 @@ public class BbItems {
     public static final RegistryObject<Item> COCA_LEAF = ITEMS.register("coca_leaf",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> TREATED_COCA_LEAF = ITEMS.register("treated_coca_leaf",
+            () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<MissileLauncherItem> MISSILE_LAUNCHER = ITEMS.register("missile_launcher",
             () -> new MissileLauncherItem(new Item.Properties()));
-
-    public static final RegistryObject<CustomBucketItem> COCA_PASTE_BUCKET = addCustomBucket("coca_paste",
-            new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET));
 
     public static final RegistryObject<Item> COCAINE = ITEMS.register("cocaine",
             () -> new Item(new Item.Properties().food(BbFoods.METHAMPHETAMINE)));
@@ -152,6 +161,25 @@ public class BbItems {
 
     public static final RegistryObject<Item> FIRE_STICK = ITEMS.register("fire_stick",
             () -> new FireStickItem(new Item.Properties().stacksTo(1)));
+
+    public static final RegistryObject<Item> KEYCARD_BLANK = ITEMS.register("keycard_blank",
+            () -> new KeyCardItem(new Item.Properties(), Authorizations.LEVEL_0));
+
+    public static final RegistryObject<Item> KEYCARD_LEVEL1 = ITEMS.register("keycard_level1",
+            () -> new KeyCardItem(new Item.Properties(), Authorizations.LEVEL_1));
+
+    public static final RegistryObject<Item> KEYCARD_LEVEL2 = ITEMS.register("keycard_level2",
+            () -> new KeyCardItem(new Item.Properties(), Authorizations.LEVEL_2));
+
+    public static final RegistryObject<Item> KEYCARD_LEVEL3 = ITEMS.register("keycard_level3",
+            () -> new KeyCardItem(new Item.Properties(), Authorizations.LEVEL_3));
+
+    public static final RegistryObject<Item> KEYCARD_LEVEL4 = ITEMS.register("keycard_level4",
+            () -> new KeyCardItem(new Item.Properties(), Authorizations.LEVEL_4));
+
+    public static final RegistryObject<Item> KEYCARD_LEVEL5 = ITEMS.register("keycard_level5",
+            () -> new KeyCardItem(new Item.Properties(), Authorizations.LEVEL_5));
+
 
     /*public static final RegistryObject<Item> WATER = addCustomBucket("water",
             () -> new LiquidItem(new Item.Properties(), Items.WATER_BUCKET));

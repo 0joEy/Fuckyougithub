@@ -1,0 +1,15 @@
+{
+  "type": "bb:tub",
+  "time": 150,
+  "cooked": false,
+  "ingredient": {
+    "item": "minecraft:raw_gold",
+    "amount": 5
+  },
+  "fluid_input": {
+    "fluid": "minecraft:lava"
+  },
+  "result": {
+    "item": "minecraft:fire_charge"
+  }
+}

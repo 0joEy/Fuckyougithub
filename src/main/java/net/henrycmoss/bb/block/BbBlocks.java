@@ -11,7 +11,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,12 +20,16 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
 
 public class BbBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Bb.MODID);
+
+    public static final RegistryObject<Block> KEY_CARD_READER = registerBlock("key_card_reader",
+            () -> new KeyCardReaderBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .lightLevel(state ->
+                            state.getValue(KeyCardReaderBlock.FLASHING) ? 7 : 0).noOcclusion()));
 
 
     public static final RegistryObject<Block> COCAINE_TRAY = registerBlock("cocaine_tray",
@@ -40,6 +44,12 @@ public class BbBlocks {
 
     public static final RegistryObject<LiquidBlock> ACID = registerBlock("acid",
             () -> new LiquidBlock(BbFluids.SOURCE_ACID, BlockBehaviour.Properties.copy(Blocks.WATER)));
+
+    public static final RegistryObject<LiquidBlock> GASOLINE = registerBlock("gasoline",
+            () -> new LiquidBlock(BbFluids.SOURCE_GASOLINE, BlockBehaviour.Properties.copy(Blocks.WATER)));
+
+    public static final RegistryObject<LiquidBlock> COCA_PASTE = registerBlock("coca_paste",
+            () -> new LiquidBlock(BbFluids.SOURCE_COCA_PASTE, BlockBehaviour.Properties.copy(Blocks.WATER)));
 
     public static final RegistryObject<Block> GEM_EMPOWERING_STATION = registerBlock("gem_empowering_station",
             () -> new GemEmpoweringStationBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
@@ -61,23 +71,13 @@ public class BbBlocks {
             () -> new JarBlock(BlockBehaviour.Properties.copy(
                     Blocks.GLASS)));
 
-    public static final RegistryObject<Block> KEY_CARD_READER = registerBlock("key_card_reader",
-            () -> new KeyCardReaderBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()
-                    .lightLevel(lightBlockEmission(7))));
-
-    public static final RegistryObject<Block> SLIDING_DOOR = registerBlock("sliding_door",
-            () -> new SlidingDoorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
-
-    public static final RegistryObject<Block> SLIDING_DOOR_BASE = registerBlock("sliding_door_base",
-            () -> new SlidingDoorBaseBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
-
 
     public static final RegistryObject<Block> SULFUR_ORE = registerBlock("sulfur_ore",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
 
     public static final RegistryObject<Block> MARIJUANA_BUSH = registerBlock("marijuana_bush",
-            () -> new MarijuanaBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)
-                            .offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+            () -> new MarijuanaBushBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
+                    .randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> SHROOM_PATCH = registerBlock("shroom_patch",
             () -> new ShroomPatchBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission()
@@ -85,6 +85,9 @@ public class BbBlocks {
 
     public static final RegistryObject<Block> ZONE_ANCHOR = registerBlock("zone_anchor",
             () -> new ZoneAnchorBlock(BlockBehaviour.Properties.of()));
+
+    public  static final RegistryObject<Block> TUB = registerBlock("tub",
+            () -> new TubBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
@@ -94,13 +97,6 @@ public class BbBlocks {
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
         return BbItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
-    }
-
-    private static ToIntFunction<BlockState> lightBlockEmission(int level) {
-        return (state) -> {
-            return state.getValue(KeyCardReaderBlock.FLASH)
-                    || state.getValue(KeyCardReaderBlock.POWERED) ? level : 0;
-        };
     }
 
     public static void register(IEventBus eventBus) {

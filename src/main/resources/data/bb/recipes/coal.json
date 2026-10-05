@@ -4,15 +4,11 @@
   "ingredients": [
     {
       "item": "minecraft:diamond",
-      "count:": 5
-    },
-    {
-      "item": "bb:coca_paste",
-      "count": 6
+      "count:": 10
     }
   ],
   "result": {
     "item": "minecraft:coal",
-    "count": 2
+    "count": 4
   }
 }

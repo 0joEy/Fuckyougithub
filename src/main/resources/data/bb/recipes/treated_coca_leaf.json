@@ -1,0 +1,16 @@
+{
+  "type": "bb:tub",
+  "time": 150,
+  "cooked": false,
+  "ingredient": {
+    "item": "bb:coca_leaf",
+    "amount": 5
+  },
+  "fluid_input": {
+    "fluid": "minecraft:water"
+  },
+  "result": {
+    "item": "bb:treated_coca_leaf",
+    "amount": 2
+  }
+}

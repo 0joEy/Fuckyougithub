@@ -1,3 +1,9 @@
 {
-  "entity.bb.evil_pig": "Evil Pig"
+  "entity.bb.evil_pig": "Evil Pig",
+  "item.bb.marijuana": "Marijuana",
+  "item.bb.cocaine": "Cocaine",
+  "item.bb.coca_leaf": "Coca Leaf",
+  "item.bb.treated_coca_leaf": "Treated Coca Leaf",
+  "item.bb.unlit_blunt": "Unlit Blunt",
+  "item.bb.joint": "Blunt"
 }

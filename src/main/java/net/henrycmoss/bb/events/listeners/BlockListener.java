@@ -104,11 +104,11 @@ public class BlockListener {
     private static void replaceTrees(Player player, BlockPos pos, Level level) {
         int base = 20;
         int height = 3;
-        for(BlockPos p : BlockPos.betweenClosed(pos.offset(-base, 0, -base),
-                pos.offset(base, height, base))) {
+        for(BlockPos p : BlockPos.betweenClosed(pos.offset(-base, pos.getY(), -base),
+                pos.offset(base, pos.getY() + height, base))) {
             BlockState block = level.getBlockState(pos);
             if(block.is(BbTags.Blocks.LOGS) || block.is(BbTags.Blocks.LEAVES)) {
-                level.removeBlock(pos, false);
+                level.removeBlock(p, false);
             }
         }
     }

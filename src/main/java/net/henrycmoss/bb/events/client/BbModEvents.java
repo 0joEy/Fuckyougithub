@@ -27,6 +27,7 @@ public class BbModEvents {
         new TreasureCommand(event.getDispatcher());
         new SubjectsCommand(event.getDispatcher());
         new PlaceHolder1Command(event.getDispatcher());
+        new ToggleTimedEventsCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }

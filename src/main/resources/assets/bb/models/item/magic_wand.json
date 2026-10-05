@@ -1,0 +1,32 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "bb:item/magic_wand_earth"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "type": 0
+      },
+      "model": "bb:item/magic_wand_earth"
+    },
+    {
+      "predicate": {
+        "type": 1
+      },
+      "model": "bb:item/magic_wand_lightning"
+    },
+    {
+      "predicate": {
+        "type": 2
+      },
+      "model": "bb:item/magic_wand_fire"
+    },
+    {
+      "predicate": {
+        "type": 3
+      },
+      "model": "bb:item/magic_wand_wind"
+    }
+  ]
+}

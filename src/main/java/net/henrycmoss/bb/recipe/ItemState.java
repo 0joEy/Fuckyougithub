@@ -56,9 +56,9 @@ public enum ItemState {
                  return type;
              }
          }
-         ItemState type =  item == Items.AIR || item.getDefaultInstance() == ItemStack.EMPTY ?
+         ItemState type = item == Items.AIR || item.getDefaultInstance() == ItemStack.EMPTY ?
                  ItemState.NONE : ItemState.SOLID;
-         LogUtils.getLogger().info("Type last resort: " + type);
+         LogUtils.getLogger().info("Fallback: " + type);
          return type;
     }
 

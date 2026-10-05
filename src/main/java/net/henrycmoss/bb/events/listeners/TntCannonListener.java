@@ -11,6 +11,7 @@ import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -46,11 +47,13 @@ public class TntCannonListener {
             int r = 0;
             int dY = 360;
             Level level = event.getEntity().level();
-            for(int i = 0; i < 74; i++) {
+            for(int i = 0; i < 100; i++) {
                 PrimedTnt newTnt = EntityType.TNT.create(level);
                 newTnt.setPos(event.getEntity().position());
-                newTnt.setFuse(80);
-                newTnt.setDeltaMovement(ShootingTools.shootFromRotation(((r / dY) * 30) + 180,  (r % dY), 0f, 2.2f));
+                newTnt.setFuse(35);
+                Vec3 tntMovement = ShootingTools.shootFromRotation((((float) r / dY) * 30) + 180,
+                        (r % dY), 0f, 0.75f);
+                newTnt.setDeltaMovement(tntMovement.add(0d, tntMovement.length() * 1.5d, 0));
                 level.addFreshEntity(newTnt);
                 LogUtils.getLogger().info("{}", r / dY);
                 LogUtils.getLogger().info("Z rot: {}", r % dY);

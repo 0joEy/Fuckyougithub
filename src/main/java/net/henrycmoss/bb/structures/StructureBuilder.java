@@ -66,7 +66,7 @@ public class StructureBuilder {
                 LogUtils.getLogger().info(String.format("{%d}, {%d}, {%d}", pX,  pZ, y() + pY));
             }
 
-            int bottom = dZ * sizeX - x() - 1;
+            int bottom = dZ * (sizeX - x() - 1);
             int top = dY > 1 ? (z() + dZ) * sizeX : 0;
             int middle = dY > 2 ? (dY - 2) * sizeZ * sizeX : 0;
             cursor += bottom + middle + top;

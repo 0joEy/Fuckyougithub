@@ -3,13 +3,20 @@ package net.henrycmoss.bb.events.listeners;
 import com.mojang.logging.LogUtils;
 import net.henrycmoss.bb.Bb;
 import net.henrycmoss.bb.tools.ShootingTools;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Bb.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 
@@ -29,12 +36,13 @@ public class CreeperListener {
             Level level = creeper.level();
             float pX = 0;
             float pY = 0;
+            int count = creeper.isPowered() ? 30 : 15;
             for (int i = 0; i < 15; i++) {
                 PrimedTnt tnt = new PrimedTnt(EntityType.TNT, level);
                 tnt.setFuse(50);
                 tnt.setPos(creeper.position());
                 tnt.setDeltaMovement(ShootingTools.shootFromRotation(pX, pY,
-                        0f, 2f));
+                        0f, 1.25f));
                 tnt.addTag("creeper");
                 if(pX >= 360f) pX -= 360f;
                 if (pY >= 360f) pY -= 360f;
@@ -97,5 +105,17 @@ public class CreeperListener {
                 LogUtils.getLogger().info("resetting");
             }
         }*/
+    }
+
+    @SubscribeEvent
+    public static void extinguishChargedCreeper(EntityStruckByLightningEvent event) {
+        if(event.getEntity() instanceof Creeper creeper && creeper.isPowered()) {
+            creeper.clearFire();
+            Level level = creeper.level();
+            BlockPos pos = BlockPos.containing(creeper.position());
+            if(level.getBlockState(pos).is(Blocks.FIRE)) {
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            }
+        }
     }
 }

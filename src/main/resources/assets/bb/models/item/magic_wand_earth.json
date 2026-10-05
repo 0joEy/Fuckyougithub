@@ -1,0 +1,6 @@
+{
+  "parent": "bb:item/magic_wand",
+  "textures": {
+    "layer0": "bb:item/magic_wand_earth"
+  }
+}

@@ -25,10 +25,6 @@ public class BbPlacedFeatures {
 
         register(context, MARIJUANA_PLACED_KEY, configuredFeatures.getOrThrow(BbConfiguredFeatures.MARIJUANA_KEY),
                 List.of(RarityFilter.onAverageOnceEvery(16), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
-
-        register(context, SHROOMS_PLACED_KEY, configuredFeatures.getOrThrow(BbConfiguredFeatures.SHROOMS),
-                List.of(RarityFilter.onAverageOnceEvery(2), InSquarePlacement.spread(),
-                        PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
     }
 
     private static ResourceKey<PlacedFeature> registerKey(String name) {

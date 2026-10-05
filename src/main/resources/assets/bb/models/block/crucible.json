@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:cross",
+  "parent": "minecraft:block/orientable",
   "textures": {
-    "all": "bb:block/jar_empty"
+    "front": "minecraft:block/crucible_front",
+    "side": "minecraft:block/crucible_side",
+    "top": "minecraft:block/crucible_top"
   }
 }

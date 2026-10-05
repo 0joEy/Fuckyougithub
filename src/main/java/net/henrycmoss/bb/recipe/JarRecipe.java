@@ -42,21 +42,7 @@ public class JarRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        List<ItemStack> list = List.of(pContainer.getItem(0), pContainer.getItem(1));
-        for(Ingredient i : ingredients) {
-            boolean matches = false;
-            ItemStack ing = i.getItems()[0];
-            for(Iterator<ItemStack> it = list.iterator(); it.hasNext();) {
-                ItemStack item = it.next();
-                if(ing.getItem() == item.getItem() && ing.getCount() >= item.getCount()) {
-                    matches = true;
-                    it.remove();
-                    break;
-                }
-            }
-            if(!matches) return false;
-        }
-        return true;
+        return this.ingredients.get(0).test(pContainer.getItem(0));
     }
 
     @Override
@@ -94,7 +80,7 @@ public class JarRecipe implements Recipe<SimpleContainer> {
         @Override
         public JarRecipe fromJson(ResourceLocation id, JsonObject json) {
 
-            NonNullList<Ingredient> ingredients = NonNullList.withSize(2, Ingredient.EMPTY);
+            NonNullList<Ingredient> ingredients = NonNullList.withSize(1, Ingredient.EMPTY);
             JsonArray array = GsonHelper.getAsJsonArray(json, "ingredients");
             for(int i = 0; i < array.size(); i++) {
                 ingredients.set(i, Ingredient.fromJson(array.get(i)));
@@ -108,7 +94,7 @@ public class JarRecipe implements Recipe<SimpleContainer> {
 
         @Override
         public @Nullable JarRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-            NonNullList<Ingredient> ingredients = NonNullList.withSize(2, Ingredient.EMPTY);
+            NonNullList<Ingredient> ingredients = NonNullList.withSize(1, Ingredient.EMPTY);
             for(int i = 0; i < ingredients.size(); i++) {
                 ingredients.set(i, Ingredient.fromNetwork(buf));
             }

@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Fireball;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -130,11 +132,51 @@ public class BbForgeEvents {
     @SubscribeEvent
     public static void addBbTrades(VillagerTradesEvent event) {
         if (event.getType() == BbVillagers.METH_COOK.get()) {
-            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+            List<VillagerTrades.ItemListing> trades = event.getTrades().get(1);
 
-            trades.get(1).add((trader, rand) -> new MerchantOffer(
+            trades.add(new BasicItemListing(
                     new ItemStack(Items.EMERALD, 1),
                     new ItemStack(BbItems.MARIJUANA.get(), 1), 100, 8, 0.1f
+            ));
+            trades.add(new BasicItemListing(
+                    new ItemStack(BbItems.COCA_LEAF.get(), 10),
+                    new ItemStack(Items.EMERALD, 20),
+                    100, 8, 0.25f
+            ));
+            trades.add(new BasicItemListing(
+                new ItemStack(Items.BUCKET, 1),
+                new ItemStack(Items.EMERALD, 5),
+                new ItemStack(BbItems.GASOLINE_BUCKET.get(), 1),
+                100, 8, 0.1f
+            ));
+            trades.add(new BasicItemListing(
+                    new ItemStack(BbItems.COCAINE.get(), 1),
+                    new ItemStack(Items.EMERALD, 50),
+                    100, 8, 0.25f
+            ));
+        }
+
+        if(event.getType() == VillagerProfession.FARMER) {
+            List<VillagerTrades.ItemListing> trades = event.getTrades().get(1);
+
+            trades.add(new BasicItemListing(
+                    new ItemStack(Items.EMERALD, 1),
+                    new ItemStack(BbItems.MARIJUANA.get(), 1), 100, 8, 0.1f
+            ));
+            trades.add(new BasicItemListing(
+                    new ItemStack(BbItems.COCA_LEAF.get(), 10),
+                    new ItemStack(Items.EMERALD, 20),
+                    100, 8, 0.25f
+            ));
+            trades.add(new BasicItemListing(
+                    new ItemStack(Items.BUCKET, 1),
+                    new ItemStack(Items.EMERALD, 5),
+                    new ItemStack(BbItems.GASOLINE_BUCKET.get(), 1),
+                    100, 8, 0.1f
+            ));
+            trades.add(new BasicItemListing(
+                    new ItemStack(BbItems.COCAINE.get(), 1),
+                    new ItemStack(Items.EMERALD, 50), 100, 8, 0.25f
             ));
         }
     }

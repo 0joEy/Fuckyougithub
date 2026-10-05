@@ -28,6 +28,9 @@ public class BbRecipeTypes {
     public static final RegistryObject<RecipeType<JarRecipe>> JAR =
             registerType(JarRecipe.Type.ID, () -> JarRecipe.Type.INSTANCE);
 
+    public static final RegistryObject<RecipeType<TubRecipe>> TUB =
+            registerType(TubRecipe.Type.ID, () -> TubRecipe.Type.INSTANCE);
+
     private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(ResourceLocation id, Supplier<RecipeType<T>> type) {
         TYPES.createTagKey(id.getPath());
         TYPES.createTagKey(id);

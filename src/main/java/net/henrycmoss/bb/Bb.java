@@ -7,7 +7,6 @@ import net.henrycmoss.bb.block.custom.fluid.BbFluids;
 import net.henrycmoss.bb.block.entity.BbBlockEntities;
 import net.henrycmoss.bb.client.HallucinationRenderer;
 import net.henrycmoss.bb.client.ShroomsRenderer;
-import net.henrycmoss.bb.client.SlidingDoorRenderer;
 import net.henrycmoss.bb.effect.BbEffects;
 import net.henrycmoss.bb.entity.BbEntities;
 import net.henrycmoss.bb.entity.client.EvilPigRenderer;
@@ -18,6 +17,8 @@ import net.henrycmoss.bb.entity.custom.EvilPigEntity;
 import net.henrycmoss.bb.entity.custom.IRSAgentEntity;
 import net.henrycmoss.bb.entity.custom.PoliceOfficerEntity;
 import net.henrycmoss.bb.item.BbItems;
+import net.henrycmoss.bb.item.custom.MagicWand;
+import net.henrycmoss.bb.item.custom.WandType;
 import net.henrycmoss.bb.network.BbNetwork;
 import net.henrycmoss.bb.recipe.BbRecipeTypes;
 import net.henrycmoss.bb.recipe.BbRecipes;
@@ -27,8 +28,9 @@ import net.henrycmoss.bb.villager.BbVillagers;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -139,8 +141,12 @@ public class Bb {
             MenuScreens.register(BbMenuTypes.CRUCIBLE_MENU.get(), CrucibleScreen::new);
             MenuScreens.register(BbMenuTypes.ELECTROLYTIC_CELL.get(), ElectrolyticCellScreen::new);
             MenuScreens.register(BbMenuTypes.TEST_MENU.get(), TestScreen::new);
-            BlockEntityRenderers.register(BbBlockEntities.SLIDING_DOOR.get(),
-                    SlidingDoorRenderer::new);
+
+            ItemProperties.register(BbItems.MAGIC_WAND.get(), new ResourceLocation(Bb.MODID, "type"),
+                    ((stack, level, entity, seed) -> {
+                        if(stack.getItem() instanceof MagicWand wand) return wand.getType().getId();
+                        return WandType.EARTH.getId();
+                    }));
         }
     }
 

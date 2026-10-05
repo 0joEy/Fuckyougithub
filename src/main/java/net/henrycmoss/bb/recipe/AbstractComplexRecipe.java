@@ -8,11 +8,13 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractComplexRecipe implements Recipe<SimpleContainer> {
@@ -34,9 +36,32 @@ public abstract class AbstractComplexRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        if(pLevel.isClientSide()) return false;
-        return this.ingredients.get(0).test(pContainer.getItem(0)) && this.ingredients.get(1).test(pContainer.getItem(1));
+    public boolean matches(SimpleContainer container, Level pLevel) {
+        List<ItemStack> items = new ArrayList<>();
+
+        for(int i = 0; i < 2; i++) {
+            items.add(container.getItem(i));
+        }
+
+        if(items.size() != ingredients.size()) return false;
+
+        List<Ingredient> remaining = new ArrayList<>(ingredients);
+
+        for(ItemStack i : items) {
+            boolean matches = false;
+
+            for(Iterator<Ingredient> it = remaining.iterator(); it.hasNext(); ) {
+                Ingredient ing = it.next();
+                if(ing.test(i)) {
+                    matches = true;
+                    it.remove();
+                    break;
+                }
+            }
+
+            if(!matches) return false;
+        }
+        return true;
     }
 
     @Override

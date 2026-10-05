@@ -43,12 +43,6 @@ public class BbBiomeModifiers {
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_SHROOMS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
-                HolderSet.direct(placedFeatures.getOrThrow(BbPlacedFeatures.SHROOMS_PLACED_KEY)),
-                GenerationStep.Decoration.VEGETAL_DECORATION
-        ));
-
         context.register(ADD_EVIL_PIGS, new ForgeBiomeModifiers.AddSpawnsBiomeModifier(
                 biomes.getOrThrow(Tags.Biomes.IS_PLAINS),
                 List.of(new MobSpawnSettings.SpawnerData(BbEntities.EVIL_PIG.get(), 30, 3, 15))
@@ -58,11 +52,6 @@ public class BbBiomeModifiers {
                 HolderSet.direct(biomes.getOrThrow(Biomes.PLAINS),
                         biomes.getOrThrow(Biomes.DESERT)),
                 List.of(new MobSpawnSettings.SpawnerData(BbEntities.IRS_AGENT.get(), 20, 1, 3))
-        ));
-
-        context.register(ADD_POLICE_OFFICERS, new ForgeBiomeModifiers.AddSpawnsBiomeModifier(
-                biomes.getOrThrow(Tags.Biomes.IS_DRY_OVERWORLD),
-                List.of(new MobSpawnSettings.SpawnerData(BbEntities.IRS_AGENT.get(), 30, 3, 15))
         ));
 
     }

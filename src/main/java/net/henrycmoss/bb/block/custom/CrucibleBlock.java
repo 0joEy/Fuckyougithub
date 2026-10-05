@@ -53,7 +53,8 @@ public class CrucibleBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(FACING,
+                pContext.getHorizontalDirection().getOpposite());
     }
 
     @Override

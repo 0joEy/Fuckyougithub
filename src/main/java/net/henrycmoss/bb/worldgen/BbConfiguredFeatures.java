@@ -36,10 +36,10 @@ public class BbConfiguredFeatures {
                 new RandomPatchConfiguration(32, 6, 2, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(BbBlocks.MARIJUANA_BUSH.get())))));
 
-        register(context, SHROOMS, Feature.FLOWER,
+        /*register(context, SHROOMS, Feature.FLOWER,
                 new RandomPatchConfiguration(32, 6, 2,
                         PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new
-                                SimpleBlockConfiguration(BlockStateProvider.simple(BbBlocks.SHROOM_PATCH.get())))));
+                                SimpleBlockConfiguration(BlockStateProvider.simple(BbBlocks.SHROOM_PATCH.get())))));*/
     }
 
 

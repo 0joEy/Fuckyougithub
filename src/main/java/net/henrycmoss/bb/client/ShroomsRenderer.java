@@ -9,7 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ShroomsRenderer {
 
-    public static final ResourceLocation SHROOMS_SHADER = new ResourceLocation(Bb.MODID, "shaders/post/shrooms.json");
+    public static final ResourceLocation SHROOMS_SHADER = new ResourceLocation(Bb.MODID, "shaders/postshrooms.json");
 
     public boolean effectActiveLastTick = false;
 

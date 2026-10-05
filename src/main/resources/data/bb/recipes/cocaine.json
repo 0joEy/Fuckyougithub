@@ -7,7 +7,8 @@
       "item": "bb:coca_paste_bucket"
     },
     {
-      "item": "bb:chlorine_gas"
+      "item": "minecraft:redstone",
+      "amount": 5
     }
   ],
   "result": {

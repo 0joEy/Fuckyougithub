@@ -24,6 +24,9 @@ public class BbRecipes {
     public static final RegistryObject<RecipeSerializer<JarRecipe>> JAR =
             SERIALIZERS.register("jar", () -> JarRecipe.Serializer.INSTANCE);
 
+    public static final RegistryObject<RecipeSerializer<TubRecipe>> TUB =
+            SERIALIZERS.register("tub", () -> TubRecipe.Serializer.INSTANCE);
+
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

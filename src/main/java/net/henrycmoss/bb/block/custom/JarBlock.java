@@ -73,41 +73,33 @@ public class JarBlock extends BaseEntityBlock {
             Inventory inv = player.getInventory();
             ItemStack selected = inv.getSelected();
             ItemStack output = ItemStack.EMPTY;
+            int unit = 2;
 
-            for (int i = 1; i > 0; i--) {
-                ItemStack current = be.getContents().get(i);
-                if (selected.getItem() == Items.BUCKET && be.getContentType(i) == ItemState.LIQUID) {
-                    output = current.getItem() instanceof BucketPickup bp ? bp.pickupBlock(level, pPos, state)
-                            : new ItemStack(Items.BUCKET, selected.getCount());
-                    inv.setItem(inv.selected, output);
-                    setContents(i, new ItemStack(current.getItem(), current.getCount() - 1), level, be);
-                    return InteractionResult.CONSUME;
-                } else if (selected.getItem() == Items.AIR && be.getContentType(i) == ItemState.SOLID) {
-                    be.drops(i, player.getX(), player.getY(), player.getZ());
-                    setContents(i, Items.AIR.getDefaultInstance(), level, be);
-                    return InteractionResult.CONSUME;
+            if(be.isEmpty()) {
+                if(selected.isEmpty()) return InteractionResult.CONSUME;
+                else if(selected.getItem() instanceof BucketItem bucket
+                    && bucket != Items.BUCKET) {
+                    output = new ItemStack(ExistingLiquidItem.fluidMap.get(bucket.getFluid()));
                 }
-
-                if (selected.getItem() != current.getItem() && be.stackable()) continue;
-
-                if (!be.isFull()) {
-                    if(current.getCount() >= current.getMaxStackSize() && current.getItem() != Items.AIR) continue;
-                    if (selected.getItem() instanceof BucketItem bucket && bucket != Items.BUCKET) {
-                        output = new ItemStack(ExistingLiquidItem.fluidMap.get(bucket.getFluid()),
-                                current.getCount() + 1);
-                    } else if (selected.getItem() instanceof CustomBucketItem bucket) {
-                        output = new ItemStack(bucket.getFluid(),
-                                current.getCount() + 1);
-                    } else if (selected.getCount() >= 4) {
-                        LogUtils.getLogger().info("Solid recognized");
-                        int remove = (selected.getCount() / 4) * 4;
-                        output = new ItemStack(selected.getItem(), current.getCount() + remove);
-                        inv.removeItem(inv.selected, remove);
-                    }
-                    if(output == ItemStack.EMPTY) continue;
-                    setContents(i, output, level, be);
+                else if(selected.getCount() >= unit) {
+                    int amount = ((int) selected.getCount() / unit) * unit;
+                    output = new ItemStack(selected.getItem(), amount);
+                    if(selected.getCount() - amount <= 0) player.setItemInHand(pHand, ItemStack.EMPTY);
+                    else player.setItemInHand(pHand, new ItemStack(selected.getItem(),
+                            selected.getCount() - amount));
                 }
             }
+            else {
+                if(selected.is(Items.BUCKET) && be.getItem().getItem() instanceof ExistingLiquidItem fluid) {
+                    be.clearContent();
+                    player.setItemInHand(pHand, fluid.getFluid().getBucket().getDefaultInstance());
+                }
+                else {
+                    be.drops(pPos.getX(), pPos.getY(), pPos.getZ());
+                }
+            }
+            setContents(output, level, be);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.CONSUME;
     }
@@ -125,10 +117,10 @@ public class JarBlock extends BaseEntityBlock {
                         -> jarBlockEntity.tick(level, pos, state));
     }
 
-    public void setContents(int slot, ItemStack contents, Level level, JarBlockEntity be) {
-        be.setContents(slot, contents);
-        level.setBlock(be.getBlockPos(), be.getBlockState().setValue(TYPE,
-                be.getContentsType()), 3);
-        be.setChanged();
+    public void setContents(ItemStack contents, Level level, JarBlockEntity be) {
+        be.setItem(contents);
+        int state = contents == ItemStack.EMPTY ? 0 : 1;
+        BlockPos pos = be.getBlockPos();
+        level.setBlock(pos, level.getBlockState(pos).setValue(TYPE, state), 3);
     }
 }

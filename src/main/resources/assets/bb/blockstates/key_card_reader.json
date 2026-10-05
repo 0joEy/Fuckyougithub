@@ -1,326 +1,255 @@
 {
   "variants": {
-    "facing=north,flash=false,authorization=0,powered=false": {
+    "facing=north,powered=true,flashing=false,level=0": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=false,level=1": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=false,level=2": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=false,level=3": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=false,level=4": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_on"
+    },
+    "facing=north,powered=true,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_on"
+    },
+
+    "facing=north,powered=false,flashing=false,level=0": {
       "model": "bb:block/key_card_reader_off"
     },
-    "facing=north,flash=false,authorization=1,powered=false": {
+    "facing=north,powered=false,flashing=false,level=1": {
       "model": "bb:block/key_card_reader_off"
     },
-    "facing=north,flash=false,authorization=2,powered=false": {
+    "facing=north,powered=false,flashing=false,level=2": {
       "model": "bb:block/key_card_reader_off"
     },
-    "facing=north,flash=false,authorization=3,powered=false": {
+    "facing=north,powered=false,flashing=false,level=3": {
       "model": "bb:block/key_card_reader_off"
     },
-    "facing=north,flash=false,authorization=4,powered=false": {
+    "facing=north,powered=false,flashing=false,level=4": {
       "model": "bb:block/key_card_reader_off"
     },
-
-    "facing=north,flash=true,authorization=0,powered=false": {
-      "model": "bb:block/key_card_reader_0"
+    "facing=north,powered=false,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_level0"
     },
-    "facing=north,flash=true,authorization=1,powered=false": {
-      "model": "bb:block/key_card_reader1"
+    "facing=north,powered=false,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_level1"
     },
-    "facing=north,flash=true,authorization=2,powered=false": {
-      "model": "bb:block/key_card_reader2"
+    "facing=north,powered=false,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_level2"
     },
-    "facing=north,flash=true,authorization=3,powered=false": {
-      "model": "bb:block/key_card_reader3"
-
+    "facing=north,powered=false,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_level3"
     },
-    "facing=north,flash=true,authorization=4,powered=false": {
-      "model": "bb:block/key_card_reader4"
-
-    },
-
-    "facing=north,flash=false,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=false,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=false,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=false,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=false,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-
-    "facing=north,flash=true,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=true,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=true,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=true,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on"
-    },
-    "facing=north,flash=true,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on"
+    "facing=north,powered=false,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_level4"
     },
 
 
-    "facing=south,flash=false,authorization=0,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,
-      "y": 180
+    "facing=east,powered=true,flashing=false,level=0": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=1,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,
-      "y": 180
+    "facing=east,powered=true,flashing=false,level=1": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=2,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=false,level=2": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=3,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=false,level=3": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=4,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=false,level=4": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-
-    "facing=south,flash=true,authorization=0,powered=false": {
-      "model": "bb:block/key_card_reader0",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=1,powered=false": {
-      "model": "bb:block/key_card_reader1",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=2,powered=false": {
-      "model": "bb:block/key_card_reader2",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=3,powered=false": {
-      "model": "bb:block/key_card_reader3",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=4,powered=false": {
-      "model": "bb:block/key_card_reader4",
-      "x": 90,"y":  180
+    "facing=east,powered=true,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 90
     },
 
-    "facing=south,flash=false,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=false,level=0": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=false,level=1": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=false,level=2": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=false,level=3": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 90
     },
-    "facing=south,flash=false,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=false,level=4": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 90
     },
-
-    "facing=south,flash=true,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_level0", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_level1", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_level2", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_level3", "x": 90, "y": 90
     },
-    "facing=south,flash=true,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y":  180
+    "facing=east,powered=false,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_level4", "x": 90, "y": 90
     },
 
 
-    "facing=east,flash=false,authorization=0,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=false,level=0": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=1,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=false,level=1": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=2,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=false,level=2": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=3,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=false,level=3": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=4,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=false,level=4": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-
-    "facing=east,flash=true,authorization=0,powered=false": {
-      "model": "bb:block/key_card_reader0",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=1,powered=false": {
-      "model": "bb:block/key_card_reader1",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=2,powered=false": {
-      "model": "bb:block/key_card_reader2",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=3,powered=false": {
-      "model": "bb:block/key_card_reader3",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=4,powered=false": {
-      "model": "bb:block/key_card_reader4",
-      "x":90, "y": 90
+    "facing=south,powered=true,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 180
     },
 
-    "facing=east,flash=false,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=false,level=0": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=false,level=1": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=false,level=2": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=false,level=3": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 180
     },
-    "facing=east,flash=false,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=false,level=4": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 180
     },
-
-    "facing=east,flash=true,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_level0", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_level1", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_level2", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_level3", "x": 90, "y": 180
     },
-    "facing=east,flash=true,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x":90, "y": 90
+    "facing=south,powered=false,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_level4", "x": 90, "y": 180
     },
 
 
-    "facing=west,flash=false,authorization=0,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y": 270
+
+    "facing=west,powered=true,flashing=false,level=0": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=1,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y": 270
+    "facing=west,powered=true,flashing=false,level=1": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=2,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y": 270
+    "facing=west,powered=true,flashing=false,level=2": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=3,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y": 270
+    "facing=west,powered=true,flashing=false,level=3": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=4,powered=false": {
-      "model": "bb:block/key_card_reader_off",
-      "x": 90,"y": 270
+    "facing=west,powered=true,flashing=false,level=4": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
+    },
+    "facing=west,powered=true,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
+    },
+    "facing=west,powered=true,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
+    },
+    "facing=west,powered=true,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
+    },
+    "facing=west,powered=true,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
+    },
+    "facing=west,powered=true,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_on", "x": 90, "y": 270
     },
 
-    "facing=west,flash=true,authorization=0,powered=false": {
-      "model": "bb:block/key_card_reader0",
-      "x": 90,"y": 270
+    "facing=west,powered=false,flashing=false,level=0": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 270
     },
-    "facing=west,flash=true,authorization=1,powered=false": {
-      "model": "bb:block/key_card_reader1",
-      "x": 90,"y": 270
+    "facing=west,powered=false,flashing=false,level=1": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 270
     },
-    "facing=west,flash=true,authorization=2,powered=false": {
-      "model": "bb:block/key_card_reader2",
-      "x": 90,"y": 270
+    "facing=west,powered=false,flashing=false,level=2": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 270
     },
-    "facing=west,flash=true,authorization=3,powered=false": {
-      "model": "bb:block/key_card_reader3",
-      "x": 90,"y": 270
+    "facing=west,powered=false,flashing=false,level=3": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 270
     },
-    "facing=west,flash=true,authorization=4,powered=false": {
-      "model": "bb:block/key_card_reader4",
-      "x": 90,"y": 270
+    "facing=west,powered=false,flashing=false,level=4": {
+      "model": "bb:block/key_card_reader_off", "x": 90, "y": 270
     },
-
-    "facing=west,flash=false,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y":270
+    "facing=west,powered=false,flashing=true,level=0": {
+      "model": "bb:block/key_card_reader_level0", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y":270
+    "facing=west,powered=false,flashing=true,level=1": {
+      "model": "bb:block/key_card_reader_level1", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y":270
+    "facing=west,powered=false,flashing=true,level=2": {
+      "model": "bb:block/key_card_reader_level2", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y":270
+    "facing=west,powered=false,flashing=true,level=3": {
+      "model": "bb:block/key_card_reader_level3", "x": 90, "y": 270
     },
-    "facing=west,flash=false,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y": 270
-    },
-
-    "facing=west,flash=true,authorization=0,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y": 270
-    },
-    "facing=west,flash=true,authorization=1,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y":270
-    },
-    "facing=west,flash=true,authorization=2,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90, "y":270
-    },
-    "facing=west,flash=true,authorization=3,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y": 270
-    },
-    "facing=west,flash=true,authorization=4,powered=true": {
-      "model": "bb:block/key_card_reader_on",
-      "x": 90,"y": 270
+    "facing=west,powered=false,flashing=true,level=4": {
+      "model": "bb:block/key_card_reader_level4", "x": 90, "y": 270
     }
   }
 }
